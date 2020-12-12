@@ -10,15 +10,21 @@
     <link rel="stylesheet" href="<?= base_url('/dist/css/bootstrap-grid.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('/dist/css/bootstrap-utilities.min.css'); ?>">
 
-    <!-- POSTW CSS -->
-    <link rel="stylesheet" href="<?= base_url('/dist/css/postw.min.css'); ?>">
+    <!-- POSW CSS -->
+    <link rel="stylesheet" href="<?= base_url('/dist/css/posw.min.css'); ?>">
 
-    <title>Sign In ke POSTW</title>
+    <title>Sign in ke POSW</title>
 </head>
 <body>
 
-<main class="container-fluid">
-    
+<main class="container-fluid d-flex justify-content-center">
+    <div class="signin">
+        <div class="signin__head text-center">
+            <img src="<?= base_url('/dist/images/posw.svg'); ?>" width="180">
+            <h4>Sign in ke POSW</h4>
+        </div>
+        <div class="signin__body"></div>
+    </div>
 </main>
 
 </body>
