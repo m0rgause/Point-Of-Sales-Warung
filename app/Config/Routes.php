@@ -30,7 +30,9 @@ $routes->setAutoRoute(false);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('(:any)', 'Login::index');
+
+// Default Route, if each route above not match
+$routes->get('(:any)', 'SignIn::index');
 
 /**
  * --------------------------------------------------------------------
