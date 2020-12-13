@@ -17,15 +17,36 @@
 </head>
 <body>
 
-<main class="container-fluid d-flex justify-content-center">
+<main class="container-fluid d-flex justify-content-center height-100vh align-items-center">
     <div class="signin">
         <div class="signin__head text-center">
-            <img src="<?= base_url('/dist/images/posw.svg'); ?>" width="180">
-            <h4>Sign in ke POSW</h4>
+            <img src="<?= base_url('/dist/images/posw.svg'); ?>" width="100" class="mb-4">
+            <h5 class="mb-4">Sign in ke POSW</h5>
         </div>
-        <div class="signin__body"></div>
+        <div class="signin__body">
+            <?= form_open(); ?>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" id="username" class="form-input">
+                    <small class="form-message form-message--danger">Please enter your password!</small>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input">
+                </div>
+
+                <button type="submit" class="btn btn--blue">Sign In</button>
+            </form>
+        </div>
     </div>
 </main>
 
 </body>
 </html>
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+.signin {
+    width: 330px;
+
+    &__head h5 {
+        font-family: "roboto-regular";
+    }
+
+    &__body {
+        border: 1px solid $border-color;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 4px;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

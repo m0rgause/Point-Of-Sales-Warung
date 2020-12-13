@@ -1,0 +1,25 @@
+/*!
+ * Point Of Sales Warung
+ * Licensed under GPL (https://github.com/rezafikkri/Point-Of-Sales-Warung/blob/master/LICENSE)
+ */
+
+$border-color: #d5d5e6;
+$blue: #7874f7;
+$old-blue: #6967ea;
+
+@import 'font.scss'; 
+
+body {
+    font-family: 'roboto-regular';
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'roboto-bold';
+}
+
+@import 'signin.scss';
+@import 'input.scss';
+@import 'button.scss';
+
+@import 'utilities.scss';

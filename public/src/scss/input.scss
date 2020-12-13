@@ -1,0 +1,36 @@
+@mixin form-message-color($message-type, $color) {
+    &--#{$message-type} {
+        color: $color;
+    }
+}
+
+.form-label {
+    margin-bottom: .5rem;
+    font-family: 'roboto-bold';
+}
+
+%form-default {
+    width: 100%;
+    outline: none;
+    border: 1px solid $border-color;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #333;
+    transition: .15s ease-in-out;
+    
+    &:focus {
+        box-shadow: 0 0 0 .25rem rgba(120,116,247,.25);
+        border-color: $blue;
+    }
+}
+
+.form-input {
+   @extend %form-default;
+}
+
+.form-message {
+    display: inline-block;
+    margin-top: 5px;
+
+    @include form-message-color('danger', #ed3d3d);
+}
