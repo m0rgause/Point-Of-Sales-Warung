@@ -3,7 +3,7 @@
  * Licensed under GPL (https://github.com/rezafikkri/Point-Of-Sales-Warung/blob/master/LICENSE)
  */
 
-$border-color: #d5d5e6;
+$border-color: #ededf2;
 $blue: #7874f7;
 $old-blue: #6967ea;
 
@@ -18,8 +18,10 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'roboto-bold';
 }
 
-@import 'signin.scss';
 @import 'input.scss';
 @import 'button.scss';
+
+@import 'signin.scss';
+@import 'kasir.scss';
 
 @import 'utilities.scss';

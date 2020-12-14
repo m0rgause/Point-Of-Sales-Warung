@@ -32,6 +32,8 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 
 // Default Route, if each route above not match
+$routes->get('/kasir', 'Kasir::index');
+
 $routes->get('(:any)', 'SignIn::index');
 
 /**

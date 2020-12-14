@@ -9,10 +9,10 @@
     font-family: 'roboto-bold';
 }
 
-%form-default {
+%form {
     width: 100%;
     outline: none;
-    border: 1px solid $border-color;
+    border: 1px solid #d0d0e0;
     padding: 8px 12px;
     border-radius: 4px;
     color: #333;
@@ -25,7 +25,7 @@
 }
 
 .form-input {
-   @extend %form-default;
+   @extend %form;
 }
 
 .form-message {
@@ -33,4 +33,28 @@
     margin-top: 5px;
 
     @include form-message-color('danger', #ed3d3d);
+}
+
+.input-group {
+    display: flex;
+    align-items: stretch;
+
+    %padding-input-group {
+        padding: 6px 12px;
+    }
+
+    .form-input {
+        @extend %padding-input-group;
+
+        width: 1%;
+        flex: 1 1 auto;
+    }
+
+    .btn {
+        @extend %padding-input-group;
+    }
+
+    &__append {
+        display: flex;
+    }
 }
