@@ -135,3 +135,6 @@ app-plans/catatan.md
 
 # Allow public/dist/
 !public/dist/
+
+# ignore diff file
+diff

@@ -1,6 +1,10 @@
 .signin {
     width: 330px;
 
+    @media (max-width: 330px) {
+        width: auto;
+    }
+
     &__head h5 {
         font-family: "roboto-regular";
     }
