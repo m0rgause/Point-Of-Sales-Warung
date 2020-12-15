@@ -1,5 +1,6 @@
 .header {
     border-bottom: 1px solid $border-color;
+    background-color: #fff;
 
     ul {
         list-style-type: none;
@@ -9,33 +10,40 @@
 
     li {
         display: inline-block;
-        padding: 8px 16px;
     }
 
-    &__right li {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    &__right svg {
-        margin-top: -3px;
-    }
-
-    &__left {
+    &__right {
         flex: 1;
     }
 
-    li#{&}__search {
-        width: 50%;
+    &__right li {
+        padding: 15px 10px;
     }
 
-    img {
+    &__right li:last-child {
+        padding-right: 16px;
+    }
+
+    &__left li {
+        padding: 14px 16px;
+    }
+
+    &__search {
+        padding: 8px 16px;
+        flex-basis: 50%;
+    }
+
+    img, svg {
         margin-top: -3px;
     }
 
     a {
         color: #474747;
         text-decoration: none;
+
+        &:hover {
+            color: $blue;
+        }
     }
 }
 

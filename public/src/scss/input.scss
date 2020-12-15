@@ -44,6 +44,7 @@
 
     .form-input {
         @extend %padding-input-group;
+        padding-right: 53px;
     }
 
     .btn {
@@ -56,6 +57,10 @@
         border-left: 1px solid $border-color;
         border-radius: 0;
         color: #babac6;
+
+        &:hover {
+            color: $blue;
+        }
     }
 
     svg {
