@@ -16,7 +16,7 @@
     padding: 8px 12px;
     border-radius: 4px;
     color: #333;
-    transition: .15s ease-in-out;
+    transition: box-shadow .15s ease-in-out, border-color .15s ease-in-out;
     
     &:focus {
         box-shadow: 0 0 0 .25rem rgba(120,116,247,.25);
@@ -36,8 +36,7 @@
 }
 
 .input-group {
-    display: flex;
-    align-items: stretch;
+    position: relative;
 
     %padding-input-group {
         padding: 6px 12px;
@@ -45,16 +44,21 @@
 
     .form-input {
         @extend %padding-input-group;
-
-        width: 1%;
-        flex: 1 1 auto;
     }
 
     .btn {
         @extend %padding-input-group;
+        
+        position: absolute;
+        right: 0;
+        top: 1px;
+        bottom: 1px;
+        border-left: 1px solid $border-color;
+        border-radius: 0;
+        color: #babac6;
     }
 
-    &__append {
-        display: flex;
+    svg {
+        margin-top: -3px;
     }
 }
