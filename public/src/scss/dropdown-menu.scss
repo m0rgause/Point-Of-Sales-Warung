@@ -1,0 +1,36 @@
+li.dropdown {
+    position: relative;
+}
+
+a.dropdown-toggle::after {
+    content: "";
+    border-width: 5px;
+    border-style: solid;
+    border-color: currentcolor transparent transparent transparent;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+ul.dropdown-menu {
+    position: absolute;
+    top: 90%;
+    min-width: 10rem;
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 8px 0;
+
+    a {
+        display: block;
+        padding: 4px 16px;
+    }
+}
+
+ul.dropdown-menu--end {
+    right: 0;
+}
+
+ul.dropdown-menu--start {
+    left: 0;
+}
+

@@ -7,7 +7,7 @@ $border-color: #ededf2;
 $blue: #7874f7;
 $old-blue: #6967ea;
 
-@import 'font.scss'; 
+@import 'font.scss';
 
 body {
     font-family: 'roboto-regular';
@@ -21,6 +21,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @import 'input.scss';
 @import 'button.scss';
+@import 'dropdown-menu.scss';
 
 @import 'signin.scss';
 @import 'kasir.scss';
