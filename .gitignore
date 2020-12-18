@@ -133,6 +133,9 @@ nb-configuration.xml
 app-plans/*noupload].svg
 app-plans/catatan.md
 
+# Images
+public/dist/images/*noupload].jpg
+
 # Allow public/dist/
 !public/dist/
 

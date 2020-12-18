@@ -10,6 +10,9 @@ nav.addEventListener('click', e => {
     if(target.classList.contains('dropdown-toggle')) {
         e.preventDefault();
 
-        document.querySelector(target.getAttribute('target')).classList.toggle('d-none');
+        const dropdown_menu = document.querySelector(target.getAttribute('target'));
+        dropdown_menu.classList.toggle('d-none');
+        dropdown_menu.parentElement.classList.toggle('dropdown--active');
+
     }
 });

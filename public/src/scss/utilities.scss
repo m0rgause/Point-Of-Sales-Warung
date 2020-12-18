@@ -1,3 +1,7 @@
 .height-100vh {
-    height: 100vh;
+    height: 100vh !important;
+}
+
+.text-hover-red:hover {
+    color: $red !important;
 }

@@ -76,8 +76,56 @@
             }
         }
     }
-}
 
+    h5 {
+        color: #737373;;
+        font-family: 'roboto-medium';
+    }
+
+    &__populer {
+       display: grid;
+
+       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+       gap: 12px;
+    }
+
+    &__item {
+        background-color: #fff;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+    }
+
+    &__image img {
+        width: 100%;
+    }
+
+    &__price {
+        display: flex;
+
+        select, p {
+            flex: 1;
+        }
+
+        select {
+            border: 0;
+            background-color: #fff;
+            width: auto;
+        }
+    }
+
+    &__action {
+        display: flex;
+        align-items: flex-start;
+
+        input {
+            width: 60px;
+        }
+
+        a {
+            flex-basis: 43px;
+        }
+    }
+}
 .cart {
     width: 800px;
     position: fixed;

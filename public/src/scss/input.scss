@@ -17,15 +17,24 @@
     border-radius: 4px;
     color: #333;
     transition: box-shadow .15s ease-in-out, border-color .15s ease-in-out;
-    
+    background-color: #fff;
+
     &:focus {
         box-shadow: 0 0 0 .25rem rgba(120,116,247,.25);
         border-color: $blue;
     }
+
+    &::placeholder {
+        color: #6c757d;
+    }
 }
 
 .form-input {
-   @extend %form;
+    @extend %form;
+}
+
+.form-select {
+    @extend %form;
 }
 
 .form-message {
@@ -49,7 +58,7 @@
 
     .btn {
         @extend %padding-input-group;
-        
+
         position: absolute;
         right: 0;
         top: 1px;
