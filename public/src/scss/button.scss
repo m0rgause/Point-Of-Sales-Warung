@@ -1,16 +1,57 @@
+@mixin button_color($color_name, $color, $bg_color_hover) {
+    &--#{$color_name} {
+        background-color: $color;
+        border: 1px solid $color;
+        color: #fff;
+
+        &:hover {
+            background-color: $bg_color_hover;
+        }
+    }
+}
+
+@mixin button_outline_color($color_name, $color) {
+    &--#{$color_name} {
+        background-color: #fff;
+        border: 1px solid $color;
+        color: $color;
+
+        &:hover {
+            background-color: $color;
+            color: #fff;
+        }
+    }
+}
+
 .btn {
     border: 0;
-    line-height: 1.5;
     padding: 8px 12px;
     border-radius: 4px;
 
-    &--blue {
-        background-color: $blue;
-        color: white;
-        transition: .15s ease-in-out;
-
-       &:hover {
-            background-color: $old-blue;
-        }
+    svg {
+        margin-top: -3px;
     }
+
+    @include button_color('blue', $blue, $old_blue);
+    @include button_outline_color('blue-outline', $blue);
+    @include button_outline_color('red-outline', $red);
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .65;
+    }
+
+    &-loading {
+        background-color: rgba(252,252,252,.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+a.btn {
+    text-decoration: none;
+    display: inline-block;
 }

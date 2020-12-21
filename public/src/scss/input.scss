@@ -1,7 +1,19 @@
-@mixin form-message-color($message-type, $color) {
-    &--#{$message-type} {
+@mixin form_message_color($message_type, $color) {
+    &--#{$message_type} {
         color: $color;
     }
+}
+
+select, input, textarea {
+    outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 .form-label {
@@ -11,7 +23,6 @@
 
 %form {
     width: 100%;
-    outline: none;
     border: 1px solid #d0d0e0;
     padding: 8px 12px;
     border-radius: 4px;
@@ -24,7 +35,16 @@
         border-color: $blue;
     }
 
-    &::placeholder {
+    &:invalid {
+        border-color: $red;
+        box-shadow: none;
+    }
+
+    &:invalid:focus {
+        box-shadow: 0 0 0 .25rem rgba(244,83,83,.25);
+    }
+
+    &::placeholder, &::-webkit-input-placeholder {
         color: #6c757d;
     }
 }
@@ -41,7 +61,7 @@
     display: inline-block;
     margin-top: 5px;
 
-    @include form-message-color('danger', #ed3d3d);
+    @include form_message_color('danger', #ed3d3d);
 }
 
 .input-group {
@@ -63,7 +83,7 @@
         right: 0;
         top: 1px;
         bottom: 1px;
-        border-left: 1px solid $border-color;
+        border-left: 1px solid $border_color;
         border-radius: 0;
         color: #babac6;
 

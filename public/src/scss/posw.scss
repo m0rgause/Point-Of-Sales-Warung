@@ -3,10 +3,10 @@
  * Licensed under GPL (https://github.com/rezafikkri/Point-Of-Sales-Warung/blob/master/LICENSE)
  */
 
-$border-color: #ededf2;
+$border_color: #ededf2;
 $blue: #7874f7;
-$old-blue: #6967ea;
-$red: #fe5c19;
+$old_blue: #6967ea;
+$red: #f45353;
 
 @import 'font.scss';
 
@@ -23,6 +23,7 @@ h1, h2, h3, h4, h5, h6 {
 @import 'input.scss';
 @import 'button.scss';
 @import 'dropdown-menu.scss';
+@import 'loading.scss';
 
 @import 'signin.scss';
 @import 'kasir.scss';
