@@ -111,6 +111,57 @@
         img {
             width: 100%;
         }
+
+        &--zoom {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,28,.9);
+            z-index: 99;
+            border-style: none;
+            border-radius: 0;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        &--zoom:hover {
+            cursor: auto;
+        }
+
+        &--zoom img {
+            width: 60%;
+
+            @media (max-width: 1199.98px) {
+                width: 90%;
+            }
+
+            @media (max-width: 767.98px) {
+                width: 100%;
+            }
+        }
+
+        &--zoom .btn--close {
+            padding: 9px;
+            background-color: rgba(0,0,28,.5);
+            border-radius: 50%;
+            color: #fff;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+
+            &:hover {
+                background-color: #00001c;
+            }
+        }
+
+        &--zoom .btn--close svg {
+            margin-top: 0;
+        }
     }
 
     &__info {
