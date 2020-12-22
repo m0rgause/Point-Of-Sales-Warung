@@ -29,8 +29,10 @@ product.addEventListener('click', (e) => {
         target.querySelector('.btn--close').classList.remove('d-none');
     }
 
+    // reset target value
+    target = e.target;
     if(!target.classList.contains('btn--close')) target = target.parentElement;
-
+    if(!target.classList.contains('btn--close')) target = target.parentElement.parentElement;
     if(target.classList.contains('btn--close')) {
         e.preventDefault();
         target.parentElement.classList.remove('product__image--zoom');
