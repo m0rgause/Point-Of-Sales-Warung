@@ -31,8 +31,9 @@ product.addEventListener('click', (e) => {
 
     // reset target value
     target = e.target;
+    console.log(target);
     if(!target.classList.contains('btn--close')) target = target.parentElement;
-    if(!target.classList.contains('btn--close')) target = target.parentElement.parentElement;
+    if(!target.classList.contains('btn--close')) target = target.parentElement;
     if(target.classList.contains('btn--close')) {
         e.preventDefault();
         target.parentElement.classList.remove('product__image--zoom');

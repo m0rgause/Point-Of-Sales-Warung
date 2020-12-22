@@ -154,7 +154,7 @@
 
     </div><!-- product -->
 
-    <aside class="cart">
+    <aside class="cart d-none">
         <h5>Keranjang Belanja</h5>
     </aside>
 </main>
