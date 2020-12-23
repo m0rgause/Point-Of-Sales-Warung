@@ -1,0 +1,20 @@
+.table {
+    width: 100%;
+
+    tbody tr:nth-child(odd) {
+        background-color: #f7f7fc;
+    }
+
+    thead tr th, tbody tr td, tfoot tr th, tfoot tr td {
+        padding: 8px;
+        border: 1px solid $border-color;
+    }
+
+    thead tr th, tbody tr td a, tfoot tr th {
+        color: $gray;
+    }
+
+    tbody tr td a:hover {
+        color: $blue;
+    }
+}

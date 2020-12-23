@@ -81,7 +81,7 @@
     }
 
     > h5 {
-        color: #737373;;
+        color: $gray;
         font-family: 'roboto-medium';
     }
 
@@ -184,7 +184,7 @@
     }
 
     &__category, &__sales {
-        color: #7a7a7a;
+        color: $gray;
         font-size: 17px;
     }
 
@@ -251,18 +251,55 @@
 }
 
 .cart {
-    width: 800px;
+    width: 768px;
     position: fixed;
-    z-index: 8;
+    z-index: 10;
     top: 0px;
     right: 0px;
     overflow: auto;
     height: 100vh;
     border-left: 1px solid $border_color;
-    padding: 20px;
+    padding: 15px;
+    background-color: #fff;
 
-    h5 {
-        font-family: "roboto-medium";
-        font-size: 1.15rem;
+    &--animate-hide {
+        animation: hide_cart .5s ease-in-out forwards;
+    }
+
+    &--animate-show {
+        animation: show_cart .5s ease-in-out forwards;
+    }
+
+    &--hide {
+        transform: translate(778px);
+    }
+
+    &--show {
+        transform: translate(0px);
+    }
+
+    .btn--close {
+        color: #333;
+        background-color: #f7f7fc;
+    }
+}
+
+@keyframes hide_cart {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(778px);
+    }
+}
+
+@keyframes show_cart {
+    0% {
+        transform: translateX(778px);
+    }
+
+    100% {
+        transform: translateX(0);
     }
 }

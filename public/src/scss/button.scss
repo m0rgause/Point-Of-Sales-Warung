@@ -2,7 +2,7 @@
     &--#{$color_name} {
         background-color: $color;
         border: 1px solid $color;
-        color: #fff;
+        color: #fff !important;
 
         &:hover {
             background-color: $bg_color_hover;
@@ -18,13 +18,12 @@
 
         &:hover {
             background-color: $color;
-            color: #fff;
+            color: #fff !important;
         }
     }
 }
 
 .btn {
-    border: 0;
     padding: 8px 12px;
     border-radius: 4px;
 
@@ -35,6 +34,7 @@
     @include button_color('blue', $blue, $old_blue);
     @include button_outline_color('blue-outline', $blue);
     @include button_outline_color('red-outline', $red);
+    @include button_outline_color('gray-outline', $gray);
 
     &--disabled {
         pointer-events: none;
