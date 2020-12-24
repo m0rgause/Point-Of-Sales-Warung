@@ -53,7 +53,7 @@ input[type="number"] {
     @extend %form;
 
     &[disabled=""] {
-        background-color: #f7f7fc;
+        background-color: $gray_light;
     }
 }
 
@@ -85,14 +85,23 @@ input[type="number"] {
 
         position: absolute;
         right: 0;
-        top: 1px;
-        bottom: 1px;
-        border-left: 1px solid $border_color;
+        top: 0;
+        bottom: 0;
         border-radius: 0;
         color: #babac6;
 
         &:hover {
             color: $blue;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 1px;
+            background-color: $border-color;
         }
     }
 

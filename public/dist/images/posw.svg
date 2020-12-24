@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -53,38 +53,38 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g939"
-       transform="matrix(2.2019987,0,0,2.2019987,-122.04069,-36.952871)">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:25.4px;line-height:1.25;font-family:sans-serif;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.264583"
-         x="53.898678"
-         y="40.749939"
-         id="text924"><tspan
-           sodipodi:role="line"
-           id="tspan922"
-           x="53.898678"
-           y="40.749939"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;fill-opacity:1;stroke-width:0.264583">POS</tspan></text>
-      <rect
-         style="fill:#7874f7;fill-opacity:1;stroke:none;stroke-width:0.281643"
-         id="rect932"
-         width="35.898178"
-         height="26.981943"
-         x="113.73438"
-         y="16.781467"
-         ry="0.92579436" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
-         x="117.44676"
-         y="40.749939"
-         id="text928"><tspan
-           sodipodi:role="line"
-           id="tspan926"
-           x="117.44676"
-           y="40.749939"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.264583">W</tspan></text>
+       aria-label="POS"
+       id="text924"
+       style="font-style:normal;font-weight:normal;font-size:55.9308px;line-height:1.25;font-family:sans-serif;fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.582611">
+      <path
+         d="M -2.3355484e-5,6.6355312 V 52.778442 H 10.514967 V 35.663617 h 6.320181 c 9.004859,0 15.772486,-5.313426 15.772486,-14.821662 0,-9.564167 -6.767627,-14.2064238 -15.772486,-14.2064238 z M 10.514967,27.273997 V 15.025151 H 13.4793 c 4.138879,0 8.054035,1.39827 8.054035,6.152389 0,4.698187 -3.915156,6.096457 -8.054035,6.096457 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:55.9308px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;fill-opacity:1;stroke-width:0.582611"
+         id="path841" />
+      <path
+         d="m 35.180365,29.679021 c 0,13.479324 9.620098,23.938383 23.267214,23.938383 13.2556,0 23.211282,-10.459059 23.211282,-23.938383 0,-13.479323 -10.403129,-23.8824518 -23.211282,-23.8824518 -12.696292,0 -23.267214,10.4031288 -23.267214,23.8824518 z m 11.353953,0 c 0,-6.879488 3.803295,-13.758977 11.913261,-13.758977 8.165897,0 11.85733,6.879489 11.85733,13.758977 0,6.879489 -3.46771,13.758978 -11.85733,13.758978 -8.613344,0 -11.913261,-6.879489 -11.913261,-13.758978 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:55.9308px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;fill-opacity:1;stroke-width:0.582611"
+         id="path843" />
+      <path
+         d="m 103.30402,5.7965692 c -7.438798,0 -15.045387,5.4812188 -15.045387,14.0945618 0,4.810049 3.243987,9.116721 8.781136,11.85733 5.481221,2.740609 10.403131,4.250741 10.403131,7.606589 0,4.306672 -4.3626,4.530395 -6.65577,4.530395 -5.145631,0 -11.298019,-5.201565 -11.298019,-5.201565 l -5.257495,8.837067 c 0,0 6.543904,6.096457 17.338544,6.096457 9.00486,0 17.39448,-3.859225 17.39448,-14.877593 0,-6.040526 -5.64901,-10.403129 -10.79464,-12.58443 -5.2575,-2.237232 -9.620099,-4.082949 -9.620099,-6.655765 0,-2.516887 1.901649,-4.13888 5.481219,-4.13888 4.75412,0 9.34044,3.188056 9.34044,3.188056 l 4.25074,-8.38962 c 0,0 -5.92866,-4.3626028 -14.31828,-4.3626028 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:55.9308px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#333333;fill-opacity:1;stroke-width:0.582611"
+         id="path845" />
+    </g>
+    <rect
+       style="fill:#7874f7;fill-opacity:1;stroke:none;stroke-width:0.620178"
+       id="rect932"
+       width="79.047745"
+       height="59.414204"
+       x="128.40227"
+       y="-0.000101518"
+       ry="2.0385981" />
+    <g
+       aria-label="W"
+       id="text928"
+       style="font-style:normal;font-weight:normal;font-size:23.3044px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.582611">
+      <path
+         d="m 175.33698,52.778442 h 11.63361 L 200.11433,6.6355312 h -11.63361 l -7.88624,31.6568338 h -0.27966 L 171.9252,6.6355312 h -7.94217 l -8.38962,31.6568338 h -0.27966 L 147.42751,6.6355312 h -11.68954 l 13.14374,46.1429108 h 11.68954 l 7.38286,-25.895961 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:55.9308px;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.582611"
+         id="path848" />
     </g>
   </g>
 </svg>

@@ -21,7 +21,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://localhost:8080/';
+	public $baseURL;
 
 	/*
 	|--------------------------------------------------------------------------
@@ -264,5 +264,15 @@ class App extends BaseConfig
 	|   - http://www.html5rocks.com/en/tutorials/security/content-security-policy/
 	|   - http://www.w3.org/TR/CSP/
 	*/
-	public $CSPEnabled = false;
+    public $CSPEnabled = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // dinamic base url
+        if(isset($_SERVER['SERVER_NAME']) && isset($_SERVER['SERVER_PORT'])) {
+            $this->baseURL = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
+        }
+    }
 }

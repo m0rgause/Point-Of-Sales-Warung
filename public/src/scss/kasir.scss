@@ -78,6 +78,10 @@
                 border-color: $blue;
             }
         }
+
+        .input-group .btn svg {
+            margin-top: 0;
+        }
     }
 
     > h5 {
@@ -116,8 +120,8 @@
             position: fixed;
             top: 0;
             right: 0;
-            bottom: 0;
             left: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -153,7 +157,7 @@
             right: 12px;
 
             &:hover {
-                background-color: #00001c;
+                background-color: rgba(0,0,28,.7);
             }
         }
 
@@ -261,17 +265,27 @@
     border-left: 1px solid $border_color;
     padding: 15px;
     background-color: #fff;
+    transform: translate(768px);
+
+    @media (max-width: 767.98px) {
+        width: 100%;
+        padding: 12px;
+    }
+
+    @media (max-width: 575.98px) {
+        transform: translate(576px);
+    }
+
+    @media (max-width: 414px) {
+        transform: translate(414px);
+    }
 
     &--animate-hide {
         animation: hide_cart .5s ease-in-out forwards;
     }
 
     &--animate-show {
-        animation: show_cart .5s ease-in-out forwards;
-    }
-
-    &--hide {
-        transform: translate(778px);
+        animation: show_cart .5s cubic-bezier(.42,0,0,1) forwards;
     }
 
     &--show {
@@ -279,8 +293,23 @@
     }
 
     .btn--close {
-        color: #333;
-        background-color: #f7f7fc;
+        color: $gray;
+        background-color: $gray_light;
+
+        &:hover {
+            background-color: #f4f4f4;
+            color: $red;
+        }
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    @media (max-width: 767.98px) {
+        .table-responsive table {
+            width: 768px;
+        }
     }
 }
 

@@ -2,7 +2,7 @@
     width: 100%;
 
     tbody tr:nth-child(odd) {
-        background-color: #f7f7fc;
+        background-color: $gray_light;
     }
 
     thead tr th, tbody tr td, tfoot tr th, tfoot tr td {
@@ -16,5 +16,14 @@
 
     tbody tr td a:hover {
         color: $blue;
+    }
+
+    &-loading {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(252,252,252,.7);
     }
 }
