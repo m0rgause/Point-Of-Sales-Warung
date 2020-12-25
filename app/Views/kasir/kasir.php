@@ -144,7 +144,7 @@
 </svg>
                 </a>
 
-                <div class="btn-loading d-flex justify-content-center align-items-center">
+                <div class="loading-bg position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center">
                     <div class="loading">
                         <div></div>
                     </div>
@@ -161,8 +161,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
             </a>
         </div>
+
         <div class="position-relative">
-            <div class="table-responsive mb-3">
+        <div class="table-responsive mb-3">
             <table class="table">
                 <thead>
                     <tr>
@@ -216,20 +217,27 @@
                     </tr>
                 </tfoot>
             </table>
-            </div><!-- table-responsive -->
+        </div><!-- table-responsive -->
 
-            <div class="table-loading d-flex justify-content-center align-items-center d-none">
-                <div class="loading">
-                    <div></div>
-                </div>
-            </div>
-        </div><!-- position-responsive -->
-
-        <input class="form-input mb-3" type="number" placeholder="Uang Pembeli...">
-        <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="">
+        <div class="mb-3">
+            <select name="history_transaction" class="form-select">
+                <option selected>Riwayat transaksi</option>
+                <option value="08:00:00_25-12-2020_4000">08:00 - 25 Des 2020 - Rp 4.000</option>
+            </select>
+            <small class="form-message form-message--info">Pilih riwayat transaksi jika ingin melakukan Rollback transaksi!</small>
+        </div>
+        <input class="form-input mb-3" type="number" placeholder="Uang Pembeli..." name="uang_pembeli">
+        <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="" name="kembalian">
 
         <a class="btn btn--gray-outline me-2" href="">Batal</a>
         <a class="btn btn--blue mb-3" href="#">Selesai</a>
+
+        <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none">
+            <div class="loading">
+                <div></div>
+            </div>
+        </div>
+        </div><!-- position-relative -->
     </aside>
 </main>
 

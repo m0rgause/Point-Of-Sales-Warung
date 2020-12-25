@@ -28,9 +28,9 @@
                 <div class="mb-3">
                     <label class="form-label" for="username">Username</label>
                     <input type="text" id="username" class="form-input">
-                    <small class="form-message form-message--danger">Please enter your password!</small>
+                    <small class="form-message form-message--danger">Tolong masukkan username anda!</small>
                 </div>
-                
+
                 <div class="mb-4">
                     <label class="form-label" for="password">Password</label>
                     <input type="password" id="password" class="form-input">

@@ -20,6 +20,10 @@
         animation-timing-function: cubic-bezier(.79,.14,.15,.86);
         animation-iteration-count: infinite;
     }
+
+    &-bg {
+        background-color: rgba(252,252,252,.7);
+    }
 }
 
 @keyframes loading {
