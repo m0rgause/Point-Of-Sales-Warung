@@ -33,6 +33,7 @@
 
     @include button_color('blue', $blue, $old_blue);
     @include button_outline_color('blue-outline', $blue);
+    @include button_color('red', $red, $old_red);
     @include button_outline_color('red-outline', $red);
     @include button_outline_color('gray-outline', $gray);
 

@@ -18,59 +18,35 @@ nav.addEventListener('click', e => {
     }
 });
 
-// product image zoom
-function image_zoom(e)
+// show modal
+function show_modal(e)
 {
-    let target = e.target;
-    if(!target.classList.contains('product__image')) target = target.parentElement;
+    e.preventDefault();
 
-    if(target.classList.contains('product__image')) {
-        target.classList.add('product__image--zoom');
-        target.querySelector('.btn--close').classList.remove('d-none');
-    }
+    modal.classList.add('d-block');
+    setTimeout(() => {
+        modal.classList.add('modal--fade-in');
+    }, 50);
 
-    // reset target value
-    target = e.target;
-    if(!target.classList.contains('btn--close')) target = target.parentElement;
-    if(!target.classList.contains('btn--close')) target = target.parentElement;
-    if(target.classList.contains('btn--close')) {
-        e.preventDefault();
-        target.parentElement.classList.remove('product__image--zoom');
-        target.classList.add('d-none');
-    }
+    setTimeout(() => {
+        modal_content.classList.add('modal__content--animate-show');
+    }, 200);
 }
 
-document.querySelector('div.product__populer').addEventListener('click', image_zoom);
-document.querySelector('div.product__more').addEventListener('click', image_zoom);
-
-
-// show hide cart
- const cart = document.querySelector('aside.cart');
-document.querySelector('a#show-cart').addEventListener('click', (e) => {
+// hide modal
+function hide_modal(e)
+{
     e.preventDefault();
 
-    cart.classList.add('cart--animate-show');
+    modal_content.classList.replace('modal__content--animate-show', 'modal__content--animate-hide');
     setTimeout(() => {
-        cart.classList.remove('cart--animate-show');
-        cart.classList.add('cart--show');
+        modal_content.classList.remove('modal__content--animate-hide');
+        modal.classList.replace('modal--fade-in', 'modal--fade-out');
+    }, 250);
 
-        // if window less than 991.98px add overflow hidden to body tag
-        if(window.screen.width <= 991.98) {
-            document.querySelector('body').classList.add('overflow-hidden');
-        }
-    }, 501);
-});
-
-// hide cart
-cart.querySelector('a.btn--close').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    cart.classList.replace('cart--show', 'cart--animate-hide');
     setTimeout(() => {
-        cart.classList.remove('cart--animate-hide');
-    }, 501);
-
-    // remove class overflow hidden in tag body
-    document.querySelector('body').classList.remove('overflow-hidden');
-
-});
+        modal.classList.remove('modal--fade-out');
+        modal.classList.remove('modal--show');
+        modal.classList.remove('d-block');;
+    }, 400);
+}

@@ -7,6 +7,7 @@ $border_color: #ededf2;
 $blue: #7874f7;
 $old_blue: #6967ea;
 $red: #f45353;
+$old_red: #ef4343;
 $gray: #7a7a7a;
 $gray-light: #f7f7fc;
 
@@ -27,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 @import 'dropdown-menu.scss';
 @import 'loading.scss';
 @import 'table.scss';
+@import 'modal.scss';
 
 @import 'signin.scss';
 @import 'kasir.scss';
