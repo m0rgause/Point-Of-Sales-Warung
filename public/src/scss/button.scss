@@ -35,6 +35,7 @@
     @include button_outline_color('blue-outline', $blue);
     @include button_color('red', $red, $old_red);
     @include button_outline_color('red-outline', $red);
+    @include button_color('gray', $gray, $old_gray);
     @include button_outline_color('gray-outline', $gray);
 
     &--disabled {

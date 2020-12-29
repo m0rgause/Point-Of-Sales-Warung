@@ -4,7 +4,7 @@
  */
 
 // dropdown menu
-const nav = document.querySelector("nav.header");
+const nav = document.querySelector("nav.navbar");
 nav.addEventListener('click', e => {
     const target = e.target;
 
@@ -13,7 +13,7 @@ nav.addEventListener('click', e => {
 
         const dropdown_menu = document.querySelector(target.getAttribute('target'));
         dropdown_menu.classList.toggle('d-none');
-        dropdown_menu.parentElement.classList.toggle('dropdown--active');
+        dropdown_menu.previousElementSibling.classList.toggle('navbar__link--active');
 
     }
 });
@@ -50,3 +50,12 @@ function hide_modal(e)
         modal.classList.remove('d-block');;
     }, 400);
 }
+
+// navbar collapse
+const navbar_toggler = document.querySelector('.navbar a.btn--toggler');
+const navbar_collapse = document.querySelector('.navbar__right--collapse');
+navbar_toggler.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    navbar_collapse.classList.toggle('navbar__right--collapse-show');
+});

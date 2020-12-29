@@ -1,0 +1,57 @@
+@mixin info_box_color($color_name, $bg_color, $icon_color) {
+    &__item--#{$color_name} {
+        background-color: $bg_color;
+
+        .info-box__icon {
+            color: $icon_color;
+        }
+    }
+}
+
+.info-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+
+    @media (max-width: 1199.98px) {
+        grid-template-columns: repeat(auto-fill, minmax(296px, 1fr));
+    }
+
+    &__item {
+        display: flex;
+        align-items: flex-start;
+        border-radius: 4px;
+
+        h3, p {
+            color: #fff;
+        }
+
+        h3 {
+            font-family: 'roboto-black';
+        }
+
+        p {
+            opacity: .9;
+        }
+    }
+
+    @include info_box_color('green', $green, #49dda7);
+    @include info_box_color('orange', $orange, #ffb496);
+    @include info_box_color('blue', $blue, #b7b7ff);
+
+    &__data {
+        padding: 15px;
+        padding-bottom: 10px;
+        flex: 1;
+
+        p {
+            font-family: 'roboto-medium';
+        }
+    }
+
+    &__icon {
+        flex-basis: 80px;
+        padding: 15px;
+        padding-left: 8px;
+    }
+}

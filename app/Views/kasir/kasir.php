@@ -17,12 +17,12 @@
 </head>
 <body>
 
-<nav class="header container-xxl d-flex justify-content-between">
-    <ul class="header__left">
+<nav class="navbar container-xxl d-flex justify-content-between">
+    <ul class="navbar__left">
         <li><a href=""><img src="<?= base_url('/dist/images/posw.svg'); ?>" alt="posw logo" width="100"></a></li>
     </ul>
 
-    <ul class="header__right">
+    <ul class="navbar__right">
         <li class="dropdown"><a href="" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
             <ul class="dropdown-menu dropdown-menu--end d-none">
                 <li><a href="" class="text-hover-red">Sign Out</a></li>
@@ -31,27 +31,29 @@
     </ul>
 </nav>
 
+<header class="header">
+<div class="container-xl d-flex justify-content-between align-items-center flex-wrap">
+    <h4 class="mb-3 mb-sm-0">Transaksi</h4>
+    <ul class="d-flex align-items-center d-sm-block">
+        <li class="flex-fill me-2 me-sm-1">
+            <div class="input-group">
+                <input class="form-input" type="text" placeholder="Nama Barang...">
+                <div class="input-group__append">
+                <a class="btn btn--gray" href="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
+                </a>
+                </div>
+            </div><!-- input-group -->
+        </li>
+        <li><a href="" class="btn btn--gray" title="Lihat keranjang belanja" id="show-cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+        </a></li>
+    </ul>
+</div><!-- container-xl -->
+</header>
+
 <main class="container-xl">
     <div class="product">
-        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-            <h4 class="mb-3 mb-sm-0">Transaksi</h4>
-            <ul class="product__filter d-flex align-items-center d-sm-block">
-                <li class="flex-fill">
-                    <div class="input-group">
-                        <input class="form-input" type="text" placeholder="Nama Barang...">
-                        <div class="input-group__append">
-                        <a class="btn" href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
-                        </a>
-                        </div>
-                    </div><!-- input-group -->
-                </li>
-                <li><a href="" class="btn" title="Lihat keranjang belanja" id="show-cart">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-                </a></li>
-            </ul>
-        </div><!-- product__filter -->
-
         <h5 class="mb-2">Produk Terlaris</h5>
         <div class="product__populer">
 
@@ -136,12 +138,12 @@
 
         <div class="d-flex justify-content-center">
             <div class="position-relative">
-                <a class="btn btn--blue-outline btn--disabled" href="">Lihat Lebih Banyak
+                <a class="btn btn--blue-outline btn--disabled" id="show_more_product" href="">Lihat Lebih Banyak
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/><path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
 </svg>
                 </a>
 
-                <div class="loading-bg position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center">
+                <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center">
                     <div class="loading">
                         <div></div>
                     </div>

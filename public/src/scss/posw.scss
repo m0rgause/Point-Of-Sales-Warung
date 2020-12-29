@@ -9,7 +9,10 @@ $old_blue: #6967ea;
 $red: #f45353;
 $old_red: #ef4343;
 $gray: #7a7a7a;
-$gray-light: #f7f7fc;
+$old_gray: #6d6d6d;
+$light_gray: #f7f7fc;
+$green: #00a571;
+$orange: #fe5c19;
 
 @import 'font.scss';
 
@@ -23,12 +26,20 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'roboto-bold';
 }
 
-@import 'input.scss';
+.main {
+    padding: 20px 0;
+}
+
 @import 'button.scss';
+@import 'input.scss';
 @import 'dropdown-menu.scss';
 @import 'loading.scss';
 @import 'table.scss';
 @import 'modal.scss';
+@import 'sidebar.scss';
+@import 'info-box.scss';
+@import 'navbar.scss';
+@import 'header.scss';
 
 @import 'signin.scss';
 @import 'kasir.scss';

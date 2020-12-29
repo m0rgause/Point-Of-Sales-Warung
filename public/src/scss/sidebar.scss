@@ -1,0 +1,30 @@
+.sidebar {
+    nav {
+        position: sticky;
+        top: 50px;
+        background-color: #fff;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid $border-color;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul li:first-child {
+        margin-top: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: $gray;
+        font-family: 'roboto-medium';
+        padding: 4px 8px;
+
+        &:hover {
+            color: $old-blue;
+        }
+    }
+}

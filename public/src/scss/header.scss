@@ -1,0 +1,27 @@
+.header {
+    background-color: #f7f7f9;
+    border-bottom: 1px solid $border-color;
+    padding: 8px 0;
+
+    ul {
+        list-style-type: none;
+        margin-bottom: 0;
+        padding-left: 0;
+
+        @media (max-width: 575.98px) {
+            flex-basis: 100%;
+        }
+    }
+
+    li {
+        display: inline-block;
+    }
+
+    .input-group input {
+        border-color: $border_color;
+
+        &:focus {
+            border-color: $blue;
+        }
+    }
+}
