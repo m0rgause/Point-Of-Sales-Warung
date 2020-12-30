@@ -1,9 +1,10 @@
-@mixin info_box_color($color_name, $bg_color, $icon_color) {
+@mixin info_box_color($color_name, $color) {
     &__item--#{$color_name} {
-        background-color: $bg_color;
+        background-color: #fff;
+        border: 1px solid $border_color;
 
-        .info-box__icon {
-            color: $icon_color;
+        h3 {
+            color: $color;
         }
     }
 }
@@ -19,25 +20,22 @@
 
     &__item {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         border-radius: 4px;
-
-        h3, p {
-            color: #fff;
-        }
 
         h3 {
             font-family: 'roboto-black';
         }
 
-        p {
-            opacity: .9;
+        h5 {
+            font-family: 'roboto-medium';
+            color: $gray;
         }
     }
 
-    @include info_box_color('green', $green, #49dda7);
-    @include info_box_color('orange', $orange, #ffb496);
-    @include info_box_color('blue', $blue, #b7b7ff);
+    @include info_box_color('violet', $violet);
+    @include info_box_color('orange', $orange);
+    @include info_box_color('blue', $blue);
 
     &__data {
         padding: 15px;
@@ -53,5 +51,7 @@
         flex-basis: 80px;
         padding: 15px;
         padding-left: 8px;
+        color: $gray;
+        text-align: right;
     }
 }

@@ -11,7 +11,7 @@ $old_red: #ef4343;
 $gray: #7a7a7a;
 $old_gray: #6d6d6d;
 $light_gray: #f7f7fc;
-$green: #00a571;
+$violet: #6a2d57;
 $orange: #fe5c19;
 
 @import 'font.scss';
@@ -20,6 +20,9 @@ body {
     font-family: 'roboto-regular';
     color: #333;
     background-color: #fcfcfc;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 50px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +31,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .main {
     padding: 20px 0;
+    padding-top: 0;
+
+    > div > h5 {
+        color: $gray;
+        font-family: 'roboto-medium';
+    }
 }
 
 @import 'button.scss';
@@ -40,6 +49,8 @@ h1, h2, h3, h4, h5, h6 {
 @import 'info-box.scss';
 @import 'navbar.scss';
 @import 'header.scss';
+@import 'footer.scss';
+@import 'chart.scss';
 
 @import 'signin.scss';
 @import 'kasir.scss';

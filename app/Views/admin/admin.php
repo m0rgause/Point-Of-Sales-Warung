@@ -52,46 +52,103 @@
 </div><!-- container-xl -->
 </header>
 
-
-<div class="container-xl">
 <main class="main">
-    <div class="info-box">
+<div class="container-xl">
+    <div class="info-box mb-3">
 
-        <div class="info-box__item info-box__item--green">
+        <div class="info-box__item info-box__item--blue">
             <div class="info-box__data">
-                <p class="mb-2">Total Transaksi</p>
-                <h3 class="mb-0">120K</h3>
+                <h5 class="mb-2">Total Transaksi</h5>
+                <h3 class="mb-0">120k</h3>
             </div>
             <div class="info-box__icon">
-               <svg xmlns="http://www.w3.org/2000/svg" width="60" fill="currentColor" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/></svg>
+               <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/></svg>
             </div>
         </div><!-- infor-box__item -->
 
         <div class="info-box__item info-box__item--orange">
             <div class="info-box__data">
-                <p class="mb-2">Total User</p>
+                <h5 class="mb-2">Total User</h5>
                 <h3 class="mb-0">12</h3>
             </div>
             <div class="info-box__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" fill="currentColor" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
             </div>
         </div><!-- infor-box__item -->
 
-        <div class="info-box__item info-box__item--blue">
+        <div class="info-box__item info-box__item--violet">
             <div class="info-box__data">
-                <p class="mb-2">Total Barang</p>
+                <h5 class="mb-2">Total Barang</h5>
                 <h3 class="mb-0">400</h3>
             </div>
             <div class="info-box__icon">
-               <svg xmlns="http://www.w3.org/2000/svg" width="55" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/></svg>
+               <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/></svg>
             </div>
         </div><!-- infor-box__item -->
 
     </div><!-- info-box -->
+
+    <div class="chart">
+        <div class="chart__header">
+            <h5>Transaksi</h5>
+        </div>
+        <div class="chart__body"></div>
+    </div>
+</div><!-- container-xl -->
 </main>
-</div><!-- container -->
+
+<footer class="footer">
+<div class="container-xl">
+    <p class="mb-0">Copyright &copy; <a href="">Reza Sariful Fikri</a> 2020</p>
+</div>
+</footer>
 
 <script src="<?= base_url('dist/js/posw.js'); ?>"></script>
+<script src="<?= base_url('dist/plugins/apexcharts.min.js'); ?>"></script>
+<script>
+const options = {
+    chart: {
+        type: 'area',
+        height: 350,
+        toolbar: { show: false },
+        zoom: { enabled: false }
+    },
+    colors: ['#7874f7'],
+    series: [{
+        name: 'Transaksi',
+        data: [250, 123, 320, 210, 410, 350, 450]
+    }],
+    xaxis: {
+        categories: ['22 Dec', '23 Dec', '24 Dec', '25 Dec', '26 Dec', '27 Dec', '1 Dec'],
+        labels: {
+            style: {
+                colors: '#999999',
+                fontFamily: 'roboto-regular'
+            }
+        },
+        tooltip: {
+            enabled: false
+        }
+    },
+    yaxis: {
+        labels: {
+            style: {
+                colors: '#999999',
+                fontFamily: 'roboto-regular'
+            }
+        }
+    },
+    dataLabels: {
+        enabled: false,
+   },
+    grid: {
+        borderColor: '#e8e8e8',
+        strokeDashArray: 4
+    }
+};
+const chart = new ApexCharts(document.querySelector('.chart .chart__body'), options);
+chart.render();
+</script>
 </body>
 </html>
 

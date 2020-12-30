@@ -1,0 +1,21 @@
+.footer {
+    padding: 8px 0;
+    border-top: 1px solid $border-color;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    p, a { color: #999999; }
+
+    p {
+        font-size: 15.5px;
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            color: $blue;
+        }
+    }
+}

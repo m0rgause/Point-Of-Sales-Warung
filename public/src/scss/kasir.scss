@@ -1,26 +1,7 @@
 .product {
-    padding: 20px 0;
-
-    > div > h4 {
-        margin-bottom: 0;
-
-        @media (max-width: 575.98px) {
-            flex-basis: 100%;
-        }
-    }
-
-    > h5 {
-        color: $gray;
-        font-family: 'roboto-medium';
-    }
-
-    &__populer,
-    &__more {
-       display: grid;
-
-       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-       gap: 12px;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
 
     &__image, &__info, &__action a {
         background-color: #fff;

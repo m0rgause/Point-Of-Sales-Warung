@@ -1,0 +1,15 @@
+.chart {
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+
+    h5 {
+        font-family: 'roboto-medium';
+        color: $gray;
+    }
+
+    &__header {
+        padding: 15px;
+        padding-bottom: 0;
+    }
+}
