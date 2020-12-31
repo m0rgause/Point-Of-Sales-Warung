@@ -3,13 +3,18 @@
     border: 1px solid $border-color;
     border-radius: 4px;
 
-    h5 {
-        font-family: 'roboto-medium';
-        color: $gray;
-    }
-
     &__header {
         padding: 15px;
         padding-bottom: 0;
+
+        h5 {
+            font-family: 'roboto-medium';
+            color: $gray;
+        }
+
+        p {
+            color: $gray;
+            font-size: 17px;
+        }
     }
 }

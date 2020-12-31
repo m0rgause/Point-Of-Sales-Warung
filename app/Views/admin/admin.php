@@ -58,8 +58,8 @@
 
         <div class="info-box__item info-box__item--blue">
             <div class="info-box__data">
-                <h5 class="mb-2">Total Transaksi</h5>
-                <h3 class="mb-0">120k</h3>
+                <h4 class="mb-2">120k</h4>
+               <p class="me-2 mb-0 d-inline-block">Total Transaksi</p><p class="mb-0 d-inline-block">Jan 2020</p>
             </div>
             <div class="info-box__icon">
                <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"/></svg>
@@ -68,8 +68,8 @@
 
         <div class="info-box__item info-box__item--orange">
             <div class="info-box__data">
-                <h5 class="mb-2">Total User</h5>
-                <h3 class="mb-0">12</h3>
+                <h4 class="mb-0 mb-2">12</h4>
+                <p class="me-2 mb-0 d-inline-block">Total Pengguna</p><p class="mb-0 d-inline-block">Jan 2020</p>
             </div>
             <div class="info-box__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
@@ -78,8 +78,8 @@
 
         <div class="info-box__item info-box__item--violet">
             <div class="info-box__data">
-                <h5 class="mb-2">Total Barang</h5>
-                <h3 class="mb-0">400</h3>
+                <h4 class="mb-2">400</h4>
+                <p class="me-2 mb-0 d-inline-block">Total Barang</p><p class="mb-0 d-inline-block">Jan 2020</p>
             </div>
             <div class="info-box__icon">
                <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/></svg>
@@ -91,6 +91,7 @@
     <div class="chart">
         <div class="chart__header">
             <h5>Transaksi</h5>
+            <p>Dalam 7 hari terakhir</p>
         </div>
         <div class="chart__body"></div>
     </div>
