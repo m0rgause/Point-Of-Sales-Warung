@@ -1,11 +1,6 @@
-@mixin info_box_color($color_name, $color) {
+@mixin info_box_color($color_name, $bg_color) {
     &__item--#{$color_name} {
-        background-color: #fff;
-        border: 1px solid $border_color;
-
-        h4 {
-            color: $color;
-        }
+        background-color: $bg_color;
     }
 }
 
@@ -24,7 +19,7 @@
         border-radius: 4px;
     }
 
-    @include info_box_color('violet', $violet);
+    @include info_box_color('green', $green);
     @include info_box_color('orange', $orange);
     @include info_box_color('blue', $blue);
 
@@ -34,10 +29,11 @@
 
         h4 {
             font-family: 'roboto-black';
+            color: #fff;
         }
 
         p {
-            color: $gray;
+            color: #ffffffc2;
             font-size: 17px;
         }
     }
@@ -46,7 +42,7 @@
         flex-basis: 80px;
         padding: 15px;
         padding-left: 8px;
-        color: $gray;
+        color: #ffffff73;
         text-align: right;
     }
 }

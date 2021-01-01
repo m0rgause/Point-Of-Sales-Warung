@@ -5,3 +5,9 @@
 .text-hover-red:hover {
     color: $red !important;
 }
+
+@media (max-width: 575px) {
+    .flex-xs-fill {
+        flex: 1 1 auto !important;
+    }
+}

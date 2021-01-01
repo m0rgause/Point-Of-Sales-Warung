@@ -33,6 +33,7 @@ $routes->setAutoRoute(false);
 
 $routes->get('/kasir', 'Kasir::index');
 $routes->get('/admin', 'Admin::index');
+$routes->get('/admin/barang', 'Barang::index');
 
 // Default Route, if each route above not match
 $routes->get('(:any)', 'SignIn::index');

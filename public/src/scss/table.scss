@@ -17,4 +17,8 @@
     tbody tr td a:hover {
         color: $blue;
     }
+
+    &-responsive {
+        overflow-x: auto;
+    }
 }

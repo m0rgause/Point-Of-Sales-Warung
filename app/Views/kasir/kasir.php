@@ -33,22 +33,20 @@
 
 <header class="header">
 <div class="container-xl d-flex justify-content-between flex-wrap">
-    <h4 class="mb-3 mb-sm-0">Transaksi</h4>
-    <ul class="d-flex align-items-center d-sm-block">
-        <li class="flex-fill me-2 me-sm-1">
-            <div class="input-group">
-                <input class="form-input" type="text" placeholder="Nama Barang...">
-                <div class="input-group__append">
-                <a class="btn btn--blue" href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
-                </a>
-                </div>
-            </div><!-- input-group -->
-        </li>
-        <li><a href="" class="btn btn--blue" title="Lihat keranjang belanja" id="show-cart">
+    <h4 class="mb-3 mb-sm-0 me-2 flex-fill">Transaksi</h4>
+    <div class="d-flex flex-fill justify-content-end">
+       <div class="input-group me-2 flex-xs-fill">
+           <input class="form-input" type="text" placeholder="Nama Barang...">
+           <div class="input-group__append">
+           <a class="btn btn--blue" href="">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
+           </a>
+           </div>
+       </div><!-- input-group -->
+       <a href="" class="btn btn--blue" title="Lihat keranjang belanja" id="show-cart">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-        </a></li>
-    </ul>
+        </a>
+    </div><!-- product-filter -->
 </div><!-- container-xl -->
 </header>
 

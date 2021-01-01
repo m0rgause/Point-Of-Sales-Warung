@@ -76,7 +76,7 @@
             </div>
         </div><!-- infor-box__item -->
 
-        <div class="info-box__item info-box__item--violet">
+        <div class="info-box__item info-box__item--green">
             <div class="info-box__data">
                 <h4 class="mb-2">400</h4>
                 <p class="me-2 mb-0 d-inline-block">Total Barang</p><p class="mb-0 d-inline-block">Jan 2020</p>

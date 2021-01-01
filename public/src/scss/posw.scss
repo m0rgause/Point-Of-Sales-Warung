@@ -11,8 +11,8 @@ $old_red: #ef4343;
 $gray: #7a7a7a;
 $old_gray: #6d6d6d;
 $light_gray: #f7f7fc;
-$violet: #6a2d57;
-$orange: #fe5c19;
+$green: #21c45a;
+$orange: #fc9d37;
 
 @import 'font.scss';
 
@@ -36,6 +36,17 @@ h1, h2, h3, h4, h5, h6 {
     > div > h5 {
         color: $gray;
         font-family: 'roboto-medium';
+    }
+
+    &__box {
+        background-color: #fff;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        padding: 15px;
+
+        @media (max-width: 767.98px) {
+            padding: 12px;
+        }
     }
 }
 
