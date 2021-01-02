@@ -28,8 +28,8 @@
     </a>
 
     <ul class="navbar__right navbar__right--collapse">
-        <li><a href="">Kategori Barang</a></li>
-        <li><a href="">Barang</a></li>
+        <li><a href="">Kategori Produk</a></li>
+        <li><a href="">Produk</a></li>
         <li><a href="">Transaksi</a></li>
         <li><a href="">Pengguna</a></li>
 
@@ -91,7 +91,7 @@
         <div class="info-box__item info-box__item--green">
             <div class="info-box__data">
                 <h4 class="mb-2">400</h4>
-                <p class="me-2 mb-0 d-inline-block">Total Barang</p><p class="mb-0 d-inline-block">Jan 2020</p>
+                <p class="me-2 mb-0 d-inline-block">Total Produk</p><p class="mb-0 d-inline-block">Jan 2020</p>
             </div>
             <div class="info-box__icon">
                <svg xmlns="http://www.w3.org/2000/svg" width="35" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/></svg>

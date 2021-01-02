@@ -31,12 +31,12 @@
     </ul>
 </nav>
 
-<header class="header header--kasir">
+<header class="header header--cashier">
 <div class="container-xl d-flex flex-column flex-sm-row justify-content-between flex-wrap">
     <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Transaksi</h4>
     <div class="d-flex flex-fill justify-content-end">
        <div class="input-group me-2">
-           <input class="form-input" type="text" placeholder="Nama Barang...">
+           <input class="form-input" type="text" placeholder="Nama Produk...">
            <div class="input-group__append">
            <a class="btn btn--blue" href="">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
@@ -165,7 +165,7 @@
             <thead>
                 <tr>
                     <th colspan="3" class="text-center">Aksi</th>
-                    <th>Barang</th>
+                    <th>Produk</th>
                     <th>Harga / Besaran</th>
                     <th width="10">Jumlah</th>
                     <th>Total</th>
@@ -173,13 +173,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td width="10"><a href="#" title="Hapus barang" class="text-hover-red">
+                    <td width="10"><a href="#" title="Hapus produk" class="text-hover-red">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
                     </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah barang">
+                    <td width="10"><a href="#" title="Tambah jumlah produk">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
                     </a></td>
-                    <td width="10"><a href="#" title="Kurang jumlah barang">
+                    <td width="10"><a href="#" title="Kurang jumlah produk">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
                     </a></td>
 
@@ -190,13 +190,13 @@
                 </tr>
 
                 <tr>
-                    <td width="10"><a href="#" title="Hapus barang" class="text-hover-red">
+                    <td width="10"><a href="#" title="Hapus produk" class="text-hover-red">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
                     </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah barang">
+                    <td width="10"><a href="#" title="Tambah jumlah produk">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
                     </a></td>
-                    <td width="10"><a href="#" title="Kurang jumlah barang">
+                    <td width="10"><a href="#" title="Kurang jumlah produk">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
                     </a></td>
 

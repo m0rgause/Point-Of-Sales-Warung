@@ -2,12 +2,12 @@
 
 use CodeIgniter\Controller;
 
-class Kasir extends Controller
+class Cashier extends Controller
 {
     protected $helpers = ['form'];
 
     public function index()
     {
-        return view('kasir/kasir');
+        return view('cashier/cashier');
     }
 }

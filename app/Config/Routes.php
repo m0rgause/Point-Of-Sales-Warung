@@ -31,9 +31,10 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/kasir', 'Kasir::index');
+$routes->get('/kasir', 'Cashier::index');
 $routes->get('/admin', 'Admin::index');
-$routes->get('/admin/barang', 'Barang::index');
+$routes->get('/admin/produk', 'Product::index');
+$routes->get('/admin/buat_produk', 'Product::createProduct');
 
 // Default Route, if each route above not match
 $routes->get('(:any)', 'SignIn::index');
