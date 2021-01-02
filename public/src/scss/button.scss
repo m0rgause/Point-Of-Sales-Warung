@@ -1,7 +1,7 @@
-@mixin button_color($color_name, $color, $bg_color_hover) {
+@mixin button_color($color_name, $primary_color, $bg_color_hover) {
     &--#{$color_name} {
-        background-color: $color;
-        border: 1px solid $color;
+        background-color: $primary_color;
+        border: 1px solid $primary_color;
         color: #fff !important;
 
         &:hover {
@@ -37,6 +37,17 @@
     @include button_outline_color('red-outline', $red);
     @include button_color('gray', $gray, $old_gray);
     @include button_outline_color('gray-outline', $gray);
+
+    &--light {
+        background-color: $light_gray;
+        color: $gray !important;
+        border: 1px solid $light_gray;
+
+        &:hover {
+            background-color: #f4f4f4;
+            border-color: #f4f4f4;
+        }
+    }
 
     &--disabled {
         pointer-events: none;

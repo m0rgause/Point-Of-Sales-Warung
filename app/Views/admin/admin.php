@@ -54,11 +54,23 @@
 
 <main class="main">
 <div class="container-xl">
+<div class="row">
+    <div class="col-md-7 pe-md-1 mb-3 mb-md-0">
+    <div class="chart">
+        <div class="chart__header">
+            <h5>Transaksi</h5>
+            <p>Dalam 7 hari terakhir</p>
+        </div>
+        <div class="chart__body"></div>
+    </div><!-- chart -->
+    </div><!-- col-md-6 -->
+
+    <div class="col-md-5">
     <div class="info-box mb-3">
 
         <div class="info-box__item info-box__item--blue">
             <div class="info-box__data">
-                <h4 class="mb-2">120k</h4>
+                <h4 class="mb-2">120</h4>
                <p class="me-2 mb-0 d-inline-block">Total Transaksi</p><p class="mb-0 d-inline-block">Jan 2020</p>
             </div>
             <div class="info-box__icon">
@@ -88,13 +100,8 @@
 
     </div><!-- info-box -->
 
-    <div class="chart">
-        <div class="chart__header">
-            <h5>Transaksi</h5>
-            <p>Dalam 7 hari terakhir</p>
-        </div>
-        <div class="chart__body"></div>
-    </div>
+    </div><!-- col-md-6 -->
+</div><!-- row -->
 </div><!-- container-xl -->
 </main>
 
@@ -110,7 +117,7 @@
 const options = {
     chart: {
         type: 'area',
-        height: 350,
+        height: 300,
         toolbar: { show: false },
         zoom: { enabled: false }
     },

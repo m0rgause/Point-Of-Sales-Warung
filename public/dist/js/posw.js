@@ -54,8 +54,10 @@ function hide_modal(e)
 // navbar collapse
 const navbar_toggler = document.querySelector('.navbar a.btn--toggler');
 const navbar_collapse = document.querySelector('.navbar__right--collapse');
-navbar_toggler.addEventListener('click', (e) => {
-    e.preventDefault();
+if(navbar_toggler !== null) {
+    navbar_toggler.addEventListener('click', (e) => {
+        e.preventDefault();
 
-    navbar_collapse.classList.toggle('navbar__right--collapse-show');
-});
+        navbar_collapse.classList.toggle('navbar__right--collapse-show');
+    });
+}

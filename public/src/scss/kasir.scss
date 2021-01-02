@@ -142,15 +142,6 @@
         transform: translate(0px);
     }
 
-    .btn--close {
-        color: $gray;
-        background-color: $light_gray;
-
-        &:hover {
-            background-color: #f4f4f4;
-        }
-    }
-
     @media (max-width: 767.98px) {
         .table-responsive table {
             width: 768px;

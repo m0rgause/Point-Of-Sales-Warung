@@ -6,12 +6,8 @@
 
 .info-box {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
-
-    @media (max-width: 1199.98px) {
-        grid-template-columns: repeat(auto-fill, minmax(296px, 1fr));
-    }
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 
     &__item {
         display: flex;

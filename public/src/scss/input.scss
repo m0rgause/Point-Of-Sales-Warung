@@ -73,6 +73,34 @@ input[type="number"] {
     padding-right: 40px;
 }
 
+.form-check-input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #d0d0e0;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out;
+
+    &:checked {
+        background-color: $blue;
+        border: 1px solid $blue;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+    }
+}
+
+.form-check {
+    position: relative;
+    padding-left: 24px;
+
+    .form-check-input[type="checkbox"] {
+        position: absolute;
+        left: 0;
+        top: 4px;
+    }
+}
+
 .form-message {
     display: inline-block;
     margin-top: 5px;

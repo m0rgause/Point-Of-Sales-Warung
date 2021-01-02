@@ -31,11 +31,11 @@
     </ul>
 </nav>
 
-<header class="header">
-<div class="container-xl d-flex justify-content-between flex-wrap">
-    <h4 class="mb-3 mb-sm-0 me-2 flex-fill">Transaksi</h4>
+<header class="header header--kasir">
+<div class="container-xl d-flex flex-column flex-sm-row justify-content-between flex-wrap">
+    <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Transaksi</h4>
     <div class="d-flex flex-fill justify-content-end">
-       <div class="input-group me-2 flex-xs-fill">
+       <div class="input-group me-2">
            <input class="form-input" type="text" placeholder="Nama Barang...">
            <div class="input-group__append">
            <a class="btn btn--blue" href="">
@@ -46,7 +46,7 @@
        <a href="" class="btn btn--blue" title="Lihat keranjang belanja" id="show-cart">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
-    </div><!-- product-filter -->
+    </div><!-- d-flex -->
 </div><!-- container-xl -->
 </header>
 
@@ -154,7 +154,7 @@
 <aside class="cart">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5>Keranjang Belanja</h5>
-        <a class="btn btn--close" href="#" title="Tutup Keranjang Belanja">
+        <a class="btn btn--light" href="#" title="Tutup Keranjang Belanja" id="btn-close">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
         </a>
     </div>
@@ -280,7 +280,7 @@ document.querySelector('a#show-cart').addEventListener('click', (e) => {
 });
 
 // hide cart
-cart.querySelector('a.btn--close').addEventListener('click', (e) => {
+cart.querySelector('a#btn-close').addEventListener('click', (e) => {
     e.preventDefault();
 
     cart.classList.replace('cart--show', 'cart--animate-hide');

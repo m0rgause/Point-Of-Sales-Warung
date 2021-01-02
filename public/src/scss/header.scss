@@ -12,4 +12,18 @@
             border-color: $blue;
         }
     }
+
+    @media (max-width: 575.98px) {
+        &--barang {
+            .input-group {
+                width: 100%;
+            }
+        }
+
+        &--kasir {
+            .input-group {
+                flex: 1 1 auto;
+            }
+        }
+    }
 }
