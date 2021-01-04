@@ -57,19 +57,13 @@
         color: $red;
     }
 
-    .btn--close {
-        color: $gray;
-        background-color: $light_gray;
+    .btn--light {
         position: absolute;
         top: 0;
         right: 0;
         border-top-left-radius: 0;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 50%;
-
-        &:hover {
-            background-color: #f4f4f4;
-        }
     }
 
     &__body p {

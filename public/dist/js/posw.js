@@ -61,3 +61,36 @@ if(navbar_toggler !== null) {
         navbar_collapse.classList.toggle('navbar__right--collapse-show');
     });
 }
+
+// add form input besaran dan harga
+function add_form_input_besaran_harga(e) {
+    e.preventDefault();
+
+    const target = e.target;
+
+    const new_form_besaran_harga = document.createElement('div');
+    new_form_besaran_harga.classList.add('input-group');
+    new_form_besaran_harga.innerHTML = `<input class="form-input" type="text" placeholder="Besaran..." name="besaran">
+                <input class="form-input" type="text" placeholder="Harga..." name="harga">
+                <a class="btn btn--gray-outline" id="add-form-input-besaran-harga" href="">Tambah</a>`;
+
+    const div_input_group = target.parentElement;
+
+    // add margin bottom to div input group
+    div_input_group.classList.add('mb-3');
+
+    // remove button tambah form besaran harga
+    target.remove();
+
+    // add button hapus form besaran harga
+    const remove_button = document.createElement('a');
+    remove_button.classList.add('btn');
+    remove_button.classList.add('btn--gray-outline');
+    remove_button.setAttribute('id','remove-form-input-besaran-harga');
+    remove_button.setAttribute('href','');
+    remove_button.innerText = 'Hapus';
+    div_input_group.append(remove_button);
+
+    // append new form besaran harga to <form>
+    form.append(new_form_besaran_harga);
+}
