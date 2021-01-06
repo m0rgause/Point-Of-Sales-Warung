@@ -2,7 +2,7 @@
 
 use CodeIgniter\Session\Session;
 
-class MessageLibrary
+class ValidationMessageLibrary
 {
     public function setDelimiterMessage(
         string $open_delimiter,
@@ -15,9 +15,9 @@ class MessageLibrary
         }
         return $new_message;
     }
-    
+
     public function setFlashMessage(
-        Session $object_session, 
+        Session $object_session,
         string $nama_flash_message,
         string $open_delimiter,
         array $array_message,
