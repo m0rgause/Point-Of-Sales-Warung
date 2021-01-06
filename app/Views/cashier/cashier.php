@@ -159,14 +159,14 @@
 
     <div class="position-relative">
     <div class="table-responsive mb-3">
-        <table class="table">
+        <table class="table table--auto-striped">
             <thead>
                 <tr>
                     <th colspan="3" class="text-center">Aksi</th>
                     <th>Produk</th>
                     <th>Harga / Besaran</th>
                     <th width="10">Jumlah</th>
-                    <th>Total</th>
+                    <th>Bayaran</th>
                 </tr>
             </thead>
             <tbody>

@@ -74,12 +74,12 @@
             </div>
             <div>
                 <span id="page_position" class="me-2 text-muted">1 -</span><span id="page_total" class="me-3 text-muted">5 Hal</span>
-                <a id="prev" class="btn btn--light" href=""><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></a>
+                <a id="prev" class="btn btn--light me-1" href=""><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></a>
                 <a href="" class="btn btn--light" id="next"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 </svg></a>
             </div>
         </div><!-- d-flex -->
-        <table class="table min-width-711">
+        <table class="table table--auto-striped min-width-711">
             <thead>
                 <tr>
                     <th class="text-center" colspan="2">Aksi</th>

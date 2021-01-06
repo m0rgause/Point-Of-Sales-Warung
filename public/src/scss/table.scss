@@ -1,7 +1,11 @@
 .table {
     width: 100%;
 
-    tbody tr:nth-child(odd) {
+    &--auto-striped tbody tr:nth-child(odd) {
+        background-color: $light_gray;
+    }
+
+    &--manual-striped tbody tr#{&}__row-odd {
         background-color: $light_gray;
     }
 
@@ -25,5 +29,42 @@
     .form-check {
         margin-top: -11.5px;
         padding-left: 16px;
+    }
+
+    &__row-details {
+        display: none;
+
+        &--show {
+            display: table-row;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid $border-color;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+
+        span.table__title {
+            font-family: 'roboto-bold';
+            margin-right: 1.5rem;
+        }
+
+        span.table__information {
+            color: $gray;
+            margin-right: .5rem;
+        }
+
+        span.table__data {
+            margin-right: 1.5rem;
+        }
     }
 }

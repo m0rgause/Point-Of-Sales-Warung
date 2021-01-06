@@ -35,6 +35,7 @@ $routes->get('/kasir', 'Cashier::index');
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/produk', 'Product::index');
 $routes->get('/admin/buat_produk', 'Product::createProduct');
+$routes->get('/admin/transaksi', 'Transaction::index');
 
 // Default Route, if each route above not match
 $routes->get('(:any)', 'SignIn::index');

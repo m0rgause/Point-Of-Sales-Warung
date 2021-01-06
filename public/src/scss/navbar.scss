@@ -12,7 +12,7 @@
     }
 
     &__right > li {
-        padding: 15px 8px;
+        padding: 0 8px;
         display: inline-block;
     }
 
@@ -21,12 +21,8 @@
     }
 
     &__left li {
-        padding: 14px 8px;
+        padding: 10px 8px;
         padding-left: 0;
-    }
-
-    img {
-        margin-top: -3px;
     }
 
     a {

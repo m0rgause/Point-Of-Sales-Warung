@@ -5,7 +5,7 @@
         font-family: 'roboto-medium';
     }
 
-    .input-group input {
+    .input-group input, .form-select {
         border-color: $border_color;
 
         &:focus {
@@ -13,17 +13,17 @@
         }
     }
 
+    .form-select {
+        width: auto;
+    }
+
     @media (max-width: 575.98px) {
-        &--product {
-            .input-group {
-                width: 100%;
-            }
+        &--product .input-group {
+            width: 100%;
         }
 
-        &--cashier {
-            .input-group {
-                flex: 1 1 auto;
-            }
+        &--cashier .input-group, &--transaction .form-select {
+            flex: 1 1 auto;
         }
     }
 }

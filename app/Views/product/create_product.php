@@ -103,7 +103,7 @@
 // get file name and replace text in label with it
 const form_file = document.querySelector('div.form-file input[type="file"]');
 form_file.addEventListener('change', (e) => {
-    e.target.nextElementSibling.innerHTML = e.target.files[0].name;
+    e.target.nextElementSibling.innerText = e.target.files[0].name;
 });
 
 // add form input besaran and harga
