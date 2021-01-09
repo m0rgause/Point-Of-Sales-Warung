@@ -31,14 +31,21 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/kasir', 'Cashier::index');
-$routes->get('/admin', 'Admin::index');
-$routes->get('/admin/produk', 'Product::index');
-$routes->get('/admin/buat_produk', 'Product::createProduct');
-$routes->get('/admin/transaksi', 'Transaction::index');
+$routes->get('/kasir', 'Cashier::index', ['filter' => 'accessRights:kasir']);
+
+$routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
+{
+    $routes->get('/', 'Admin::index');
+    $routes->get('produk', 'Product::index');
+    $routes->get('buat_produk', 'Product::createProduct');
+    $routes->get('transaksi', 'Transaction::index');
+});
+
+$routes->post('/sign_in', 'SignIn::signIn');
+$routes->get('/sign_out', 'SignOut::index');
 
 // Default Route, if each route above not match
-$routes->get('(:any)', 'SignIn::index');
+$routes->get('(:any)', 'SignIn::index', ['filter' => 'hasSignedIn']);
 
 /**
  * --------------------------------------------------------------------

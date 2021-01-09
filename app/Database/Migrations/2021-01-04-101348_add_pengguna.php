@@ -21,10 +21,12 @@ class AddPengguna extends Migration
                 'constraint' => 5
             ],
             'password' => [
+                'type' => 'varchar',
                 'constraint' => 255
             ],
-            'login_terakhir' => [
-                'type' => 'timestamp'
+            'sign_in_terakhir' => [
+                'type' => 'timestamp',
+                'null' => true
             ]
         ]);
         $this->forge->createTable('pengguna');
