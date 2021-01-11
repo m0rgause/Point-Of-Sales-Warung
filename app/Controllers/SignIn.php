@@ -8,11 +8,6 @@ class SignIn extends Controller
 {
     protected $helpers = ['form'];
 
-    public function __construct()
-    {
-        $this->session = \Config\Services::session();
-    }
-
     public function index()
     {
         return view('signin.php');
@@ -20,6 +15,8 @@ class SignIn extends Controller
 
     public function signIn()
     {
+        $session = \Config\Services::session();
+
         if(!$this->validate([
             'username' => [
                 'label' => 'Username',
@@ -51,10 +48,11 @@ class SignIn extends Controller
         if($data_user_sign_in !== null) {
             // if sign in success
             if(password_verify($password, $data_user_sign_in['password']) === true) {
-                $this->session->set([
+                $session->set([
                     'posw_sign_in_status' => true,
                     'posw_user_id' => $data_user_sign_in['pengguna_id'],
-                    'posw_user_level' => $data_user_sign_in['tingkat']
+                    'posw_user_level' => $data_user_sign_in['tingkat'],
+                    'posw_user_full_name' => $data_user_sign_in['nama_lengkap']
                 ]);
 
                 // if user level is admin

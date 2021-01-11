@@ -17,15 +17,15 @@
 </head>
 <body>
 
-<nav class="navbar container-xxl d-flex justify-content-between">
+<nav class="navbar container-xxl d-flex justify-content-between align-items-center">
     <ul class="navbar__left">
-        <li><a href=""><img src="<?= base_url('/dist/images/posw.svg'); ?>" alt="posw logo" width="100"></a></li>
+        <li><a href=""><img src="<?= base_url('/dist/images/posw.svg'); ?>" alt="posw logo" width="80"></a></li>
     </ul>
 
     <ul class="navbar__right">
         <li class="dropdown"><a href="" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
             <ul class="dropdown-menu dropdown-menu--end d-none">
-                <li><a href="" class="text-hover-red">Sign Out</a></li>
+                <li><a href="/sign_out" class="text-hover-red">Sign Out</a></li>
             </ul>
         </li>
     </ul>

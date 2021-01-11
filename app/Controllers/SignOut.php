@@ -16,7 +16,6 @@ class SignOut extends Controller
             $model->update($_SESSION['posw_user_id'], ['sign_in_terakhir'=>date('Y-m-d H:i:s')]);
 
             // destroy session
-            $session = \Config\Services::session();
             $session->destroy();
         }
 

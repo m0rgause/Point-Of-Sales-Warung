@@ -39,6 +39,7 @@ $routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
     $routes->get('produk', 'Product::index');
     $routes->get('buat_produk', 'Product::createProduct');
     $routes->get('transaksi', 'Transaction::index');
+    $routes->get('pengguna', 'User::index');
 });
 
 $routes->post('/sign_in', 'SignIn::signIn');

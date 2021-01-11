@@ -8,8 +8,8 @@ class Admin extends Controller
     {
         helper('active_menu');
 
-        $data['title'] = 'Admin . POSW';
-        $data['page'] = 'admin';
+        $data['title'] = 'Home . POSW';
+        $data['page'] = 'home';
 
         return view('admin/admin', $data);
     }
