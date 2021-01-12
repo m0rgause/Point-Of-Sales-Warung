@@ -21,12 +21,12 @@ class SignIn extends Controller
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required',
-                'errors' => [ 'required' => '{field} tidak boleh kosong!' ]
+                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
             ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required',
-                'errors' => [ 'required' => '{field} tidak boleh kosong!' ]
+                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
             ]
         ])) {
             // set validation errors message to flash session

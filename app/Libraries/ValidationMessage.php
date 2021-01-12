@@ -25,4 +25,28 @@ class ValidationMessage
         $new_message = static::setDelimiterMessage($open_delimiter, $close_delimiter, $array_message);
         $session->setFlashData($flash_message_name, $new_message);
     }
+
+    public static function generateIndonesianErrorMessage(string ...$rules): array
+    {
+        $rules_length = count($rules);
+        $array_message = [];
+        for($i = 0; $i < $rules_length; $i++) {
+            if($rules[$i] === 'required') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} tidak boleh kosong!']);
+            }
+            if($rules[$i] === 'in_list') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} harus salah satu dari: {param}!']);
+            }
+            if($rules[$i] === 'min_length') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} paling sedikit {param} karakter!']);
+            }
+            if($rules[$i] === 'max_length') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} tidak bisa melebihi {param} karakter']);
+            }
+            if($rules[$i] === 'is_unique') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} sudah ada']);
+            }
+        }
+        return $array_message;
+    }
 }

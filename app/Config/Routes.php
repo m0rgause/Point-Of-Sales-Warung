@@ -33,14 +33,17 @@ $routes->setAutoRoute(false);
 
 $routes->get('/kasir', 'Cashier::index', ['filter' => 'accessRights:kasir']);
 
-$routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
+$routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
 {
     $routes->get('/', 'Admin::index');
     $routes->get('produk', 'Product::index');
     $routes->get('buat_produk', 'Product::createProduct');
     $routes->get('transaksi', 'Transaction::index');
     $routes->get('pengguna', 'User::index');
+    $routes->get('buat_pengguna', 'User::createUser');
 });
+
+$routes->post('/admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

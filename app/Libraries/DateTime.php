@@ -30,8 +30,10 @@ class DateTime
         return $array_data;
     }
 
-    public function convertTimstampToIndonesianDateTime(string $timestamp): string
+    public function convertTimstampToIndonesianDateTime(? string $timestamp): ? string
     {
+        if($timestamp === null) return null;
+
         $array_timestamp = $this->explodeTimestamp($timestamp);
         return $array_timestamp['day'].' '.static::ARRAY_MONTH[$array_timestamp['month']].' '.$array_timestamp['year'].', '.$array_timestamp['time'];
     }
