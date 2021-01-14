@@ -19,7 +19,31 @@
         background-color: #f9f9f9;
     }
 
-    .btn {
+    .input-group {
+        position: relative;
+
+        .form-input {
+            border-radius: 4px;
+            padding-right: 43px;
+        }
+    }
+
+    .input-group span, .input-group a {
+        padding: 8px 12px;
+        position: absolute;
+        z-index: 3;
+        right: 0;
+        color: $gray;
+        margin-left: 0;
+    }
+
+    .input-group a:hover {
+        &:hover {
+            color: #666666;
+        }
+    }
+
+    .input-group button {
         width: 100%;
     }
 }

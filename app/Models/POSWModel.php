@@ -13,7 +13,7 @@ namespace App\Models;
 
 use CodeIgniter\Database\ConnectionInterface;
 
-class PoswModel
+class POSWModel
 {
     public function __construct(ConnectionInterface $db, string $table)
     {

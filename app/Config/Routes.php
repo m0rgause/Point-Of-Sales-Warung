@@ -41,9 +41,11 @@ $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
     $routes->get('transaksi', 'Transaction::index');
     $routes->get('pengguna', 'User::index');
     $routes->get('buat_pengguna', 'User::createUser');
+    $routes->get('perbaharui_pengguna/(:segment)', 'User::updateUser/$1');
 });
 
 $routes->post('/admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
+$routes->post('/admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

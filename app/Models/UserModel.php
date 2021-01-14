@@ -17,4 +17,9 @@ class UserModel extends Model
     {
         return $this->select('pengguna_id, nama_lengkap, tingkat, sign_in_terakhir')->orderBy('nama_lengkap', 'ASC')->get()->getResultArray();
     }
+
+    public function findUser(string $user_id, string $column): ? array
+    {
+        return $this->select($column)->getWhere([$this->primaryKey => $user_id])->getRowArray();
+    }
 }

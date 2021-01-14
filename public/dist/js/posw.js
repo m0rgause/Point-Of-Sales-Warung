@@ -100,10 +100,10 @@ function show_password(e)
     e.preventDefault();
 
     let target = e.target;
-    if(target.getAttribute('id') !== 'show-password') target = target.parentElement;
-    if(target.getAttribute('id') !== 'show-password') target = target.parentElement;
+    if(!/^show-password.*/.test(target.getAttribute('id'))) target = target.parentElement;
+    if(!/^show-password.*/.test(target.getAttribute('id'))) target = target.parentElement;
 
-    if(target.getAttribute('id') === 'show-password') {
+    if(/^show-password.*/.test(target.getAttribute('id'))) {
         const input = target.previousElementSibling;
         if(input.getAttribute('type') === 'password') {
             input.setAttribute('type','text');

@@ -34,14 +34,14 @@
             'navbar__link--active',
             'kategori_produk',
             'buat_kategori_produk',
-            'ubah_kategori_produk'
+            'perbaharui_kategori_produk'
         ); ?>">Kategori Produk</a></li>
         <li><a href="/admin/produk" class="<?= active_menu(
             $page,
             'navbar__link--active',
             'produk',
             'buat_produk',
-            'ubah_produk'
+            'perbaharui_produk'
         ); ?>">Produk</a></li>
         <li><a href="/admin/transaksi" class="<?= active_menu($page, 'navbar__link--active', 'transaksi'); ?>">Transaksi</a></li>
         <li><a href="/admin/pengguna" class="<?= active_menu(
@@ -49,12 +49,12 @@
             'navbar__link--active',
             'pengguna',
             'buat_pengguna',
-            'ubah_pengguna'
+            'perbaharui_pengguna'
         ); ?>">Pengguna</a></li>
 
         <li class="dropdown"><a href="" class="dropdown-toggle" target=".dropdown-menu"><?= $_SESSION['posw_user_full_name']  ?></a>
             <ul class="dropdown-menu dropdown-menu--end d-none">
-                <li><a href="admin/ubah_pengguna/<?= $_SESSION['posw_user_id']; ?>">Pengaturan</a></li>
+                <li><a href="admin/perbaharui_pengguna/<?= $_SESSION['posw_user_id']; ?>">Pengaturan</a></li>
                 <li>
                     <hr>
                 </li>
