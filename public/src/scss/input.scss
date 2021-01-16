@@ -4,6 +4,13 @@
     }
 }
 
+@mixin form_focus_color($color_name, $box_shadow_color, $border_color) {
+    &--focus-#{$color_name}:focus {
+        box-shadow: 0 0 0 .25rem $box_shadow_color;
+        border-color: $border_color;
+    }
+}
+
 select, input, textarea {
     outline: none;
 }
@@ -61,6 +68,8 @@ input[type="number"] {
     &[disabled=""] {
         background-color: $light_gray;
     }
+
+    @include form_focus_color('red', rgba(244,83,83,.25), $red);
 }
 
 .form-select {

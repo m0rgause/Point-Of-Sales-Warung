@@ -1,3 +1,9 @@
+@mixin loading_color($color_name, $color) {
+    &--#{$color_name} div {
+        border-color: $color $color transparent transparent;
+    }
+}
+
 .loading {
     position: relative;
     width: 30px;
@@ -17,6 +23,8 @@
         border-radius: 50%;
         animation: loading 1s cubic-bezier(.79,.14,.15,.86) infinite;
     }
+
+    @include loading_color('red', $red);
 
     &-bg {
         background-color: rgba(252,252,252,.7);

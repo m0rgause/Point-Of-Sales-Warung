@@ -20,7 +20,7 @@
     }
 
     &--fade-out {
-        animation: fade_out_modal_content .25s ease-in-out forwards;
+        animation: fade_out_modal_content .1s ease-in-out forwards;
     }
 
     &__content {
@@ -43,7 +43,7 @@
         }
 
         &--animate-hide {
-            animation: hide_modal_content .25s ease-in-out forwards;
+            animation: hide_modal_content .1s ease-in-out forwards;
         }
 
         @media (max-width: 524px) {
@@ -68,6 +68,10 @@
 
     &__body p {
         margin-bottom: 0;
+    }
+
+    &__body strong {
+        font-family: 'roboto-medium';
     }
 }
 

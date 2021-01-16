@@ -295,8 +295,14 @@ cart.querySelector('a#btn-close').addEventListener('click', (e) => {
 const modal = document.querySelector('.modal');
 const modal_content = modal.querySelector('.modal__content');
 
-document.querySelector('a#show-modal').addEventListener('click', show_modal);
-modal_content.querySelector('a#btn-close').addEventListener('click', hide_modal);
+document.querySelector('a#show-modal').addEventListener('click', (e) => {
+    e.preventDefault();
+    show_modal(modal, modal_content);
+});
+modal_content.querySelector('a#btn-close').addEventListener('click', (e) => {
+    e.preventDefault();
+    hide_modal(modal, modal_content);
+});
 
 </script>
 </body>

@@ -46,6 +46,7 @@ $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
 
 $routes->post('/admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
 $routes->post('/admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
+$routes->post('/admin/hapus_pengguna_di_db', 'User::removeUserInDB');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

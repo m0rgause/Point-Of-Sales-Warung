@@ -71,14 +71,5 @@
 // show password
 document.querySelector('a#show-password').addEventListener('click', show_password);
 document.querySelector('a#show-password-sign-in-user').addEventListener('click', show_password);
-
-// close alert
-const alert_close = document.querySelector('a.alert__close');
-if(alert_close !== null) {
-    document.querySelector('a.alert__close').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.target.parentElement.remove();
-    });
-}
 </script>
 <?= $this->endSection(); ?>

@@ -110,7 +110,8 @@ form_file.addEventListener('change', (e) => {
 const form = document.querySelector('form');
 form.addEventListener('click', (e) => {
     if(e.target.getAttribute('id') === 'add-form-input-besaran-harga'){
-        add_form_input_besaran_harga(e);
+        e.preventDefault();
+        add_form_input_besaran_harga(e.target, form);
     }
 });
 

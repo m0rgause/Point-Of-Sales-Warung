@@ -22,4 +22,15 @@ class UserModel extends Model
     {
         return $this->select($column)->getWhere([$this->primaryKey => $user_id])->getRowArray();
     }
+
+    public function removeUser(string $user_id): bool
+    {
+        try {
+            $this->where('pengguna_id !=', $_SESSION['posw_user_id'])->delete($user_id);
+        } catch(\ErrorException $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

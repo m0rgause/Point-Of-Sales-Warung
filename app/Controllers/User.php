@@ -71,7 +71,7 @@ class User extends Controller
             'nama_lengkap' => $this->request->getPost('full_name', FILTER_SANITIZE_STRING),
             'username' => $this->request->getPost('username', FILTER_SANITIZE_STRING),
             'tingkat' => $this->request->getPost('level', FILTER_SANITIZE_STRING),
-            'password' => $this->request->getPost('password', FILTER_SANITIZE_STRING)
+            'password' => password_hash($this->request->getPost('password', FILTER_SANITIZE_STRING), PASSWORD_DEFAULT)
         ]);
         return redirect()->to('/admin/pengguna');
     }
@@ -163,10 +163,32 @@ class User extends Controller
             ValidationMessage::setFlashMessage(
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
-                '</p><a class="alert__close" href="#"></a></div>',
-                ['update_user' => '<strong>Berhasil!</strong> Pengguna telah diperbaharui']
+                '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+                ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui']
             );
         }
         return redirect()->back();
+    }
+
+    public function removeUserInDB()
+    {
+        // check password sign in user
+        $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
+        $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
+        $check_password = check_password_sign_in_user($password, $password_db);
+        if($check_password !== true) {
+            echo json_encode(['success'=>false, 'check_password_message'=>$check_password, 'csrf_value'=>csrf_hash()]);
+            return false;
+        }
+
+        $user_id = $this->request->getPost('user_id', FILTER_SANITIZE_STRING);
+        if($this->model->removeUser($user_id) === true) {
+            echo json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
+            return true;
+        }
+
+        $error_message = 'Gagal menghapus pengguna, cek apakah masih ada transaksi yang terhubung!';
+        echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
+        return false;
     }
 }

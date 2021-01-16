@@ -19,10 +19,8 @@ nav.addEventListener('click', e => {
 });
 
 // show modal
-function show_modal(e)
+function show_modal(modal, modal_content)
 {
-    e.preventDefault();
-
     modal.classList.add('d-block');
     setTimeout(() => {
         modal.classList.add('modal--fade-in');
@@ -34,21 +32,19 @@ function show_modal(e)
 }
 
 // hide modal
-function hide_modal(e)
+function hide_modal(modal, modal_content)
 {
-    e.preventDefault();
-
     modal_content.classList.replace('modal__content--animate-show', 'modal__content--animate-hide');
     setTimeout(() => {
         modal_content.classList.remove('modal__content--animate-hide');
         modal.classList.replace('modal--fade-in', 'modal--fade-out');
-    }, 250);
+    }, 100);
 
     setTimeout(() => {
         modal.classList.remove('modal--fade-out');
         modal.classList.remove('modal--show');
         modal.classList.remove('d-block');;
-    }, 400);
+    }, 200);
 }
 
 // navbar collapse
@@ -63,11 +59,8 @@ if(navbar_toggler !== null) {
 }
 
 // add form input besaran dan harga
-function add_form_input_besaran_harga(e) {
-    e.preventDefault();
-
-    const target = e.target;
-
+function add_form_input_besaran_harga(target, form)
+{
     const new_form_besaran_harga = document.createElement('div');
     new_form_besaran_harga.classList.add('input-group');
     new_form_besaran_harga.innerHTML = `<input class="form-input" type="text" placeholder="Besaran..." name="besaran">
@@ -113,4 +106,23 @@ function show_password(e)
             target.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>`;
         }
     }
+}
+
+function create_alert_node(type_alert_class, message)
+{
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    alert.classList.add(type_alert_class);
+    alert.classList.add('mb-3');
+
+    alert.innerHTML = `<span class="alert__icon"></span>
+    <p>${message}</p>
+    <a class="alert__close" onclick="close_alert(event)" href="#"></a>`;
+
+    return alert;
+}
+
+function close_alert(e) {
+    e.preventDefault();
+    e.target.parentElement.remove();
 }
