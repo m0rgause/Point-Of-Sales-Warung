@@ -36,14 +36,11 @@ $routes->get('/kasir', 'Cashier::index', ['filter' => 'accessRights:kasir']);
 $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
 {
     $routes->get('/', 'Admin::index');
-
     $routes->get('kategori_produk', 'CategoryProduct::index');
-
+    $routes->get('buat_kategori_produk', 'CategoryProduct::createCategoryProduct');
     $routes->get('produk', 'Product::index');
     $routes->get('buat_produk', 'Product::createProduct');
-
     $routes->get('transaksi', 'Transaction::index');
-
     $routes->get('pengguna', 'User::index');
     $routes->get('buat_pengguna', 'User::createUser');
     $routes->get('perbaharui_pengguna/(:segment)', 'User::updateUser/$1');
@@ -52,6 +49,7 @@ $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
 $routes->post('/admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
 $routes->post('/admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
 $routes->post('/admin/hapus_pengguna_di_db', 'User::removeUserInDB');
+$routes->post('/admin/simpan_kategori_produk_ke_db', 'CategoryProduct::saveCategoryProductToDB');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

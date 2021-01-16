@@ -83,7 +83,7 @@ class User extends Controller
         $data['title'] = 'Perbaharui Pengguna . POSW';
         $data['page'] = 'perbaharui_pengguna';
         $data['user_id'] = $user_id;
-        $data['user'] = $this->model->findUser($user_id, 'nama_lengkap, username, tingkat');
+        $data['user_db'] = $this->model->findUser($user_id, 'nama_lengkap, username, tingkat');
 
         return view('user/update_user', $data);
     }

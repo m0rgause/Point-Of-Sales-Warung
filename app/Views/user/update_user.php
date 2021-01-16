@@ -20,12 +20,12 @@
                 <input type="hidden" name="user_id" value="<?= $user_id; ?>">
                 <div class="mb-3">
                     <label class="form-label" for="full_name">Nama Lengkap</label>
-                    <input class="form-input" id="full_name" type="text" name="full_name" value="<?= $user['nama_lengkap']??null; ?>">
+                    <input class="form-input" id="full_name" type="text" name="full_name" value="<?= $user_db['nama_lengkap']??null; ?>">
                     <?= $_SESSION['form_errors']['full_name']??null; ?>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="username">Username</label>
-                    <input class="form-input" type="text" id="username" name="username" value="<?= $user['username']??null; ?>">
+                    <input class="form-input" type="text" id="username" name="username" value="<?= $user_db['username']??null; ?>">
                     <?= $_SESSION['form_errors']['username']??null; ?>
                 </div>
                 <div class="mb-3">
@@ -35,7 +35,7 @@
                         $levels = ['kasir','admin'];
                         for($i = 0; $i < 2; $i++) :
                     ?>
-                        <option value="<?= $levels[$i]; ?>" <?= $levels[$i]===($user['tingkat']??null)?'selected':''; ?>><?= ucfirst($levels[$i]); ?></option>
+                        <option value="<?= $levels[$i]; ?>" <?= $levels[$i]===($user_db['tingkat']??null)?'selected':''; ?>><?= ucfirst($levels[$i]); ?></option>
                     <?php endfor; ?>
                     </select>
                     <?= $_SESSION['form_errors']['level']??null; ?>
