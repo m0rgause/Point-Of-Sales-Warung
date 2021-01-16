@@ -48,9 +48,9 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-    </div><!-- table_responsive -->
+    </div><!-- table-responsive -->
 
-    </div><!-- main_box  -->
+    </div><!-- main__box  -->
 </div>
 </main>
 
