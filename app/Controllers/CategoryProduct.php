@@ -107,4 +107,17 @@ class CategoryProduct extends Controller
         }
         return redirect()->back();
     }
+
+    public function removeCategoryProductInDB()
+    {
+        $category_product_id = $this->request->getPost('category_product_id', FILTER_SANITIZE_STRING);
+        if($this->model->removeCategoryProduct($category_product_id) === true) {
+            echo json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
+            return true;
+        }
+
+        $error_message = 'Gagal menghapus kategori produk, cek apakah masih ada produk yang terhubung!';
+        echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
+        return false;
+    }
 }

@@ -52,6 +52,7 @@ $routes->post('/admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
 $routes->post('/admin/hapus_pengguna_di_db', 'User::removeUserInDB');
 $routes->post('/admin/simpan_kategori_produk_ke_db', 'CategoryProduct::saveCategoryProductToDB');
 $routes->post('/admin/perbaharui_kategori_produk_di_db', 'CategoryProduct::updateCategoryProductInDB');
+$routes->post('/admin/hapus_kategori_produk_di_db', 'CategoryProduct::removeCategoryProductInDB');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');
