@@ -59,4 +59,52 @@ class CategoryProduct extends Controller
         ]);
         return redirect()->to('/admin/kategori_produk');
     }
+
+    public function updateCategoryProduct(string $category_product_id)
+    {
+        $category_product_id = filter_var($category_product_id, FILTER_SANITIZE_STRING);
+
+        $data['title'] = 'Perbaharui Kategori Produk . POSW';
+        $data['page'] = 'perbaharui_kategori_produk';
+        $data['category_product_id'] = $category_product_id;
+        $data['category_product_db'] = $this->model->findCategoryProduct($category_product_id);
+
+        return view('category_product/update_category_product', $data);
+    }
+
+    public function updateCategoryProductInDB()
+    {
+        if(!$this->validate([
+            'category_product_name' => [
+                'label' => 'Nama Kategori Produk',
+                'rules' => 'required|max_length[20]',
+                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','max_length')
+            ]
+        ])) {
+            // set validation errors message to flash session
+            ValidationMessage::setFlashMessage(
+                'form_errors',
+                '<small class="form-message form-message--danger">',
+                '</small>',
+                $this->validator->getErrors()
+            );
+            return redirect()->back();
+        }
+
+        // update category product
+        $category_product_id = $this->request->getPost('category_product_id', FILTER_SANITIZE_STRING);
+        if($this->model->update($category_product_id, [
+            'nama_kategori_produk' => $this->request->getPost('category_product_name', FILTER_SANITIZE_STRING),
+            'waktu_buat' => date('Y-m-d H:i:s')
+        ])) {
+            // make success message
+            ValidationMessage::setFlashMessage(
+                'form_success',
+                '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
+                '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+                ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui']
+            );
+        }
+        return redirect()->back();
+    }
 }
