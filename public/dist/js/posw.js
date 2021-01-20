@@ -58,19 +58,18 @@ if(navbar_toggler !== null) {
     });
 }
 
-// add form input besaran dan harga
-function add_form_input_besaran_harga(target, form)
+// add form input magnitude and price
+function add_form_input_magnitude_price(target, target_append)
 {
-    const new_form_besaran_harga = document.createElement('div');
-    new_form_besaran_harga.classList.add('input-group');
-    new_form_besaran_harga.innerHTML = `<input class="form-input" type="text" placeholder="Besaran..." name="besaran">
-                <input class="form-input" type="text" placeholder="Harga..." name="harga">
-                <a class="btn btn--gray-outline" id="add-form-input-besaran-harga" href="">Tambah</a>`;
+    const new_form_magnitude_price = document.createElement('div');
+    new_form_magnitude_price.classList.add('mb-3');
+    new_form_magnitude_price.innerHTML = `<div class="input-group">
+        <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitude[]">
+        <input class="form-input" type="number" placeholder="Harga..." name="product_price[]">
+        <a class="btn btn--gray-outline" id="add-form-input-magnitude-price" href="">Tambah</a>
+    </div>`;
 
     const div_input_group = target.parentElement;
-
-    // add margin bottom to div input group
-    div_input_group.classList.add('mb-3');
 
     // remove button tambah form besaran harga
     target.remove();
@@ -79,13 +78,13 @@ function add_form_input_besaran_harga(target, form)
     const remove_button = document.createElement('a');
     remove_button.classList.add('btn');
     remove_button.classList.add('btn--gray-outline');
-    remove_button.setAttribute('id','remove-form-input-besaran-harga');
+    remove_button.setAttribute('id','remove-form-input-magnitude-price');
     remove_button.setAttribute('href','');
     remove_button.innerText = 'Hapus';
     div_input_group.append(remove_button);
 
-    // append new form besaran harga to <form>
-    form.append(new_form_besaran_harga);
+    // append new form magnitude price to target_append
+    target_append.append(new_form_magnitude_price);
 }
 
 function show_password(e)

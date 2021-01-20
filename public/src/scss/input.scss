@@ -129,6 +129,10 @@ input[type="number"] {
         border: 1px solid #d0d0e0;
         border-radius: 4px;
         transition: box-shadow .15s ease-in-out, border-color .15s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     input[type="file"]:focus + label {
@@ -139,7 +143,7 @@ input[type="number"] {
 }
 
 .form-message {
-    display: inline-block;
+    display: block;
     margin-top: 5px;
     opacity: .85;
 

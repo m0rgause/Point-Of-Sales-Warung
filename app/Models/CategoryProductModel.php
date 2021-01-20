@@ -22,4 +22,9 @@ class CategoryProductModel extends Model
         }
         return true;
     }
+
+    public function getCategoryProductForFormSelect(): array
+    {
+        return $this->select('kategori_produk_id, nama_kategori_produk')->get()->getResultArray();
+    }
 }

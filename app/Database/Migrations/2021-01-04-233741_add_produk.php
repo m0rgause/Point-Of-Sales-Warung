@@ -17,7 +17,7 @@ class AddProduk extends Migration
             ],
             'foto_produk' => [
                 'type' => 'varchar',
-                'constraint' => 20
+                'constraint' => 35
             ],
             'status_produk' => [
                 'type' => 'varchar',

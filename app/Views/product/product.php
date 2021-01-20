@@ -1,51 +1,6 @@
-<!doctype html>
-<html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<?= $this->extend('admin_layout'); ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?= base_url('/dist/css/bootstrap-reboot.min.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('/dist/css/bootstrap-grid.min.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('/dist/css/bootstrap-utilities.min.css'); ?>">
-
-    <!-- POSW CSS -->
-    <link rel="stylesheet" href="<?= base_url('/dist/css/posw.min.css'); ?>">
-
-    <title>Produk . POSW</title>
-</head>
-<body>
-
-<nav class="navbar">
-<div class="container-xxl d-flex justify-content-between align-items-center">
-    <ul class="navbar__left">
-        <li><a href=""><img src="<?= base_url('/dist/images/posw.svg'); ?>" alt="posw logo" width="100"></a></li>
-    </ul>
-
-    <a class="btn btn--toggler" href="">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/></svg>
-    </a>
-
-    <ul class="navbar__right navbar__right--collapse">
-        <li><a href="">Kategori Produk</a></li>
-        <li><a href="" class="navbar__link--active">Produk</a></li>
-        <li><a href="">Transaksi</a></li>
-        <li><a href="">Pengguna</a></li>
-
-        <li class="dropdown"><a href="" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
-            <ul class="dropdown-menu dropdown-menu--end d-none">
-                <li><a href="">Pengaturan</a></li>
-                <li>
-                    <hr>
-                </li>
-                <li><a href="" class="text-hover-red">Sign Out</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-</nav>
-
+<?= $this->section('main'); ?>
 <header class="header header--product">
 <div class="container-xl d-flex flex-column flex-sm-row justify-content-between flex-wrap">
     <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Produk</h4>
@@ -58,7 +13,7 @@
            </a>
            </div>
        </div><!-- input-group -->
-       <a href="" class="btn btn--blue">Buat Produk</a>
+       <a href="/admin/buat_produk" class="btn btn--blue">Buat Produk</a>
     </div><!-- d-flex -->
 </div><!-- container-xl -->
 </header>
@@ -105,14 +60,10 @@
     </div><!-- main__box -->
 </div>
 </main>
+<?= $this->endSection(); ?>
 
-<footer class="footer">
-<div class="container-xl">
-    <p class="mb-0">Copyright &copy; <a href="">Reza Sariful Fikri</a> 2020</p>
-</div>
-</footer>
+<?= $this->section('script'); ?>
+<script>
 
-<script src="<?= base_url('dist/js/posw.js'); ?>"></script>
-</body>
-</html>
-
+</script>
+<?= $this->endSection(); ?>

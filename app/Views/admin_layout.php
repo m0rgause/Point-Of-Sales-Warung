@@ -69,7 +69,7 @@
 
 <footer class="footer">
 <div class="container-xl">
-    <p class="mb-0">Copyright &copy; <a href="">Reza Sariful Fikri</a> 2020</p>
+    <p class="mb-0">Copyright &copy; <a href="https://rezafikkri.github.io/" target="_blank" rel="noreferrer noopener">Reza Sariful Fikri</a> 2020</p>
 </div>
 </footer>
 
