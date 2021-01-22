@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 class Product extends Controller
 {
     protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user'];
+    private $product_limit = 2;
 
     public function __construct()
     {
@@ -21,6 +22,8 @@ class Product extends Controller
     {
         $data['title'] = 'Produk . POSW';
         $data['page'] = 'produk';
+        $data['products_db'] = $this->model->getProduct($this->product_limit, 0);
+        $data['page_total'] = ceil($this->model->countAllProduct()/$this->product_limit);
 
         return view('product/product', $data);
     }
@@ -195,7 +198,7 @@ class Product extends Controller
         // if insert product and insert product price success
         if($insert_product === true && $insert_product_price === true) {
             // move product photo
-            $product_photo_file->move(WRITEPATH.'uploads/product_photo', $product_photo_name);
+            $product_photo_file->move('dist/images/product_photo', $product_photo_name);
 
             return redirect()->to('/admin/produk');
         }
@@ -208,5 +211,43 @@ class Product extends Controller
             ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat']
         );
         return redirect()->back()->withInput();
+    }
+
+    public function showProductDetail()
+    {
+        $product_id = $this->request->getPost('product_id', FILTER_SANITIZE_STRING);
+        $product_price = $this->model->getProductPrice($product_id);
+        $product_photo = $this->model->findProduct($product_id, 'foto_produk')['foto_produk']??null;
+
+        echo json_encode(['product_price'=>$product_price, 'product_photo'=>$product_photo, 'csrf_value'=>csrf_hash()]);
+        return true;
+    }
+
+    public function showPaginationProduct()
+    {
+        $page_position = $this->request->getPost('page', FILTER_SANITIZE_STRING);
+        $product_offset = ($page_position * $this->product_limit) - $this->product_limit;
+        $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
+
+        // if keyword !== null
+        if($keyword !== null) {
+            $products_db = $this->model->getProductSearch($this->product_limit, $product_offset, ['nama_produk'=>$keyword]);
+
+        } else {
+            $products_db = $this->model->getProduct($this->product_limit, $product_offset);
+        }
+
+        // convert timestamp
+        $date_time = new \App\Libraries\DateTime();
+        $count_products_db = count($products_db);
+        for($i = 0; $i < $count_products_db; $i++) {
+            $products_db[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+        }
+
+        // get total product
+        $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
+
+        echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
+        return true;
     }
 }

@@ -74,5 +74,13 @@
         span.table__data {
             margin-right: 1.5rem;
         }
+
+        td {
+            vertical-align: top;
+        }
+
+        td img {
+            width: 100%;
+        }
     }
 }

@@ -54,6 +54,8 @@ $routes->post('/admin/simpan_kategori_produk_ke_db', 'CategoryProduct::saveCateg
 $routes->post('/admin/perbaharui_kategori_produk_di_db', 'CategoryProduct::updateCategoryProductInDB');
 $routes->post('/admin/hapus_kategori_produk_di_db', 'CategoryProduct::removeCategoryProductInDB');
 $routes->post('/admin/simpan_produk_ke_db', 'Product::saveProductToDB');
+$routes->post('/admin/show_produk_detail', 'Product::showProductDetail');
+$routes->post('/admin/show_paginasi_produk', 'Product::showPaginationProduct');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');
