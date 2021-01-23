@@ -231,10 +231,14 @@ class Product extends Controller
 
         // if keyword !== null
         if($keyword !== null) {
-            $products_db = $this->model->getProductSearch($this->product_limit, $product_offset, ['nama_produk'=>$keyword]);
+            $products_db = $this->model->getProductSearch($this->product_limit, $product_offset, $keyword);
+            // get total product
+            $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
 
         } else {
             $products_db = $this->model->getProduct($this->product_limit, $product_offset);
+            // get total product
+            $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
         }
 
         // convert timestamp
@@ -244,8 +248,24 @@ class Product extends Controller
             $products_db[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
         }
 
+        echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
+        return true;
+    }
+
+    public function showSearchProduct()
+    {
+        $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
+        $products_db = $this->model->getProductSearch($this->product_limit, 0, $keyword);
+
+        // convert timestamp
+        $date_time = new \App\Libraries\DateTime();
+        $count_products_db = count($products_db);
+        for($i = 0; $i < $count_products_db; $i++) {
+            $products_db[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+        }
+
         // get total product
-        $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
+        $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
 
         echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
         return true;

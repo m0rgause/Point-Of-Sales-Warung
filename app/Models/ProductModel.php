@@ -14,15 +14,21 @@ class ProductModel extends Model
                     ->orderBy('waktu_buat', 'DESC')->limit($limit, $offset)->get()->getResultArray();
     }
 
-    public function getProductSearch(int $limit, int $offset, array $where): array
+    public function getProductSearch(int $limit, int $offset, string $match): array
     {
         return $this->select('produk_id,nama_produk,status_produk,waktu_buat')
-                    ->orderBy('waktu_buat', 'DESC')->limit($limit, $offset)->getWhere($where)->getResultArray();
+                    ->orderBy('waktu_buat', 'DESC')->limit($limit, $offset)
+                    ->like('nama_produk',$match,'after')->get()->getResultArray();
     }
 
     public function countAllProduct(): int
     {
         return count($this->select('produk_id')->get()->getResultArray());
+    }
+
+    public function countAllProductSearch(string $match): int
+    {
+        return count($this->select('produk_id')->like('nama_produk',$match,'after')->get()->getResultArray());
     }
 
     public function getProductPrice(string $product_id): array

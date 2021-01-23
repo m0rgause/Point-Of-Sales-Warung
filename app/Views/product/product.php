@@ -6,9 +6,9 @@
     <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Produk</h4>
     <div class="d-flex flex-column flex-sm-row justify-content-start justify-content-sm-end align-items-start flex-fill">
         <div class="input-group me-0 me-sm-2 mb-3 mb-sm-0">
-           <input class="form-input" type="text" placeholder="Nama Produk...">
+           <input class="form-input" type="text" name="product_name_search" placeholder="Nama Produk...">
            <div class="input-group__append">
-           <a class="btn btn--blue" href="" id="search-product">
+           <a class="btn btn--blue" href="#" id="search-product">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
            </a>
            </div>
@@ -29,8 +29,8 @@
                 <a href="#" class="btn btn--red-outline" title="Hapus produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg></a>
             </div>
             <div>
-                <span id="page_position" data-page-position="1" class="me-2 text-muted">
-                1 -</span><span id="page_total" class="me-3 text-muted" data-page-total="<?= $page_total; ?>"><?= $page_total; ?> Hal</span>
+                <span id="page-position" data-page-position="1" class="me-2 text-muted">
+                1 -</span><span id="page-total" class="me-3 text-muted" data-page-total="<?= $page_total; ?>"><?= $page_total; ?> Hal</span>
 
                 <a id="prev" class="btn btn--light btn--disabled me-1" href=""><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></a>
             <?php
@@ -192,8 +192,8 @@ function pagination(command, page_position_el, page_total_el, next, prev)
     const csrf_value = table.dataset.csrfValue;
     let data = `${csrf_name}=${csrf_value}&page=${page}`;
 
-    // if attribute rel="search" and attribute keyword exists in table tag
-    if(table.getAttribute('rel') === 'search' && table.getAttribute('keyword') !== null) {
+    // if attribute aria-label="search" and attribute keyword exists in table tag
+    if(table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
         data += `&keyword=${table.getAttribute('keyword')}`;
     }
 
@@ -290,8 +290,8 @@ function pagination(command, page_position_el, page_total_el, next, prev)
 // pagination
 const next = document.querySelector('a#next');
 const prev = document.querySelector('a#prev');
-const page_position_el = document.querySelector('span#page_position');
-const page_total_el = document.querySelector('span#page_total');
+const page_position_el = document.querySelector('span#page-position');
+const page_total_el = document.querySelector('span#page-total');
 next.addEventListener('click', e => {
     e.preventDefault();
 
@@ -302,6 +302,123 @@ prev.addEventListener('click', e => {
     e.preventDefault();
 
     pagination('prev', page_position_el, page_total_el, next, prev);
+});
+
+// search product
+document.querySelector('a#search-product').addEventListener('click', e => {
+    e.preventDefault();
+
+    const keyword = document.querySelector('input[name="product_name_search"]').value;
+    const csrf_name = table.dataset.csrfName;
+    const csrf_value = table.dataset.csrfValue;
+
+    // if empty keyword
+    if(keyword.length <= 0) {
+        return false;
+    }
+
+    // loading
+    table.parentElement.nextElementSibling.classList.remove('d-none');
+    // disabled button search
+    document.querySelector('a#search-product').classList.add('btn--disabled');
+
+    fetch('/admin/search_produk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `keyword=${keyword}&${csrf_name}=${csrf_value}`
+    })
+    .finally(() => {
+        // loading
+        table.parentElement.nextElementSibling.classList.add('d-none');
+        // enabled button search
+        document.querySelector('a#search-product').classList.remove('btn--disabled');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if(json.csrf_value !== undefined) {
+            table.dataset.csrfValue = json.csrf_value;
+        }
+
+        let tr = '';
+        // if product exists
+        if(json.products_db.length !== 0) {
+            let i = 1;
+            json.products_db.forEach(p => {
+                if(i%2 !== 0) {
+                    tr += '<tr class="table__row-odd">';
+                } else {
+                    tr += '<tr>';
+                }
+                tr += `<td width="10">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox" class="form-check-input" value="${p.produk_id}">
+                        </div>
+                    </td>
+                    <td width="10"><a href="" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
+                    <td width="10"><a href="#" id="show-product-detail" data-product-id="${p.produk_id}" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
+
+                     <td>${p.nama_produk}</td>`;
+                if(p.status_produk === 'ada') {
+                     tr += `<td><span class="text-green">Ada</span></td>`;
+                } else {
+                     tr += `<td><span class="text-red">Tidak Ada</span></td>`;
+                }
+                tr += `<td>${p.waktu_buat}</td></tr>`;
+
+                // increment i
+                i++;
+            });
+
+            table.querySelector('tbody').innerHTML = tr;
+
+            // change page total and page position
+            page_total_el.innerText = `${json.page_total} Hal`;
+            page_total_el.dataset.pageTotal = json.page_total;
+            page_position_el.innerText = '1 -';
+            page_position_el.dataset.pagePosition = '1';
+
+            // disabled prev btn
+            prev.classList.add('btn--disabled');
+
+            // if page_total <= 1
+            if(json.page_total <= 1) {
+                next.classList.add('btn--disabled');
+
+            }
+            // else if btn next is disabled
+            else if(next.classList.contains('btn--disabled')) {
+                next.classList.remove('btn--disabled');
+            }
+
+            // add attribute aria label search and keyword
+            table.setAttribute('aria-label','search');
+            table.setAttribute('keyword', keyword);
+        }
+        // if product not exists
+        else {
+            table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
+
+            // change page total and page position
+            page_total_el.innerText = '1 Hal';
+            page_total_el.dataset.pageTotal = '1';
+            page_position_el.innerText = '1 -';
+            page_position_el.dataset.pagePosition = '1';
+
+            // disabled prev btn
+            prev.classList.add('btn--disabled');
+            // disabled next btn
+            next.classList.add('btn--disabled');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 });
 </script>
 <?= $this->endSection(); ?>

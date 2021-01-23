@@ -56,6 +56,7 @@ $routes->post('/admin/hapus_kategori_produk_di_db', 'CategoryProduct::removeCate
 $routes->post('/admin/simpan_produk_ke_db', 'Product::saveProductToDB');
 $routes->post('/admin/show_produk_detail', 'Product::showProductDetail');
 $routes->post('/admin/show_paginasi_produk', 'Product::showPaginationProduct');
+$routes->post('/admin/search_produk', 'Product::showSearchProduct');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');
