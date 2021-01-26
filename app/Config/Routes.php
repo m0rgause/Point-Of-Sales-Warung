@@ -41,6 +41,7 @@ $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
     $routes->get('perbaharui_kategori_produk/(:segment)', 'CategoryProduct::updateCategoryProduct/$1');
     $routes->get('produk', 'Product::index');
     $routes->get('buat_produk', 'Product::createProduct');
+    $routes->get('perbaharui_produk/(:segment)', 'Product::updateProduct/$1');
     $routes->get('transaksi', 'Transaction::index');
     $routes->get('pengguna', 'User::index');
     $routes->get('buat_pengguna', 'User::createUser');
@@ -57,6 +58,8 @@ $routes->post('/admin/simpan_produk_ke_db', 'Product::saveProductToDB');
 $routes->post('/admin/show_produk_detail', 'Product::showProductDetail');
 $routes->post('/admin/show_paginasi_produk', 'Product::showPaginationProduct');
 $routes->post('/admin/search_produk', 'Product::showSearchProduct');
+$routes->post('/admin/perbaharui_produk_di_db', 'Product::updateProductInDB');
+$routes->post('/admin/hapus_harga_produk', 'Product::removeProductPrice');
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

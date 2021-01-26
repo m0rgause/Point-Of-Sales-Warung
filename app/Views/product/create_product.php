@@ -57,41 +57,39 @@
                 <div id="magnitude_price">
                     <label class="form-label">Harga Produk</label>
                 <?php
-                    $count_product_magnitude = count(old('product_magnitude', []));
-                    if($count_product_magnitude > 0) :
-                    for($i = 0; $i < $count_product_magnitude; $i++) :
-
+                    $count_product_magnitude_old = count(old('product_magnitudes', []));
+                    // if exists product magnitude
+                    if($count_product_magnitude_old > 0) :
+                    for($i = 0; $i < $count_product_magnitude_old; $i++) :
                ?>
                     <div class="mb-3">
                         <div class="input-group">
                             <input class="form-input" type="text" placeholder="Besaran..."
-                            name="product_magnitude[]" value="<?= old('product_magnitude')[$i]??null; ?>">
+                            name="product_magnitudes[]" value="<?= old('product_magnitudes')[$i]??null; ?>">
                             <input class="form-input" type="number" placeholder="Harga..."
-                            name="product_price[]" value="<?= old('product_price')[$i]??null; ?>">
+                            name="product_prices[]" value="<?= old('product_prices')[$i]??null; ?>">
                     <?php
-                        // if last looping
-                        if($i === $count_product_magnitude-1) :
+                        // if not first looping
+                        if ($i !== 0) :
                     ?>
-                            <a class="btn btn--gray-outline" id="add-form-input-magnitude-price" href="">Tambah</a>
-                    <?php else: ?>
-                            <a class="btn btn--gray-outline" id="remove-form-input-magnitude-price" href="">Hapus</a>
+                           <a class="btn btn--gray-outline" id="remove-form-input-magnitude-price" href="">Hapus</a>
                     <?php endif; ?>
                         </div>
-                        <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_magnitude'][$i]??null; ?></small>
-                        <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_price'][$i]??null; ?></small>
+                        <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_magnitudes'][$i]??null; ?></small>
+                        <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_prices'][$i]??null; ?></small>
                     </div><!-- mb-3 -->
 
                 <?php endfor; else : ?>
                     <div class="mb-3">
                         <div class="input-group">
-                            <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitude[]">
-                            <input class="form-input" type="number" placeholder="Harga..." name="product_price[]">
-                            <a class="btn btn--gray-outline" id="add-form-input-magnitude-price" href="">Tambah</a>
+                            <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitudes[]">
+                            <input class="form-input" type="number" placeholder="Harga..." name="product_prices[]">
                         </div>
                     </div>
                 <?php endif; ?>
                 </div><!-- magnitude-price -->
-                <button class="btn btn--blue" type="submit">Simpan</button>
+                <a class="btn btn--gray-outline me-2" id="add-form-input-magnitude-price" href="">
+                Tambah Form Harga Produk</a><button class="btn btn--blue" type="submit">Simpan</button>
             </form>
         </div><!-- main__box -->
     </div>
@@ -110,15 +108,13 @@ form_file.addEventListener('change', (e) => {
 
 // add form input magnitude and price
 const magnitude_price = document.querySelector('div#magnitude_price');
-magnitude_price.addEventListener('click', (e) => {
-    if(e.target.getAttribute('id') === 'add-form-input-magnitude-price'){
-        e.preventDefault();
-        add_form_input_magnitude_price(e.target, magnitude_price);
-    }
+document.querySelector('a#add-form-input-magnitude-price').addEventListener('click', e => {
+    e.preventDefault();
+    add_form_input_magnitude_price(magnitude_price);
 });
 
 // remove form input magnitude and price
-magnitude_price.addEventListener('click', (e) => {
+magnitude_price.addEventListener('click', e => {
     if(e.target.getAttribute('id') === 'remove-form-input-magnitude-price') {
         e.preventDefault();
 

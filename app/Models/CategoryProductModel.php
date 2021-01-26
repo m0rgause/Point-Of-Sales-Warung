@@ -17,13 +17,13 @@ class CategoryProductModel extends Model
     {
         try {
             $this->delete($category_product_id);
+            return true;
         } catch(\ErrorException $e) {
             return false;
         }
-        return true;
     }
 
-    public function getCategoryProductForFormSelect(): array
+    public function getCategoryProductsForFormSelect(): array
     {
         return $this->select('kategori_produk_id, nama_kategori_produk')->get()->getResultArray();
     }

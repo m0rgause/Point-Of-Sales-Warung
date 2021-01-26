@@ -27,16 +27,16 @@ class POSWModel
     |----------------------------
     */
 
-    private function generateColumnsString(array $data): string
+    private function generateColumns(array $data): string
     {
-        $column = '';
+        $columns = '';
         foreach($data as $key => $value) {
-            $column .= $key.',';
+            $columns .= $key.',';
         }
-        return rtrim($column, ',');
+        return rtrim($columns, ',');
     }
 
-    private function generateValuesString(array $data): string
+    private function generateValues(array $data): string
     {
         $values = '';
         foreach($data as $key => $value) {
@@ -47,8 +47,8 @@ class POSWModel
 
     public function insert(array $data_insert): bool
     {
-        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumnsString($data_insert).')
-                VALUES ('.$this->generateValuesString($data_insert).')';
+        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumns($data_insert).')
+                VALUES ('.$this->generateValues($data_insert).')';
         $this->db->query($sql, $data_insert);
         return true;
     }
@@ -62,18 +62,16 @@ class POSWModel
 
     public function insertReturning(array $data_insert, string $field_return): bool
     {
-        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumnsString($data_insert).')
-            VALUES ('.$this->generateValuesString($data_insert).') RETURNING '.$this->db->escapeString($field_return);
+        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumns($data_insert).')
+            VALUES ('.$this->generateValues($data_insert).') RETURNING '.$this->db->escapeString($field_return);
 
         try {
             $insert = $this->db->query($sql, $data_insert);
             $this->insert_return = $insert->getRowArray()['produk_id'];
-
+            return true;
         } catch(\ErrorException $e) {
             return false;
         }
-
-        return true;
     }
 
     public function getInsertReturning(): ? string
@@ -103,7 +101,7 @@ class POSWModel
         $count_data = count($data);
         for($i = 0; $i < $count_data; $i++) {
             foreach($data[$i] as $value) {
-                array_push($data_insert_batch, $value);
+                $data_insert_batch[] = $value;
             }
         }
         return $data_insert_batch;
@@ -111,14 +109,13 @@ class POSWModel
 
     public function insertBatch(array $data_insert)
     {
-        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumnsString($data_insert[0]).')
+        $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumns($data_insert[0]).')
             VALUES '.$this->generateQuestionMarks($data_insert);
         try {
             $insert = $this->db->query($sql, $this->generateDataInsertBatch($data_insert));
+            return true;
         } catch(\ErrorException $e) {
             return false;
         }
-
-        return true;
     }
 }

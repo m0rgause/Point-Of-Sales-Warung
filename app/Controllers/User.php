@@ -19,7 +19,7 @@ class User extends Controller
     {
         $data['title'] = 'Pengguna . POSW';
         $data['page'] = 'pengguna';
-        $data['users_db'] = $this->model->getUser();
+        $data['users_db'] = $this->model->getUsers();
 
         return view('user/user', $data);
     }
@@ -34,7 +34,7 @@ class User extends Controller
 
     public function saveUserToDB()
     {
-        if(!$this->validate([
+        if (!$this->validate([
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
@@ -96,7 +96,7 @@ class User extends Controller
         $password_sign_in_user = $this->request->getPost('password_sign_in_user', FILTER_SANITIZE_STRING);
         $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
         $check_password = check_password_sign_in_user($password_sign_in_user, $password_db);
-        if($check_password !== true) {
+        if ($check_password !== true) {
             // make password errors message
             ValidationMessage::setFlashMessage(
                 'form_errors',
@@ -107,23 +107,10 @@ class User extends Controller
             return redirect()->back();
         }
 
-        // generate array validate and array update data
-        $array_validate = [];
-        $array_data_update = [];
+        // generate array validate
+        $data_validate = [];
 
-        $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
-        if(!empty(trim($password))) {
-            $array_validate = array_merge($array_validate, [
-                'password' => [
-                    'label' => 'Password',
-                    'rules' => 'min_length[8]',
-                    'errors' => ValidationMessage::generateIndonesianErrorMessage('min_length')
-                ]
-            ]);
-            $array_data_update = array_merge($array_data_update, ['password' => password_hash($password, PASSWORD_DEFAULT)]);
-        }
-
-        $array_validate = array_merge($array_validate, [
+        $data_validate = array_merge($data_validate, [
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
@@ -140,13 +127,19 @@ class User extends Controller
                 'errors' => ValidationMessage::generateIndonesianErrorMessage('in_list')
             ]
         ]);
-        $array_data_update = array_merge($array_data_update, [
-            'nama_lengkap' => $this->request->getPost('full_name', FILTER_SANITIZE_STRING),
-            'username' => $this->request->getPost('username', FILTER_SANITIZE_STRING),
-            'tingkat' => $this->request->getPost('level', FILTER_SANITIZE_STRING)
-        ]);
 
-        if(!$this->validate($array_validate)) {
+        $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
+        if (!empty(trim($password))) {
+            $data_validate = array_merge($data_validate, [
+                'password' => [
+                    'label' => 'Password',
+                    'rules' => 'min_length[8]',
+                    'errors' => ValidationMessage::generateIndonesianErrorMessage('min_length')
+                ]
+            ]);
+        }
+
+        if (!$this->validate($data_validate)) {
             // set validation errors message to flash session
             ValidationMessage::setFlashMessage(
                 'form_errors',
@@ -157,8 +150,21 @@ class User extends Controller
             return redirect()->back();
         }
 
+        // generate array update data
+        $data_update = [];
+
+        $data_update = array_merge($data_update, [
+            'nama_lengkap' => $this->request->getPost('full_name', FILTER_SANITIZE_STRING),
+            'username' => $this->request->getPost('username', FILTER_SANITIZE_STRING),
+            'tingkat' => $this->request->getPost('level', FILTER_SANITIZE_STRING)
+        ]);
+
+        if (!empty(trim($password))) {
+            $data_update = array_merge($data_update, ['password' => password_hash($password, PASSWORD_DEFAULT)]);
+        }
+
         // update data
-        if($this->model->update($user_id, $array_data_update)) {
+        if ($this->model->update($user_id, $data_update)) {
             // make success message
             ValidationMessage::setFlashMessage(
                 'form_success',
@@ -176,13 +182,13 @@ class User extends Controller
         $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
         $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
         $check_password = check_password_sign_in_user($password, $password_db);
-        if($check_password !== true) {
+        if ($check_password !== true) {
             echo json_encode(['success'=>false, 'check_password_message'=>$check_password, 'csrf_value'=>csrf_hash()]);
             return false;
         }
 
         $user_id = $this->request->getPost('user_id', FILTER_SANITIZE_STRING);
-        if($this->model->removeUser($user_id) === true) {
+        if ($this->model->removeUser($user_id) === true) {
             echo json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
             return true;
         }

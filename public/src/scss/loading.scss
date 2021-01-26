@@ -27,6 +27,7 @@
     @include loading_color('red', $red);
 
     &-bg {
+        z-index: 2;
         background-color: rgba(252,252,252,.7);
     }
 }

@@ -13,7 +13,7 @@ class UserModel extends Model
         return $this->select('nama_lengkap, tingkat, password, pengguna_id')->getWhere(['username' => $username])->getRowArray();
     }
 
-    public function getUser(): array
+    public function getUsers(): array
     {
         return $this->select('pengguna_id, nama_lengkap, tingkat, sign_in_terakhir')->orderBy('nama_lengkap', 'ASC')->get()->getResultArray();
     }
@@ -27,10 +27,9 @@ class UserModel extends Model
     {
         try {
             $this->where('pengguna_id !=', $_SESSION['posw_user_id'])->delete($user_id);
-        } catch(\ErrorException $e) {
+            return true;
+        } catch (\ErrorException $e) {
             return false;
         }
-
-        return true;
     }
 }
