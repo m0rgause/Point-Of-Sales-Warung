@@ -25,7 +25,12 @@ class Product extends Controller
         $data['title'] = 'Produk . POSW';
         $data['page'] = 'produk';
         $data['products_db'] = $this->model->getProducts($this->product_limit, 0);
-        $data['page_total'] = ceil($this->model->countAllProduct()/$this->product_limit);
+
+        $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
+        if ($page_total == 0) {
+            $page_total = 1;
+        }
+        $data['page_total'] = $page_total;
 
         return view('product/product', $data);
     }
@@ -197,7 +202,7 @@ class Product extends Controller
         $this->model->db->transComplete();
 
         // if insert product and insert product price success
-        if ($insert_product === false && $insert_product_price === true) {
+        if ($insert_product === true && $insert_product_price === true) {
             // move product photo
             $product_photo_file->move('dist/images/product_photo', $product_photo_name);
 
@@ -246,7 +251,7 @@ class Product extends Controller
         $date_time = new \App\Libraries\DateTime();
         $count_products_db = count($products_db);
         for ($i = 0; $i < $count_products_db; $i++) {
-            $products_db[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+            $products_db[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
         }
 
         echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
@@ -262,7 +267,7 @@ class Product extends Controller
         $date_time = new \App\Libraries\DateTime();
         $count_products_db = count($products_db);
         for ($i = 0; $i < $count_products_db; $i++) {
-            $products_db[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+            $products_db[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
         }
 
         // get total page
@@ -488,7 +493,7 @@ class Product extends Controller
         return redirect()->back();
     }
 
-    public function removeProductPrice()
+    public function removeProductPriceInDB()
     {
         $product_price_id = $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING);
         if ($this->model_price->removeProductPrice($product_price_id) === true) {
@@ -497,6 +502,51 @@ class Product extends Controller
         }
 
         $error_message = 'Gagal menghapus harga produk, cek apakah masih ada transaksi yang terhubung!';
+        echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
+        return false;
+    }
+
+    public function removeProductInDB()
+    {
+        $product_ids = explode(',',$this->request->getPost('product_ids', FILTER_SANITIZE_STRING));
+        $photo_products = $this->model->findProducts($product_ids, 'foto_produk');
+        // remove product
+        if ($this->model->removeProduct($product_ids) === true) {
+            // remove photo product
+            foreach($photo_products as $p) {
+                unlink('dist/images/product_photo/'.$p['foto_produk']);
+            }
+
+            $count_product_ids = count($product_ids);
+            $smallest_create_time = $this->request->getPost('smallest_create_time');
+            $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
+
+            // if keyword !== null
+            if ($keyword !== null) {
+                // get longer product
+                $longer_products = $this->model->getLongerProductSearches($count_product_ids, $smallest_create_time, $keyword);
+                // get total page
+                $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
+
+            } else {
+                // get longer product
+                $longer_products = $this->model->getLongerProducts($count_product_ids, $smallest_create_time);
+                // get total page
+                $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
+            }
+
+            // convert timestamp
+            $date_time = new \App\Libraries\DateTime();
+            $count_longer_products = count($longer_products);
+            for ($i = 0; $i < $count_longer_products; $i++) {
+                $longer_products[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($longer_products[$i]['waktu_buat']);
+            }
+
+            echo json_encode(['success' => true, 'longer_products' => $longer_products, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
+            return true;
+        }
+
+        $error_message = 'Gagal menghapus product, cek apakah masih ada transaksi yang terhubung!';
         echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
         return false;
     }

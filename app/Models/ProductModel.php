@@ -35,4 +35,33 @@ class ProductModel extends Model
     {
         return $this->select($column)->getWhere(['produk_id'=>$product_id])->getRowArray();
     }
+
+    public function removeProduct(array $product_ids): bool
+    {
+        try {
+            $this->whereIn('produk_id', $product_ids)->delete();
+            return true;
+        } catch (\ErrorException $e) {
+            return false;
+        }
+    }
+
+    public function getLongerProducts(int $limit, string $smallest_create_time): array
+    {
+        return $this->select('produk_id,nama_produk,status_produk,waktu_buat')
+                    ->limit($limit)->orderBy('waktu_buat', 'DESC')->getWhere(['waktu_buat <' => $smallest_create_time])
+                    ->getResultArray();
+    }
+
+    public function getLongerProductSearches(int $limit, string $smallest_create_time, string $match)
+    {
+         return $this->select('produk_id,nama_produk,status_produk,waktu_buat')
+                     ->limit($limit)->orderBy('waktu_buat', 'DESC')->like('nama_produk',$match,'after')
+                     ->getWhere(['waktu_buat <' => $smallest_create_time])->getResultArray();
+    }
+
+    public function findProducts(array $product_ids, string $column): array
+    {
+        return $this->select($column)->whereIn('produk_id', $product_ids)->get()->getResultArray();
+    }
 }

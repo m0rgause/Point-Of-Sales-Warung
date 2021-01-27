@@ -24,7 +24,7 @@
     <div class="table-responsive">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="flex-fill">
-                <a href="#" class="btn btn--red-outline" title="Hapus produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg></a>
+                <a href="#" id="remove-product" class="btn btn--red-outline" title="Hapus produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg></a>
             </div>
             <div>
                 <span id="page-position" data-page-position="1" class="me-2 text-muted">
@@ -71,7 +71,8 @@
             <?php endif; ?>
                     <td width="10">
                         <div class="form-check">
-                            <input type="checkbox" id="checkbox" class="form-check-input" value="<?= $p['produk_id']; ?>">
+                            <input type="checkbox" name="product_id" data-create-time="<?= $p['waktu_buat'] ?>"
+                            class="form-check-input" value="<?= $p['produk_id']; ?>">
                         </div>
                     </td>
                     <td width="10"><a href="/admin/perbaharui_produk/<?= $p['produk_id']; ?>" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
@@ -86,8 +87,8 @@
                     <td><?= $date_time->convertTimstampToIndonesianDateTime($p['waktu_buat']); ?></td>
                 </tr>
             <?php $i++; endforeach; else : ?>
-                <tr colspan="4" class="table__row-odd">
-                    <td>Produk tidak ada</td>
+                <tr class="table__row-odd">
+                    <td colspan="6">Produk tidak ada</td>
                 </tr>
             <?php endif; ?>
             </tbody>
@@ -226,16 +227,17 @@ function pagination(command, page_position_el, page_total_el, next, prev)
         // if product exists
         if(json.products_db.length !== 0) {
             let tr = '';
-            let i = 1;
-            json.products_db.forEach(p => {
-                if(i%2 !== 0) {
+
+            json.products_db.forEach((p, i) => {
+                // if i is odd number
+                if ((i+1)%2 !== 0) {
                     tr += '<tr class="table__row-odd">';
                 } else {
                     tr += '<tr>';
                 }
                 tr += `<td width="10">
                         <div class="form-check">
-                            <input type="checkbox" id="checkbox" class="form-check-input" value="${p.produk_id}">
+                            <input type="checkbox" name="product_id" data-create-time="${p.waktu_buat}" class="form-check-input" value="${p.produk_id}">
                         </div>
                     </td>
                     <td width="10"><a href="/admin/perbaharui_produk/${p.produk_id}" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
@@ -247,10 +249,7 @@ function pagination(command, page_position_el, page_total_el, next, prev)
                 } else {
                      tr += `<td><span class="text-red">Tidak Ada</span></td>`;
                 }
-                tr += `<td>${p.waktu_buat}</td></tr>`;
-
-                // increment i
-                i++;
+                tr += `<td>${p.waktu_buat_indo}</td></tr>`;
             });
 
             table.querySelector('tbody').innerHTML = tr;
@@ -311,7 +310,7 @@ document.querySelector('a#search-product').addEventListener('click', e => {
     const csrf_value = table.dataset.csrfValue;
 
     // if empty keyword
-    if(keyword.length <= 0) {
+    if(keyword.trim() === '') {
         return false;
     }
 
@@ -343,19 +342,20 @@ document.querySelector('a#search-product').addEventListener('click', e => {
             table.dataset.csrfValue = json.csrf_value;
         }
 
-        let tr = '';
         // if product exists
         if(json.products_db.length !== 0) {
-            let i = 1;
-            json.products_db.forEach(p => {
-                if(i%2 !== 0) {
+            let tr = '';
+
+            json.products_db.forEach((p, i) => {
+                // if i is odd number
+                if ((i+1)%2 !== 0) {
                     tr += '<tr class="table__row-odd">';
                 } else {
                     tr += '<tr>';
                 }
                 tr += `<td width="10">
                         <div class="form-check">
-                            <input type="checkbox" id="checkbox" class="form-check-input" value="${p.produk_id}">
+                            <input type="checkbox" name="product_id" data-create-time="${p.waktu_buat}" class="form-check-input" value="${p.produk_id}">
                         </div>
                     </td>
                     <td width="10"><a href="/admin/perbaharui_produk/${p.produk_id}" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
@@ -367,10 +367,7 @@ document.querySelector('a#search-product').addEventListener('click', e => {
                 } else {
                      tr += `<td><span class="text-red">Tidak Ada</span></td>`;
                 }
-                tr += `<td>${p.waktu_buat}</td></tr>`;
-
-                // increment i
-                i++;
+                tr += `<td>${p.waktu_buat_indo}</td></tr>`;
             });
 
             table.querySelector('tbody').innerHTML = tr;
@@ -417,6 +414,155 @@ document.querySelector('a#search-product').addEventListener('click', e => {
     .catch(error => {
         console.error(error);
     });
+});
+
+// remove product and automatic remove product price
+document.querySelector('a#remove-product').addEventListener('click', e => {
+    e.preventDefault();
+
+    const checkboxs_checked = document.querySelectorAll('input[type="checkbox"][name="product_id"]:checked');
+    // if not found input checkbox checklist
+    if (checkboxs_checked.length === 0) {
+        return false;
+    }
+
+    // generate data
+    let data = '';
+
+    const csrf_name = table.dataset.csrfName;
+    const csrf_value = table.dataset.csrfValue;
+    data += `${csrf_name}=${csrf_value}`;
+
+    let product_ids = '';
+    checkboxs_checked.forEach((val, index) => {
+        // if last checkbox
+        if (index === checkboxs_checked.length-1) {
+            product_ids += val.value;
+        } else {
+            product_ids += val.value+',';
+        }
+    });
+    data += `&product_ids=${product_ids}`;
+
+    // get smallest create time in table
+    const all_checkboxs = document.querySelectorAll('input[type="checkbox"][name="product_id"]');
+    let smallest_create_time;
+    all_checkboxs.forEach((val, index) => {
+        if (index === all_checkboxs.length-1) {
+            smallest_create_time = val.dataset.createTime;
+        }
+    });
+    data += `&smallest_create_time=${smallest_create_time}`;
+
+    // if attribute aria-label="search" and attribute keyword exists in table tag
+    if(table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
+        data += `&keyword=${table.getAttribute('keyword')}`;
+    }
+
+    // loading
+    table.parentElement.nextElementSibling.classList.remove('d-none');
+    // disabled button search
+    document.querySelector('a#search-product').classList.add('btn--disabled');
+
+    fetch('/admin/hapus_produk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: data
+    })
+    .finally(() => {
+        // loading
+        table.parentElement.nextElementSibling.classList.add('d-none');
+        // enabled button search
+        document.querySelector('a#search-product').classList.remove('btn--disabled');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            table.dataset.csrfValue = json.csrf_value;
+        }
+
+        // if fail remove product
+        if (json.success === false && json.error_message !== undefined) {
+            const alert = create_alert_node('alert--warning', `<strong>Peringatan</strong>, ${json.error_message}`);
+
+            // append alert to before div.main__box element
+            document.querySelector('main.main > div').insertBefore(alert, document.querySelector('div.main__box'));
+
+            // reset input checkboxs checked
+            checkboxs_checked.forEach(val => {
+                val.checked = false;
+            });
+        }
+        // if remove product success
+        else if (json.success === true) {
+            checkboxs_checked.forEach(val => {
+                val.parentElement.parentElement.parentElement.remove();
+            });
+
+            // if longer product exists
+            if (json.longer_products.length > 0) {
+                json.longer_products.forEach((p, i) => {
+                    const tr = document.createElement('tr');
+
+                    // if i is odd number
+                    if ((i+1)%2 !== 0) {
+                        tr.classList.add('table__row-odd');
+                    }
+
+                    let td = `<td width="10">
+                            <div class="form-check">
+                                <input type="checkbox" name="product_id" data-create-time="${p.waktu_buat}" class="form-check-input" value="${p.produk_id}">
+                            </div>
+                        </td>
+                        <td width="10"><a href="/admin/perbaharui_produk/${p.produk_id}" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
+                        <td width="10"><a href="#" id="show-product-detail" data-product-id="${p.produk_id}" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
+
+                        <td>${p.nama_produk}</td>`;
+
+                    if (p.status_produk === 'ada') {
+                         td += `<td><span class="text-green">Ada</span></td>`;
+                    } else {
+                         td += `<td><span class="text-red">Tidak Ada</span></td>`;
+                    }
+                    td += `<td>${p.waktu_buat_indo}</td>`;
+
+                    // inner td to tr
+                    tr.innerHTML = td;
+                    // append tr to tbody
+                    table.querySelector('tbody').append(tr);
+                });
+            }
+
+            // if page total = 0
+            if(json.page_total === 0) {
+                table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
+
+                // change page total
+                page_total_el.innerText = `1 Hal`;
+                page_total_el.dataset.pageTotal = 1;
+
+            } else {
+                // change page total
+                page_total_el.innerText = `${json.page_total} Hal`;
+                page_total_el.dataset.pageTotal = json.page_total;
+            }
+
+            // if page total = page position
+            if(json.page_total === parseInt(page_position_el.dataset.pagePosition)) {
+                // disabled btn next
+                next.classList.add('btn--disabled');
+            }
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    })
 });
 </script>
 <?= $this->endSection(); ?>

@@ -29,7 +29,7 @@
                 $date_time = new \App\Libraries\DateTime();
 
                 // if exists category products
-                if(count($category_products_db) > 0) :
+                if (count($category_products_db) > 0) :
                 foreach($category_products_db as $c) :
             ?>
                 <tr>
@@ -67,10 +67,10 @@ const table = document.querySelector('table.table');
 table.querySelector('tbody').addEventListener('click', (e) => {
     let target = e.target;
 
-    if(target.getAttribute('id') !== 'remove-category-product') target = target.parentElement;
-    if(target.getAttribute('id') !== 'remove-category-product') target = target.parentElement;
+    if (target.getAttribute('id') !== 'remove-category-product') target = target.parentElement;
+    if (target.getAttribute('id') !== 'remove-category-product') target = target.parentElement;
 
-    if(target.getAttribute('id') === 'remove-category-product') {
+    if (target.getAttribute('id') === 'remove-category-product') {
         e.preventDefault();
 
         // data for remove category product
@@ -98,20 +98,19 @@ table.querySelector('tbody').addEventListener('click', (e) => {
         })
         .then(json => {
             // set new csrf hash to table tag
-            if(json.csrf_value !== undefined) {
+            if (json.csrf_value !== undefined) {
                 table.dataset.csrfValue = json.csrf_value;
             }
 
             // if fail remove category product
-            if(json.success === false && json.error_message !== undefined) {
+            if (json.success === false && json.error_message !== undefined) {
                 const alert = create_alert_node('alert--warning', `<strong>Warning</strong>, ${json.error_message}`);
 
                 // append alert to before div.main__box element
                 document.querySelector('main.main > div').insertBefore(alert, document.querySelector('div.main__box'));
             }
-
             // if success remove category product
-            if(json.success === true) {
+            else if (json.success === true) {
                 target.parentElement.parentElement.remove();
             }
         })
