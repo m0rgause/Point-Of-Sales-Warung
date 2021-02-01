@@ -11,7 +11,7 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 class Product extends Controller
 {
     protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user'];
-    private $product_limit = 2;
+    private $product_limit = 35;
 
     public function __construct()
     {

@@ -23,7 +23,7 @@
     </ul>
 
     <ul class="navbar__right">
-        <li class="dropdown"><a href="" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
+        <li class="dropdown"><a href="#" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
             <ul class="dropdown-menu dropdown-menu--end d-none">
                 <li><a href="/sign_out" class="text-hover-red">Sign Out</a></li>
             </ul>
@@ -51,95 +51,92 @@
 <main class="main">
 <div class="container-xl">
     <h5 class="mb-2">Produk Terlaris</h5>
-    <div class="product">
+    <div class="product mb-5">
+    <?php
+        $fmt = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
 
+        // if exists bestseller products
+        if (count($bestseller_products) > 0) :
+        foreach ($bestseller_products as $bp) :
+    ?>
         <div class="product__item">
             <div class="product__image">
-                <img src="<?= base_url('dist/images/apple [noupload].jpg'); ?>" alt="Apple">
+                <img src="<?= base_url('dist/images/product_photo/'.$bp['product_photo']); ?>" alt="<?= $bp['product_name']; ?>">
             </div>
             <div class="product__info">
-                <p class="product__name">iPhone 12 Pro</p>
-                <p class="product__category">Handphone</p>
-                <p class="product__sales">Terjual 11</p>
+                <p class="product__name"><?= $bp['product_name']; ?></p>
+                <p class="product__category"><?= $bp['category_name']; ?></p>
+                <p class="product__sales">Terjual <?= $bp['number_product']; ?></p>
 
                 <div class="product__price">
-                    <h5>Rp 50.000</h5><span>/</span>
+                    <h5><?= $fmt->formatCurrency($bp['product_price'][0]['product_price'], 'IDR'); ?></h5><span>/</span>
                     <select name="besaran">
-                        <option value="">1 Buah</option>
+                    <?php foreach($bp['product_price'] as $pp) : ?>
+                        <option data-product-price="<?= $fmt->formatCurrency($pp['product_price'], 'IDR'); ?>" value="<?= $pp['product_price_id']; ?>">
+                        <?= $pp['product_magnitude']; ?></option>
+                    <?php endforeach; ?>
                     </select>
                 </div>
             </div>
             <div class="product__action">
-                <input type="number" class="form-input" placeholder="Jumlah...">
+                <input type="number" class="form-input" placeholder="Jumlah..." min="1">
                 <a class="btn" href="" title="Tambah ke keranjang belanja">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
                 </a>
             </div>
         </div><!-- product__item -->
-
-        <div class="product__item">
-            <div class="product__image">
-                <img src="<?= base_url('dist/images/lensa2 [noupload].jpg'); ?>" alt="Lensa">
-            </div>
-            <div class="product__info">
-                <p class="product__name">Lensa Fix 50mm Canon</p>
-                <p class="product__category">Lensa</p>
-                <p class="product__sales">Terjual 100</p>
-
-                <div class="product__price">
-                    <h5>Rp 50.000</h5><span>/</span>
-                    <select name="besaran">
-                        <option value="">1 Buah</option>
-                    </select>
-                </div>
-            </div>
-            <div class="product__action">
-                <input type="number" class="form-input" placeholder="Jumlah...">
-                <a class="btn" href="" title="Tambah ke keranjang belanja">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-                </a>
-            </div>
-        </div><!-- product__item -->
-
+    <?php endforeach; else : ?>
+        <p>Produk Terlaris Tidak Ada</p>
+    <?php endif; ?>
     </div><!-- product -->
 
-    <h5 class="mb-2 mt-5">Produk Lainnya</h5>
+    <h5 class="mb-2">Produk Lainnya</h5>
     <div class="product mb-5">
-
+    <?php
+        // if exists other products
+        if (count($other_products) > 0) :
+        foreach ($other_products as $op) :
+    ?>
         <div class="product__item">
             <div class="product__image">
-                <img src="<?= base_url('dist/images/handphone [noupload].jpg'); ?>" alt="Samsung">
+            <img src="<?= base_url('dist/images/product_photo/'.$op['product_photo']); ?>" alt="<?= $op['product_name']?>">
             </div>
             <div class="product__info">
-                <p class="product__name">Galaxy S20 FE</p>
-                <p class="product__category">Handphone</p>
-                <p class="product__sales">Terjual 5</p>
+                <p class="product__name"><?= $op['product_name']; ?></p>
+                <p class="product__category"><?= $op['category_name']; ?></p>
+                <p class="product__sales">Terjual <?= $op['number_product']??0; ?></p>
 
                 <div class="product__price">
-                    <h5>Rp 3.249.000</h5><span>/</span>
+                    <h5><?= $fmt->formatCurrency($op['product_price'][0]['product_price'], 'IDR'); ?></h5><span>/</span>
                     <select name="besaran">
-                        <option value="">1 Buah</option>
+                    <?php foreach($op['product_price'] as $pp) : ?>
+                        <option data-product-price="<?= $fmt->formatCurrency($pp['product_price'], 'IDR'); ?>" value="<?= $pp['product_price_id']; ?>">
+                        <?= $pp['product_magnitude']; ?></option>
+                    <?php endforeach; ?>
                     </select>
                 </div>
             </div>
             <div class="product__action">
-                <input type="number" class="form-input" placeholder="Jumlah...">
+                <input type="number" class="form-input" placeholder="Jumlah..." min="1">
                 <a class="btn" href="" title="Tambah ke keranjang belanja">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
                 </a>
             </div>
         </div><!-- product__item -->
-
+    <?php endforeach; else : ?>
+        <p>Produk Tidak Ada</p>
+    <?php endif; ?>
     </div><!-- product -->
 
     <div class="d-flex justify-content-center">
         <div class="position-relative">
-            <a class="btn btn--blue-outline btn--disabled" id="show_more_product" href="">Lihat Lebih Banyak
+            <a class="btn btn--blue-outline" id="show_more_product" href="">Lihat Lebih Banyak
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/><path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
 </svg>
             </a>
 
-            <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center">
+            <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center d-none">
                 <div class="loading">
                     <div></div>
                 </div>
@@ -238,25 +235,9 @@
 
 <footer class="footer">
 <div class="container-xl">
-    <p class="mb-0">Copyright &copy; <a href="">Reza Sariful Fikri</a> 2020</p>
+    <p class="mb-0">Copyright &copy; <a href="https://rezafikkri.github.io/" target="_blank" rel="noreferrer noopener">Reza Sariful Fikri</a> 2020</p>
 </div>
 </footer>
-
-<a class="btn btn\-\-blue" href="" id="show-modal">Show Modal</a>
-
-<div class="modal">
-    <div class="modal__content">
-        <a class="btn btn--light" id="btn-close" href=""><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg></a>
-        <div class="modal__icon mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/></svg>
-        </div>
-        <div class="modal__body mb-5">
-            <h4 class="mb-2">Konfirmasi Hapus Mie Goreng</h4>
-            <p>Yakin mau menghapus Mie Goreng dari keranjang belanja?</p>
-        </div>
-        <a class="btn btn--red-outline" href="">Ya, Hapus</a>
-    </div>
-</div>
 
 <script src="<?= base_url('dist/js/posw.js'); ?>"></script>
 <script>
