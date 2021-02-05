@@ -18,7 +18,9 @@ class Cashier extends Controller
 
     private function remapDataProducts(array $products_db, bool $return_product_ids=false): ? array
     {
-        // if exists
+        $fmt = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
+        $fmt->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+
         $product_ids = [];
         $products = [];
         foreach ($products_db as $index => $val) {
@@ -28,16 +30,19 @@ class Cashier extends Controller
                 $products[array_search($val['produk_id'], $product_ids)]['product_price'][] = [
                     'product_price_id' => $val['harga_produk_id'],
                     'product_magnitude' => $val['besaran_produk'],
-                    'product_price' => $val['harga_produk']
+                    'product_price' => $fmt->formatCurrency($val['harga_produk'], 'IDR')
                 ];
             } else {
+                // note product id to product_ids variabel, for fast check is product exists in products array
+                $product_ids[] = $val['produk_id'];
+
                 // add new data product
                 $products[] = [
                     'product_price' => [
                         [
                             'product_price_id' => $val['harga_produk_id'],
                             'product_magnitude' => $val['besaran_produk'],
-                            'product_price' => $val['harga_produk']
+                            'product_price' => $fmt->formatCurrency($val['harga_produk'], 'IDR')
                         ],
                     ],
                     'product_id' => $val['produk_id'],
@@ -46,9 +51,6 @@ class Cashier extends Controller
                     'category_name' => $val['nama_kategori_produk'],
                     'number_product' => $val['jumlah_produk']
                 ];
-
-                // note product id to product_ids variabel, for fast check is product exists in products array
-                $product_ids[] = $val['produk_id'];
             }
         }
 
@@ -62,15 +64,9 @@ class Cashier extends Controller
     {
         $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts($this->bestseller_product_limit), true);
         $bestseller_products = $bestseller_products_remapped['products'];
+        $product_ids = $bestseller_products_remapped['product_ids'];
 
-        // if exists product ids
-        if (count($bestseller_products_remapped['product_ids']) > 0) {
-            $product_ids = "'".implode("','", $bestseller_products_remapped['product_ids'])."'";
-        } else {
-            $product_ids = null;
-        }
-
-        $other_products_remapped = $this->remapDataProducts($this->product_model->getOtherProducts($product_ids, $this->other_product_limit));
+        $other_products_remapped = $this->remapDataProducts($this->product_model->getProductsForCashier($product_ids, $this->other_product_limit));
 
         $data['bestseller_products'] = $bestseller_products;
         $data['other_products'] = $other_products_remapped;

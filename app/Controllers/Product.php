@@ -11,7 +11,7 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 class Product extends Controller
 {
     protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user'];
-    private $product_limit = 35;
+    private const PRODUCT_LIMIT = 50;
 
     public function __construct()
     {
@@ -24,13 +24,10 @@ class Product extends Controller
     {
         $data['title'] = 'Produk . POSW';
         $data['page'] = 'produk';
-        $data['products_db'] = $this->model->getProducts($this->product_limit, 0);
 
-        $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
-        if ($page_total == 0) {
-            $page_total = 1;
-        }
-        $data['page_total'] = $page_total;
+        $data['product_total'] = $this->model->countAllProduct();
+        $data['products_db'] = $this->model->getProducts(static::PRODUCT_LIMIT);
+        $data['product_limit'] = static::PRODUCT_LIMIT;
 
         return view('product/product', $data);
     }
@@ -229,39 +226,10 @@ class Product extends Controller
         return true;
     }
 
-    public function showPaginationProduct()
-    {
-        $page_position = $this->request->getPost('page', FILTER_SANITIZE_STRING);
-        $product_offset = ($page_position * $this->product_limit) - $this->product_limit;
-        $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
-
-        // if keyword !== null
-        if ($keyword !== null) {
-            $products_db = $this->model->getProductSearches($this->product_limit, $product_offset, $keyword);
-            // get total page
-            $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
-
-        } else {
-            $products_db = $this->model->getProducts($this->product_limit, $product_offset);
-            // get total page
-            $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
-        }
-
-        // convert timestamp
-        $date_time = new \App\Libraries\DateTime();
-        $count_products_db = count($products_db);
-        for ($i = 0; $i < $count_products_db; $i++) {
-            $products_db[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
-        }
-
-        echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
-        return true;
-    }
-
     public function showSearchProduct()
     {
         $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
-        $products_db = $this->model->getProductSearches($this->product_limit, 0, $keyword);
+        $products_db = $this->model->getProductSearches(static::PRODUCT_LIMIT, $keyword);
 
         // convert timestamp
         $date_time = new \App\Libraries\DateTime();
@@ -270,10 +238,15 @@ class Product extends Controller
             $products_db[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
         }
 
-        // get total page
-        $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
+        // get product search total
+        $product_search_total = $this->model->countAllProductSearch($keyword);
 
-        echo json_encode(['products_db' => $products_db, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
+        echo json_encode([
+            'products_db' => $products_db,
+            'product_search_total' => $product_search_total,
+            'product_limit' => static::PRODUCT_LIMIT,
+            'csrf_value' => csrf_hash()
+        ]);
         return true;
     }
 
@@ -523,16 +496,16 @@ class Product extends Controller
 
             // if keyword !== null
             if ($keyword !== null) {
+                // product total
+                $product_total = $this->model->countAllProductSearch($keyword);
                 // get longer product
                 $longer_products = $this->model->getLongerProductSearches($count_product_ids, $smallest_create_time, $keyword);
-                // get total page
-                $page_total = ceil($this->model->countAllProductSearch($keyword)/$this->product_limit);
 
             } else {
+                // product total
+                $product_total = $this->model->countAllProduct();
                 // get longer product
                 $longer_products = $this->model->getLongerProducts($count_product_ids, $smallest_create_time);
-                // get total page
-                $page_total = ceil($this->model->countAllProduct()/$this->product_limit);
             }
 
             // convert timestamp
@@ -542,7 +515,13 @@ class Product extends Controller
                 $longer_products[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($longer_products[$i]['waktu_buat']);
             }
 
-            echo json_encode(['success' => true, 'longer_products' => $longer_products, 'page_total'=>$page_total, 'csrf_value'=>csrf_hash()]);
+            echo json_encode([
+                'success' => true,
+                'longer_products' => $longer_products,
+                'product_total' => $product_total,
+                'product_limit' => static::PRODUCT_LIMIT,
+                'csrf_value' => csrf_hash()
+            ]);
             return true;
         }
 

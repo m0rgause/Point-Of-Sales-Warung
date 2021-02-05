@@ -27,21 +27,14 @@
                 <a href="#" id="remove-product" class="btn btn--red-outline" title="Hapus produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg></a>
             </div>
             <div>
-                <span id="page-position" data-page-position="1" class="me-2 text-muted">
-                1 -</span><span id="page-total" class="me-3 text-muted" data-page-total="<?= $page_total; ?>"><?= $page_total; ?> Hal</span>
-
-                <a id="prev" class="btn btn--light btn--disabled me-1" href=""><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg></a>
             <?php
-                // if page total = 1
-                if($page_total == 1) :
+                // if exists product
+                if (count($products_db) > 0) :
             ?>
-                <a href="" class="btn btn--light btn--disabled" id="next">
+                <span class="text-muted me-1" id="result-status">1 - <?= count($products_db); ?> dari <?= $product_total; ?> Total produk</span>
             <?php else : ?>
-                <a href="" class="btn btn--light" id="next">
+                <span class="text-muted me-1" id="result-status">0 Total produk</span>
             <?php endif; ?>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-                </a>
             </div>
         </div><!-- d-flex -->
         <table class="table table--manual-striped min-width-711" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>">
@@ -58,12 +51,12 @@
                 $date_time = new \App\Libraries\DateTime();
 
                 // if exists product
-                if(count($products_db) > 0) :
+                if (count($products_db) > 0) :
                 $i = 1;
                 foreach($products_db as $p) :
 
                 // if $i is prime number
-                if(($i%2) !== 0) :
+                if (($i%2) !== 0) :
             ?>
                 <tr class="table__row-odd">
             <?php else : ?>
@@ -79,7 +72,7 @@
                     <td width="10"><a href="#" id="show-product-detail" data-product-id="<?= $p['produk_id']; ?>" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
 
                     <td><?= $p['nama_produk']; ?></td>
-                    <?php if($p['status_produk'] === 'ada') : ?>
+                    <?php if ($p['status_produk'] === 'ada') : ?>
                     <td><span class="text-green">Ada</span></td>
                     <?php else : ?>
                     <td><span class="text-red">Tidak Ada</span></td>
@@ -93,6 +86,14 @@
             <?php endif; ?>
             </tbody>
         </table>
+
+    <?php
+        // if product show total = product limit
+        if (count($products_db) === $product_limit) :
+    ?>
+        <span id="limit-message" class="text-muted d-block mt-3">Hanya <?= $product_limit; ?> Produk terbaru yang ditampilkan, Pakai fitur
+        <i>Pencarian</i> untuk hasil lebih spesifik!</span>
+    <?php endif; ?>
     </div><!-- table-reponsive -->
 
     <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none">
@@ -108,22 +109,25 @@
 
 <?= $this->section('script'); ?>
 <script>
-// show hide transaction detail
 const table = document.querySelector('table.table');
+const search_product = document.querySelector('a#search-product');
+const result_status = document.querySelector('span#result-status');
+
+// show hide product detail
 table.querySelector('tbody').addEventListener('click', e => {
     let target = e.target;
-    if(target.getAttribute('id') !== 'show-product-detail') target = target.parentElement;
-    if(target.getAttribute('id') !== 'show-product-detail') target = target.parentElement;
-    if(target.getAttribute('id') === 'show-product-detail') {
+    if (target.getAttribute('id') !== 'show-product-detail') target = target.parentElement;
+    if (target.getAttribute('id') !== 'show-product-detail') target = target.parentElement;
+    if (target.getAttribute('id') === 'show-product-detail') {
         e.preventDefault();
 
         // if next element sibling exists and next element sibling is tr.table__row-details
         const table_row_details = target.parentElement.parentElement.nextElementSibling;
-        if(table_row_details !== null && table_row_details.classList.contains('table__row-details')) {
+        if (table_row_details !== null && table_row_details.classList.contains('table__row-details')) {
             table_row_details.classList.toggle('table__row-details--show');
 
         // if next element sibling not exits or next element sibling is not tr.table__row-details
-        } else if(table_row_details === null || !table_row_details.classList.contains('table__row-details')) {
+        } else if (table_row_details === null || !table_row_details.classList.contains('table__row-details')) {
             const product_id = target.dataset.productId;
             const csrf_name = table.dataset.csrfName;
             const csrf_value = table.dataset.csrfValue;
@@ -131,9 +135,9 @@ table.querySelector('tbody').addEventListener('click', e => {
             // loading
             table.parentElement.nextElementSibling.classList.remove('d-none');
             // disabled button search
-            document.querySelector('a#search-product').classList.add('btn--disabled');
+            search_product.classList.add('btn--disabled');
 
-            fetch('/admin/show_produk_detail', {
+            fetch('/admin/tampil_produk_detail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -145,19 +149,19 @@ table.querySelector('tbody').addEventListener('click', e => {
                 // loading
                 table.parentElement.nextElementSibling.classList.add('d-none');
                 // enabled button search
-                document.querySelector('a#search-product').classList.remove('btn--disabled');
+                search_product.classList.remove('btn--disabled');
             })
             .then(response => {
                 return response.json();
             })
             .then(json => {
                 // set new csrf hash to table tag
-                if(json.csrf_value !== undefined) {
+                if (json.csrf_value !== undefined) {
                     table.dataset.csrfValue = json.csrf_value;
                 }
 
                 // if product price exists
-                if(json.product_prices.length > 0) {
+                if (json.product_prices.length > 0) {
                     let li = '';
                     json.product_prices.forEach(val => {
                         li += `<li><span class="table__title">Harga Produk</span>
@@ -179,130 +183,8 @@ table.querySelector('tbody').addEventListener('click', e => {
     }
 });
 
-function pagination(command, page_position_el, page_total_el, next, prev)
-{
-    let page;
-    if(command === 'next') {
-        page = parseInt(page_position_el.dataset.pagePosition)+1;
-    } else {
-        page = parseInt(page_position_el.dataset.pagePosition)-1;
-    }
-    const csrf_name = table.dataset.csrfName;
-    const csrf_value = table.dataset.csrfValue;
-    let data = `${csrf_name}=${csrf_value}&page=${page}`;
-
-    // if attribute aria-label="search" and attribute keyword exists in table tag
-    if(table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
-        data += `&keyword=${table.getAttribute('keyword')}`;
-    }
-
-    // loading
-    table.parentElement.nextElementSibling.classList.remove('d-none');
-    // disabled button search
-    document.querySelector('a#search-product').classList.add('btn--disabled');
-
-    fetch('/admin/show_paginasi_produk', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: data
-    })
-    .finally(() => {
-        // loading
-        table.parentElement.nextElementSibling.classList.add('d-none');
-        // enabled button search
-        document.querySelector('a#search-product').classList.remove('btn--disabled');
-    })
-    .then(response => {
-        return response.json();
-    })
-    .then(json => {
-        // set new csrf hash to table tag
-        if(json.csrf_value !== undefined) {
-            table.dataset.csrfValue = json.csrf_value;
-        }
-
-        // if product exists
-        if(json.products_db.length !== 0) {
-            let tr = '';
-
-            json.products_db.forEach((p, i) => {
-                // if i is odd number
-                if ((i+1)%2 !== 0) {
-                    tr += '<tr class="table__row-odd">';
-                } else {
-                    tr += '<tr>';
-                }
-                tr += `<td width="10">
-                        <div class="form-check">
-                            <input type="checkbox" name="product_id" data-create-time="${p.waktu_buat}" class="form-check-input" value="${p.produk_id}">
-                        </div>
-                    </td>
-                    <td width="10"><a href="/admin/perbaharui_produk/${p.produk_id}" title="Ubah Produk"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></td>
-                    <td width="10"><a href="#" id="show-product-detail" data-product-id="${p.produk_id}" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
-
-                     <td>${p.nama_produk}</td>`;
-                if(p.status_produk === 'ada') {
-                     tr += `<td><span class="text-green">Ada</span></td>`;
-                } else {
-                     tr += `<td><span class="text-red">Tidak Ada</span></td>`;
-                }
-                tr += `<td>${p.waktu_buat_indo}</td></tr>`;
-            });
-
-            table.querySelector('tbody').innerHTML = tr;
-
-            // change page total and page position
-            page_total_el.innerText = `${json.page_total} Hal`;
-            page_total_el.dataset.pageTotal = json.page_total;
-            page_position_el.innerText = `${page} -`;
-            page_position_el.dataset.pagePosition = page;
-
-            // if command = next and page >= page_total
-            if(command === 'next' && page >= json.page_total) {
-                next.classList.add('btn--disabled');
-            }
-            // if command = next and if btn prev disabled
-            if(command === 'next' && prev.classList.contains('btn--disabled')) {
-                prev.classList.remove('btn--disabled');
-            }
-
-            // if command = prev and page <= 1
-            if(command === 'prev' && page <= 1) {
-                prev.classList.add('btn--disabled');
-            }
-            // if command = prev and if btn next disabled
-            if(command === 'prev' && next.classList.contains('btn--disabled')) {
-                next.classList.remove('btn--disabled');
-            }
-        }
-    })
-    .catch(error => {
-        console.error(error);
-    });
-}
-
-// pagination
-const next = document.querySelector('a#next');
-const prev = document.querySelector('a#prev');
-const page_position_el = document.querySelector('span#page-position');
-const page_total_el = document.querySelector('span#page-total');
-next.addEventListener('click', e => {
-    e.preventDefault();
-
-    pagination('next', page_position_el, page_total_el, next, prev);
-});
-
-prev.addEventListener('click', e => {
-    e.preventDefault();
-
-    pagination('prev', page_position_el, page_total_el, next, prev);
-});
-
 // search product
-document.querySelector('a#search-product').addEventListener('click', e => {
+search_product.addEventListener('click', e => {
     e.preventDefault();
 
     const keyword = document.querySelector('input[name="product_name_search"]').value;
@@ -310,16 +192,16 @@ document.querySelector('a#search-product').addEventListener('click', e => {
     const csrf_value = table.dataset.csrfValue;
 
     // if empty keyword
-    if(keyword.trim() === '') {
+    if (keyword.trim() === '') {
         return false;
     }
 
     // loading
     table.parentElement.nextElementSibling.classList.remove('d-none');
     // disabled button search
-    document.querySelector('a#search-product').classList.add('btn--disabled');
+    search_product.classList.add('btn--disabled');
 
-    fetch('/admin/search_produk', {
+    fetch('/admin/cari_produk', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -331,19 +213,19 @@ document.querySelector('a#search-product').addEventListener('click', e => {
         // loading
         table.parentElement.nextElementSibling.classList.add('d-none');
         // enabled button search
-        document.querySelector('a#search-product').classList.remove('btn--disabled');
+        search_product.classList.remove('btn--disabled');
     })
     .then(response => {
         return response.json();
     })
     .then(json => {
         // set new csrf hash to table tag
-        if(json.csrf_value !== undefined) {
+        if (json.csrf_value !== undefined) {
             table.dataset.csrfValue = json.csrf_value;
         }
 
         // if product exists
-        if(json.products_db.length !== 0) {
+        if (json.products_db.length !== 0) {
             let tr = '';
 
             json.products_db.forEach((p, i) => {
@@ -362,7 +244,7 @@ document.querySelector('a#search-product').addEventListener('click', e => {
                     <td width="10"><a href="#" id="show-product-detail" data-product-id="${p.produk_id}" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
 
                      <td>${p.nama_produk}</td>`;
-                if(p.status_produk === 'ada') {
+                if (p.status_produk === 'ada') {
                      tr += `<td><span class="text-green">Ada</span></td>`;
                 } else {
                      tr += `<td><span class="text-red">Tidak Ada</span></td>`;
@@ -372,43 +254,36 @@ document.querySelector('a#search-product').addEventListener('click', e => {
 
             table.querySelector('tbody').innerHTML = tr;
 
-            // change page total and page position
-            page_total_el.innerText = `${json.page_total} Hal`;
-            page_total_el.dataset.pageTotal = json.page_total;
-            page_position_el.innerText = '1 -';
-            page_position_el.dataset.pagePosition = '1';
+            // show result status
+            result_status.innerText = `1 - ${json.products_db.length} dari ${json.product_search_total} Total produk hasil pencarian`;
 
             // add attribute aria label search and keyword
             table.setAttribute('aria-label','search');
             table.setAttribute('keyword', keyword);
-
-            // disabled prev btn
-            prev.classList.add('btn--disabled');
-
-            // if page_total <= 1
-            if(json.page_total <= 1) {
-                next.classList.add('btn--disabled');
-
-            }
-            // else if btn next is disabled
-            else if(next.classList.contains('btn--disabled')) {
-                next.classList.remove('btn--disabled');
-            }
         }
         // if product not exists
         else {
+            // inner html message
             table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
 
-            // change page total and page position
-            page_total_el.innerText = '1 Hal';
-            page_total_el.dataset.pageTotal = '1';
-            page_position_el.innerText = '1 -';
-            page_position_el.dataset.pagePosition = '1';
+            // show result status
+            result_status.innerText = '0 Total produk hasil pencarian';
+        }
 
-            // disabled prev btn
-            prev.classList.add('btn--disabled');
-            // disabled next btn
-            next.classList.add('btn--disabled');
+        const limit_message = document.querySelector('span#limit-message');
+        // add limit message if product search total = product limit && limit message not exists
+        if (json.products_db.length === json.product_limit && limit_message === null) {
+            const span = document.createElement('span');
+            span.classList.add('text-muted');
+            span.classList.add('d-block');
+            span.classList.add('mt-3');
+            span.setAttribute('id', 'limit-message');
+            span.innerHTML = `Hanya ${json.product_limit} Produk terbaru yang ditampilkan, Pakai fitur <i>Pencarian</i> untuk hasil lebih spesifik!`;
+            table.after(span);
+        }
+        // else if product search total != product limit and limit message exists
+        else if (json.products_db.length !== json.product_limit && limit_message !== null) {
+            limit_message.remove();
         }
     })
     .catch(error => {
@@ -455,14 +330,14 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
     data += `&smallest_create_time=${smallest_create_time}`;
 
     // if attribute aria-label="search" and attribute keyword exists in table tag
-    if(table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
+    if (table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
         data += `&keyword=${table.getAttribute('keyword')}`;
     }
 
     // loading
     table.parentElement.nextElementSibling.classList.remove('d-none');
     // disabled button search
-    document.querySelector('a#search-product').classList.add('btn--disabled');
+    search_product.classList.add('btn--disabled');
 
     fetch('/admin/hapus_produk', {
         method: 'POST',
@@ -476,7 +351,7 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
         // loading
         table.parentElement.nextElementSibling.classList.add('d-none');
         // enabled button search
-        document.querySelector('a#search-product').classList.remove('btn--disabled');
+        search_product.classList.remove('btn--disabled');
     })
     .then(response => {
         return response.json();
@@ -539,24 +414,36 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
                 });
             }
 
-            // if page total = 0
-            if(json.page_total === 0) {
+            const products_in_table = table.querySelectorAll('tbody tr').length;
+            // if product total = 0
+            if (json.product_total === 0) {
+                // inner html message
                 table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
 
-                // change page total
-                page_total_el.innerText = `1 Hal`;
-                page_total_el.dataset.pageTotal = 1;
+                // if attribute aria-label="search" and attribute keyword exists in table tag
+                if (table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
+                    // show result status
+                    result_status.innerText = '0 Total produk hasil pencarian';
+                } else {
+                    // show result status
+                    result_status.innerText = '0 Total produk';
+                }
 
             } else {
-                // change page total
-                page_total_el.innerText = `${json.page_total} Hal`;
-                page_total_el.dataset.pageTotal = json.page_total;
+                // if attribute aria-label="search" and attribute keyword exists in table tag
+                if (table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
+                    // show result status
+                    result_status.innerText = `1 - ${products_in_table} dari ${json.product_total} Total produk hasil pencarian`;
+                } else {
+                    // show result status
+                    result_status.innerText = `1 - ${products_in_table} dari ${json.product_total} Total produk`;
+                }
             }
 
-            // if page total = page position
-            if(json.page_total === parseInt(page_position_el.dataset.pagePosition)) {
-                // disabled btn next
-                next.classList.add('btn--disabled');
+            // if total product in table < product limit and limit message exists
+            const limit_message = document.querySelector('span#limit-message');
+            if (products_in_table < json.product_limit && limit_message !== null) {
+                limit_message.remove();
             }
         }
     })

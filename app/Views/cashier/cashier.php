@@ -37,30 +37,27 @@
     <div class="d-flex flex-fill justify-content-end">
        <div class="input-group me-2">
            <input class="form-input" type="text" placeholder="Nama Produk...">
-           <a class="btn btn--blue" href="">
+           <a class="btn btn--blue" href="#" id="search-product">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
            </a>
        </div><!-- input-group -->
-       <a href="" class="btn btn--blue" title="Lihat keranjang belanja" id="show-cart">
+       <a href="#" class="btn btn--blue" title="Lihat keranjang belanja" id="show-cart">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
     </div><!-- d-flex -->
 </div><!-- container-xl -->
 </header>
 
-<main class="main">
+<main class="main" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>">
 <div class="container-xl">
     <h5 class="mb-2">Produk Terlaris</h5>
     <div class="product mb-5">
     <?php
-        $fmt = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
-        $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
-
         // if exists bestseller products
         if (count($bestseller_products) > 0) :
         foreach ($bestseller_products as $bp) :
     ?>
-        <div class="product__item">
+        <div class="product__item" id="bestseller-product" data-product-id="<?= $bp['product_id']; ?>">
             <div class="product__image">
                 <img src="<?= base_url('dist/images/product_photo/'.$bp['product_photo']); ?>" alt="<?= $bp['product_name']; ?>">
             </div>
@@ -70,10 +67,10 @@
                 <p class="product__sales">Terjual <?= $bp['number_product']; ?></p>
 
                 <div class="product__price">
-                    <h5><?= $fmt->formatCurrency($bp['product_price'][0]['product_price'], 'IDR'); ?></h5><span>/</span>
+                    <h5><?= $bp['product_price'][0]['product_price']; ?></h5><span>/</span>
                     <select name="besaran">
                     <?php foreach($bp['product_price'] as $pp) : ?>
-                        <option data-product-price="<?= $fmt->formatCurrency($pp['product_price'], 'IDR'); ?>" value="<?= $pp['product_price_id']; ?>">
+                        <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
                     <?php endforeach; ?>
                     </select>
@@ -108,10 +105,10 @@
                 <p class="product__sales">Terjual <?= $op['number_product']??0; ?></p>
 
                 <div class="product__price">
-                    <h5><?= $fmt->formatCurrency($op['product_price'][0]['product_price'], 'IDR'); ?></h5><span>/</span>
+                    <h5><?= $op['product_price'][0]['product_price']; ?></h5><span>/</span>
                     <select name="besaran">
                     <?php foreach($op['product_price'] as $pp) : ?>
-                        <option data-product-price="<?= $fmt->formatCurrency($pp['product_price'], 'IDR'); ?>" value="<?= $pp['product_price_id']; ?>">
+                        <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
                     <?php endforeach; ?>
                     </select>
@@ -128,22 +125,6 @@
         <p>Produk Tidak Ada</p>
     <?php endif; ?>
     </div><!-- product -->
-
-    <div class="d-flex justify-content-center">
-        <div class="position-relative">
-            <a class="btn btn--blue-outline" id="show_more_product" href="">Lihat Lebih Banyak
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/><path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-</svg>
-            </a>
-
-            <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center d-none">
-                <div class="loading">
-                    <div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div><!-- container-xl -->
 
 <aside class="cart">
@@ -272,18 +253,9 @@ cart.querySelector('a#btn-close').addEventListener('click', (e) => {
 
 });
 
-// show hide modal
-const modal = document.querySelector('.modal');
-const modal_content = modal.querySelector('.modal__content');
-
-document.querySelector('a#show-modal').addEventListener('click', (e) => {
-    e.preventDefault();
-    show_modal(modal, modal_content);
-});
-modal_content.querySelector('a#btn-close').addEventListener('click', (e) => {
-    e.preventDefault();
-    hide_modal(modal, modal_content);
-});
+const main = document.querySelector('main.main');
+const show_cart = document.querySelector('a#show-cart');
+const search_product = document.querySelector('a#search-product');
 
 </script>
 </body>
