@@ -226,7 +226,7 @@ class Product extends Controller
         return true;
     }
 
-    public function showSearchProduct()
+    public function showProductSearches()
     {
         $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
         $products_db = $this->model->getProductSearches(static::PRODUCT_LIMIT, $keyword);

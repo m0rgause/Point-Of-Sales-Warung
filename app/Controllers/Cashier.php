@@ -7,8 +7,8 @@ use App\Models\ProductPriceModel;
 class Cashier extends Controller
 {
     protected $helpers = ['form'];
-    private $bestseller_product_limit = 2;
-    private $other_product_limit = 2;
+    private const BESTSELLER_PRODUCT_LIMIT = 4;
+    private const PRODUCT_LIMIT = 4;
 
     public function __construct()
     {
@@ -62,15 +62,35 @@ class Cashier extends Controller
 
     public function index()
     {
-        $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts($this->bestseller_product_limit), true);
+        $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
         $bestseller_products = $bestseller_products_remapped['products'];
         $product_ids = $bestseller_products_remapped['product_ids'];
 
-        $other_products_remapped = $this->remapDataProducts($this->product_model->getProductsForCashier($product_ids, $this->other_product_limit));
+        $products_remapped = $this->remapDataProducts($this->product_model->getProductsForCashier($product_ids, static::PRODUCT_LIMIT));
 
         $data['bestseller_products'] = $bestseller_products;
-        $data['other_products'] = $other_products_remapped;
+        $data['products_db'] = $products_remapped;
+        $data['product_total'] = $this->product_model->countAllProductForCashier();
+        $data['product_limit'] = static::PRODUCT_LIMIT;
+        $data['bestseller_product_limit'] = static::BESTSELLER_PRODUCT_LIMIT;
 
         return view('cashier/cashier', $data);
+    }
+
+    public function showProductSearches()
+    {
+        $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
+        $product_remapped = $this->remapDataProducts($this->product_model->getProductSearchesForCashier(static::PRODUCT_LIMIT, $keyword));
+
+        // get product search total
+        $product_search_total = $this->product_model->countAllProductSearchForCashier($keyword);
+
+        echo json_encode([
+            'products_db' => $product_remapped,
+            'product_search_total' => $product_search_total,
+            'product_limit' => static::PRODUCT_LIMIT,
+            'csrf_value' => csrf_hash()
+        ]);
+        return true;
     }
 }

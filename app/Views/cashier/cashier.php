@@ -36,7 +36,7 @@
     <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Transaksi</h4>
     <div class="d-flex flex-fill justify-content-end">
        <div class="input-group me-2">
-           <input class="form-input" type="text" placeholder="Nama Produk...">
+           <input class="form-input" type="text" name="product_name_search" placeholder="Nama Produk..." autocomplete="false">
            <a class="btn btn--blue" href="#" id="search-product">
                <svg xmlns="http://www.w3.org/2000/svg" width="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/></svg>
            </a>
@@ -50,7 +50,17 @@
 
 <main class="main" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>">
 <div class="container-xl">
-    <h5 class="mb-2">Produk Terlaris</h5>
+    <?php
+        // if exists product
+        if (count($products_db) > 0) :
+    ?>
+        <span class="text-muted me-1 d-block mb-3" id="result-status">
+        1 - <?= count($bestseller_products)+count($products_db); ?> dari <?= $product_total; ?> Total produk</span>
+    <?php else : ?>
+        <span class="text-muted me-1 d-block mb-3" id="result-status">0 Total produk</span>
+    <?php endif; ?>
+
+    <h5 class="mb-2 main__title">Produk Terlaris</h5>
     <div class="product mb-5">
     <?php
         // if exists bestseller products
@@ -68,7 +78,7 @@
 
                 <div class="product__price">
                     <h5><?= $bp['product_price'][0]['product_price']; ?></h5><span>/</span>
-                    <select name="besaran">
+                    <select name="besaran" onchange="change_product_price_info(event)">
                     <?php foreach($bp['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -88,12 +98,12 @@
     <?php endif; ?>
     </div><!-- product -->
 
-    <h5 class="mb-2">Produk Lainnya</h5>
-    <div class="product mb-5">
+    <h5 class="mb-2 main__title">Produk Lainnya</h5>
+    <div class="product mb-4">
     <?php
         // if exists other products
-        if (count($other_products) > 0) :
-        foreach ($other_products as $op) :
+        if (count($products_db) > 0) :
+        foreach ($products_db as $op) :
     ?>
         <div class="product__item">
             <div class="product__image">
@@ -106,7 +116,7 @@
 
                 <div class="product__price">
                     <h5><?= $op['product_price'][0]['product_price']; ?></h5><span>/</span>
-                    <select name="besaran">
+                    <select name="besaran" onchange="change_product_price_info(event)">
                     <?php foreach($op['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -125,6 +135,15 @@
         <p>Produk Tidak Ada</p>
     <?php endif; ?>
     </div><!-- product -->
+
+    <?php
+        // if product show total = product limit
+        if (count($bestseller_products)+count($products_db) === $bestseller_product_limit+$product_limit) :
+    ?>
+        <span id="limit-message" class="text-muted d-block mb-5">
+        Hanya <?= $bestseller_product_limit+$product_limit; ?> Produk yang ditampilkan, Pakai fitur
+        <i>Pencarian</i> untuk hasil lebih spesifik!</span>
+    <?php endif; ?>
 </div><!-- container-xl -->
 
 <aside class="cart">
@@ -202,8 +221,8 @@
     <input class="form-input mb-3" type="number" placeholder="Uang Pembeli..." name="uang_pembeli">
     <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="" name="kembalian">
 
-    <a class="btn btn--gray-outline me-2" href="">Batal</a>
-    <a class="btn btn--blue mb-3" href="#">Selesai</a>
+    <a class="btn btn--gray-outline me-2" href="">
+    Batal</a><a class="btn btn--blue mb-3" href="#">Selesai</a>
 
     <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none">
         <div class="loading">
@@ -222,9 +241,13 @@
 
 <script src="<?= base_url('dist/js/posw.js'); ?>"></script>
 <script>
+const main = document.querySelector('main.main');
+const show_cart = document.querySelector('a#show-cart');
+const search_product = document.querySelector('a#search-product');
+
 // show cart
 const cart = document.querySelector('aside.cart');
-document.querySelector('a#show-cart').addEventListener('click', (e) => {
+show_cart.addEventListener('click', (e) => {
     e.preventDefault();
 
     cart.classList.add('cart--animate-show');
@@ -253,10 +276,126 @@ cart.querySelector('a#btn-close').addEventListener('click', (e) => {
 
 });
 
-const main = document.querySelector('main.main');
-const show_cart = document.querySelector('a#show-cart');
-const search_product = document.querySelector('a#search-product');
+// change product price info
+function change_product_price_info(e)
+{
+    const product_price = e.target.selectedOptions[0].dataset.productPrice;
+    e.target.previousElementSibling.previousElementSibling.innerText = product_price;
+}
 
+// search product
+search_product.addEventListener('click', e => {
+    e.preventDefault();
+
+    const container = main.querySelector('div.container-xl');
+    const keyword = document.querySelector('input[name="product_name_search"]').value;
+    const csrf_name = main.dataset.csrfName;
+    const csrf_value = main.dataset.csrfValue;
+
+    // if empty keyword
+    if (keyword.trim() === '') {
+        return false;
+    }
+
+    // loading
+    container.innerHTML = `<div class="d-flex justify-content-center align-items-center mt-4"><div class="loading"><div></div></div></div>`;
+    // disabled button search and show cart
+    search_product.classList.add('btn--disabled');
+    show_cart.classList.add('btn--disabled');
+
+    fetch('/kasir/cari_produk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `keyword=${keyword}&${csrf_name}=${csrf_value}`
+    })
+    .finally(() => {
+        // enabled button search and show carf
+        search_product.classList.remove('btn--disabled');
+        show_cart.classList.remove('btn--disabled');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            main.dataset.csrfValue = json.csrf_value;
+        }
+
+        // if product exists
+        if (json.products_db.length !== 0) {
+            let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">
+                    1 - ${json.products_db.length} dari ${json.product_search_total} Total produk hasil pencarian</span>`;
+
+            product += '<h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">';
+
+            json.products_db.forEach(p => {
+                product += `<div class="product__item">
+                    <div class="product__image">
+                        <img src="<?= base_url('dist/images/product_photo'); ?>/${p.product_photo}" alt="${p.product_name}">
+                    </div>
+                    <div class="product__info">
+                        <p class="product__name">${p.product_name}</p>
+                        <p class="product__category">${p.category_name}</p>
+                        <p class="product__sales">Terjual ${p.number_product!==0?p.number_product:0}</p>
+
+                        <div class="product__price">
+                            <h5>${p.product_price[0].product_price}</h5><span>/</span>
+                            <select name="besaran">`;
+
+                            p.product_price.forEach(pp => {
+                                product += `<option data-product-price="${pp.product_price}" value="${pp.product_price_id}">
+                                        ${pp.product_magnitude}</option>`;
+                            });
+
+                product += `</select>
+                        </div>
+                    </div>
+                    <div class="product__action">
+                        <input type="number" class="form-input" placeholder="Jumlah..." min="1">
+                        <a class="btn" href="" title="Tambah ke keranjang belanja">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+                        </a>
+                    </div>
+                </div><!-- product__item -->`;
+            });
+
+            product += '</div><!-- product -->';
+
+            // inner html product to container
+            container.innerHTML = product;
+        }
+        // if product not exists
+        else {
+            let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">0 Total produk hasil pencarian</span>
+                <h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">
+                <p>Produk tidak ada</p>`;
+            container.innerHTML = product
+        }
+
+        const limit_message = document.querySelector('span#limit-message');
+        // add limit message if product search total = product limit && limit message not exists
+        if (json.products_db.length === json.product_limit && limit_message === null) {
+            const span = document.createElement('span');
+            span.classList.add('text-muted');
+            span.classList.add('d-block');
+            span.classList.add('mb-5');
+            span.setAttribute('id', 'limit-message');
+            span.innerHTML = `Hanya ${json.product_limit} Produk terbaru yang ditampilkan, Pakai fitur <i>Pencarian</i> untuk hasil lebih spesifik!`;
+            document.querySelector('div.product').after(span);
+        }
+        // else if product search total != product limit and limit message exists
+        else if (json.products_db.length !== json.product_limit && limit_message !== null) {
+            limit_message.remove();
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
 </script>
 </body>
 </html>
