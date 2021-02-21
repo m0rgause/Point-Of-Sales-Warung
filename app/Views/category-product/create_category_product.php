@@ -17,8 +17,8 @@
         <div class="main__box">
             <?= form_open('/admin/simpan_kategori_produk_ke_db'); ?>
                 <div class="mb-3">
-                    <label class="form-label" for="category_product_name">Nama Kategori Produk</label>
-                    <input class="form-input" id="category_product_name" type="text" name="category_product_name" value="<?= old('category_product_name'); ?>">
+                    <label class="form-label" for="category-product-name">Nama Kategori Produk</label>
+                    <input class="form-input" id="category-product-name" type="text" name="category_product_name" value="<?= old('category_product_name'); ?>">
                     <?= $_SESSION['form_errors']['category_product_name']??null; ?>
                 </div>
                <button class="btn btn--blue" type="submit">Simpan</button>

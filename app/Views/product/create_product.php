@@ -18,8 +18,8 @@
         <div class="main__box">
             <?= form_open_multipart('/admin/simpan_produk_ke_db'); ?>
                 <div class="mb-3">
-                    <label class="form-label" for="category_product">Kategori Produk</label>
-                    <select class="form-select" name="category_product" id="category_product">
+                    <label class="form-label" for="category-product">Kategori Produk</label>
+                    <select class="form-select" name="category_product" id="category-product">
                     <?php foreach($category_products_db as $cp) : ?>
                         <option value="<?= $cp['kategori_produk_id']; ?>" <?= $cp['kategori_produk_id']===old('category_product')?'selected':''; ?>>
                             <?= $cp['nama_kategori_produk']; ?>
@@ -34,17 +34,17 @@
                     <?= $_SESSION['form_errors']['product_name']??null; ?>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="product_photo">Foto Produk</label>
+                    <label class="form-label" for="product-photo">Foto Produk</label>
                     <div class="form-file">
-                        <input type="file" name="product_photo" id="product_photo" accept="image/jpeg">
+                        <input type="file" name="product_photo" id="product-photo" accept="image/jpeg">
                         <label for="product_photo">Pilih file...</label>
                     </div>
                     <?= $_SESSION['form_errors']['product_photo']??'<small class="form-message form-message--info">
                     Ukuran file maksimal 1 MB dan ekstensi file harus .jpg atau .jpeg!</small>'; ?>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="product_status">Status Produk</label>
-                    <select class="form-select" name="product_status" id="product_status">
+                    <label class="form-label" for="product-status">Status Produk</label>
+                    <select class="form-select" name="product_status" id="product-status">
                     <?php
                         $array_product_status = ['ada'=>'Ada','tidak_ada'=>'Tidak Ada'];
                         foreach($array_product_status as $key=>$value) :
@@ -54,7 +54,7 @@
                     </select>
                     <?= $_SESSION['form_errors']['product_status']??null; ?>
                 </div>
-                <div id="magnitude_price">
+                <div id="magnitude-price">
                     <label class="form-label">Harga Produk</label>
                 <?php
                     $count_product_magnitude_old = count(old('product_magnitudes', []));
@@ -107,7 +107,7 @@ form_file.addEventListener('change', (e) => {
 });
 
 // add form input magnitude and price
-const magnitude_price = document.querySelector('div#magnitude_price');
+const magnitude_price = document.querySelector('div#magnitude-price');
 document.querySelector('a#add-form-input-magnitude-price').addEventListener('click', e => {
     e.preventDefault();
     add_form_input_magnitude_price(magnitude_price);

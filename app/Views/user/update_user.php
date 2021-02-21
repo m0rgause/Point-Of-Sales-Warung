@@ -19,8 +19,8 @@
             <?= form_open('/admin/perbaharui_pengguna_di_db'); ?>
                 <input type="hidden" name="user_id" value="<?= $user_id; ?>">
                 <div class="mb-3">
-                    <label class="form-label" for="full_name">Nama Lengkap</label>
-                    <input class="form-input" id="full_name" type="text" name="full_name" value="<?= $user_db['nama_lengkap']??null; ?>">
+                    <label class="form-label" for="full-name">Nama Lengkap</label>
+                    <input class="form-input" id="full-name" type="text" name="full_name" value="<?= $user_db['nama_lengkap']??null; ?>">
                     <?= $_SESSION['form_errors']['full_name']??null; ?>
                 </div>
                 <div class="mb-3">

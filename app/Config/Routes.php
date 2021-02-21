@@ -61,8 +61,16 @@ $routes->post('/admin/perbaharui_produk_di_db', 'Product::updateProductInDB');
 $routes->post('/admin/hapus_harga_produk', 'Product::removeProductPriceInDB');
 $routes->post('/admin/hapus_produk', 'Product::removeProductInDB');
 
-$routes->post('/kasir/tampil_produk_lebih_lama', 'Cashier::showLongerProduct');
-$routes->post('/kasir/cari_produk', 'Cashier::showProductSearches');
+$routes->group('/kasir', function($routes)
+{
+    $routes->post('cari_produk', 'Cashier::showProductSearches');
+    $routes->post('beli_produk', 'Cashier::buyProduct');
+    $routes->post('tampil_transaksi_detail', 'Cashier::showTransactionDetail');
+    $routes->post('ubah_jumlah_produk', 'Cashier::updateProductQty');
+    $routes->post('hapus_produk_dari_keranjang_belanja', 'Cashier::removeProductFromShoppingCart');
+    $routes->post('transaksi_selesai', 'Cashier::finishTransaction');
+    $routes->post('transaksi_batal', 'Cashier::cancelTransaction');
+});
 
 $routes->post('/sign_in', 'SignIn::signIn');
 $routes->get('/sign_out', 'SignOut::index');

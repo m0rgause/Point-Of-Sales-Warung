@@ -6,13 +6,13 @@ class AddTransaksiDetail extends Migration
 {
 	public function up()
 	{
-	    $this->forge->addField('transaksi_detail_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY');
+        $this->forge->addField('transaksi_detail_id UUID PRIMARY KEY');
         $this->forge->addField([
             'transaksi_id' => [
                 'type' => 'uuid'
             ],
             'harga_produk_id' => [
-                'type' => 'uuid',
+                'type' => 'uuid'
             ],
             'jumlah_produk' => [
                 'type' => 'int',

@@ -6,7 +6,7 @@ class AddKategoriProduk extends Migration
 {
 	public function up()
 	{
-        $this->forge->addField('kategori_produk_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY');
+        $this->forge->addField('kategori_produk_id UUID PRIMARY KEY');
         $this->forge->addField([
             'nama_kategori_produk' => [
                 'type' => 'varchar',

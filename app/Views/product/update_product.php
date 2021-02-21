@@ -20,11 +20,11 @@
             <?= form_open_multipart('/admin/perbaharui_produk_di_db'); ?>
                 <input type="hidden" name="product_id" value="<?= $product_id; ?>">
                 <div class="mb-3">
-                    <label class="form-label" for="category_product">Kategori Produk</label>
-                    <select class="form-select" name="category_product" id="category_product">
+                    <label class="form-label" for="category-product">Kategori Produk</label>
+                    <select class="form-select" name="category_product" id="category-product">
                     <?php foreach($category_products_db as $cp) : ?>
                         <option value="<?= $cp['kategori_produk_id']; ?>"
-                                <?= $cp['kategori_produk_id']===$product_db['kategori_produk_id']?'selected':''; ?>>
+                                <?= $cp['kategori_produk_id']===($product_db['kategori_produk_id']??null)?'selected':''; ?>>
                             <?= $cp['nama_kategori_produk']; ?>
                         </option>
                     <?php endforeach; ?>
@@ -32,33 +32,33 @@
                     <?= $_SESSION['form_errors']['category_product']??null; ?>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="product_name">Nama Produk</label>
-                    <input class="form-input" type="text" name="product_name" value="<?= $product_db['nama_produk']; ?>">
+                    <label class="form-label" for="product-name">Nama Produk</label>
+                    <input class="form-input" type="text" name="product_name" value="<?= $product_db['nama_produk']??null; ?>" id="product-name">
                     <?= $_SESSION['form_errors']['product_name']??null; ?>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="product_photo">Foto Produk</label>
-                    <input type="hidden" value="<?= $product_db['foto_produk']; ?>" name="old_product_photo">
+                    <label class="form-label" for="product-photo">Foto Produk</label>
+                    <input type="hidden" value="<?= $product_db['foto_produk']??null; ?>" name="old_product_photo">
                     <div class="form-file">
-                        <input type="file" name="product_photo" id="product_photo" accept="image/jpeg">
+                        <input type="file" name="product_photo" id="product-photo" accept="image/jpeg">
                         <label for="product_photo">Pilih file...</label>
                     </div>
                     <?= $_SESSION['form_errors']['product_photo']??'<small class="form-message form-message--info">
                     Pilih file jika ingin perbaharui foto produk, ukuran file maksimal 1 MB dan ekstensi file harus .jpg atau .jpeg!</small>'; ?>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="product_status">Status Produk</label>
-                    <select class="form-select" name="product_status" id="product_status">
+                    <label class="form-label" for="product-status">Status Produk</label>
+                    <select class="form-select" name="product_status" id="product-status">
                     <?php
                         $array_product_status = ['ada'=>'Ada','tidak_ada'=>'Tidak Ada'];
                         foreach($array_product_status as $key=>$value) :
                     ?>
-                    <option value="<?= $key; ?>" <?= $key===$product_db['status_produk']?'selected':''; ?>><?= $value; ?></option>
+                    <option value="<?= $key; ?>" <?= $key===($product_db['status_produk']??null)?'selected':''; ?>><?= $value; ?></option>
                     <?php endforeach; ?>
                     </select>
                     <?= $_SESSION['form_errors']['product_status']??null; ?>
                 </div>
-                <div id="magnitude_price">
+                <div id="magnitude-price">
                     <label class="form-label">Harga Produk</label>
                 <?php
                     $count_product_price_db = count($product_prices_db);
@@ -100,7 +100,7 @@
                 <?php
                     endif;
 
-                    // if product magnitude > product price db
+                    // if product magnitude old > product price db
                     if ($count_product_magnitude_old > $count_product_price_db) :
                     for ($j = $i; $j < $count_product_magnitude_old; $j++) :
                 ?>
@@ -142,7 +142,7 @@ form_file.addEventListener('change', (e) => {
 });
 
 // add form input magnitude and price
-const magnitude_price = document.querySelector('div#magnitude_price');
+const magnitude_price = document.querySelector('div#magnitude-price');
 document.querySelector('a#add-form-input-magnitude-price').addEventListener('click', e => {
     e.preventDefault();
     add_form_input_magnitude_price(magnitude_price);

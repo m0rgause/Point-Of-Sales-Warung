@@ -17,8 +17,8 @@
         <div class="main__box">
             <?= form_open('/admin/simpan_pengguna_ke_db'); ?>
                 <div class="mb-3">
-                    <label class="form-label" for="full_name">Nama Lengkap</label>
-                    <input class="form-input" id="full_name" type="text" name="full_name" value="<?= old('full_name'); ?>">
+                    <label class="form-label" for="full-name">Nama Lengkap</label>
+                    <input class="form-input" id="full-name" type="text" name="full_name" value="<?= old('full_name'); ?>">
                     <?= $_SESSION['form_errors']['full_name']??null; ?>
                 </div>
                 <div class="mb-3">

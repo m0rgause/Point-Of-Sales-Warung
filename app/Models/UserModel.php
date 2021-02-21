@@ -1,12 +1,22 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    public $table = 'pengguna';
+    protected $table = 'pengguna';
     protected $primaryKey = 'pengguna_id';
-    protected $allowedFields = ['nama_lengkap','username','tingkat','password','sign_in_terakhir'];
+    protected $allowedFields = [
+        'pengguna_id',
+        'nama_lengkap',
+        'username',
+        'tingkat',
+        'password',
+        'sign_in_terakhir'
+    ];
+    protected $useAutoIncrement = false;
 
     public function getDataUserSignIn(string $username): ? array
     {
@@ -23,13 +33,13 @@ class UserModel extends Model
         return $this->select($column)->getWhere([$this->primaryKey => $user_id])->getRowArray();
     }
 
-    public function removeUser(string $user_id): bool
+    public function removeUser(string $user_id): int
     {
         try {
             $this->where('pengguna_id !=', $_SESSION['posw_user_id'])->delete($user_id);
-            return true;
-        } catch (\ErrorException $e) {
-            return false;
+            return $this->db->affectedRows();
+        } catch(\ErrorException $e) {
+            return 0;
         }
     }
 }

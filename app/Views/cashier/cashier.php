@@ -23,7 +23,7 @@
     </ul>
 
     <ul class="navbar__right">
-        <li class="dropdown"><a href="#" class="dropdown-toggle" target=".dropdown-menu">Reza Sariful Fikri</a>
+        <li class="dropdown"><a href="#" class="dropdown-toggle" target=".dropdown-menu"><?= $_SESSION['posw_user_full_name']; ?></a>
             <ul class="dropdown-menu dropdown-menu--end d-none">
                 <li><a href="/sign_out" class="text-hover-red">Sign Out</a></li>
             </ul>
@@ -52,7 +52,7 @@
 <div class="container-xl">
     <?php
         // if exists product
-        if (count($products_db) > 0) :
+        if (count($bestseller_products) > 0 || count($products_db) > 0) :
     ?>
         <span class="text-muted me-1 d-block mb-3" id="result-status">
         1 - <?= count($bestseller_products)+count($products_db); ?> dari <?= $product_total; ?> Total produk</span>
@@ -66,19 +66,21 @@
         // if exists bestseller products
         if (count($bestseller_products) > 0) :
         foreach ($bestseller_products as $bp) :
+
+        $product_sales = $bp['product_sales']??0;
     ?>
-        <div class="product__item" id="bestseller-product" data-product-id="<?= $bp['product_id']; ?>">
+        <div class="product__item" data-product-id="<?= $bp['product_id']; ?>">
             <div class="product__image">
                 <img src="<?= base_url('dist/images/product_photo/'.$bp['product_photo']); ?>" alt="<?= $bp['product_name']; ?>">
             </div>
             <div class="product__info">
                 <p class="product__name"><?= $bp['product_name']; ?></p>
                 <p class="product__category"><?= $bp['category_name']; ?></p>
-                <p class="product__sales">Terjual <?= $bp['number_product']; ?></p>
+                <p class="product__sales" data-product-sales="<?= $product_sales; ?>">Terjual <?= $product_sales; ?></p>
 
                 <div class="product__price">
-                    <h5><?= $bp['product_price'][0]['product_price']; ?></h5><span>/</span>
-                    <select name="besaran" onchange="change_product_price_info(event)">
+                    <h5><?= $bp['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
+                    <select name="magnitude" onchange="change_product_price_info(event)">
                     <?php foreach($bp['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -87,8 +89,8 @@
                 </div>
             </div>
             <div class="product__action">
-                <input type="number" class="form-input" placeholder="Jumlah..." min="1">
-                <a class="btn" href="" title="Tambah ke keranjang belanja">
+                <input type="number" class="form-input" name="product_qty" placeholder="Jumlah..." min="1">
+                <a class="btn" href="#" id="buy-rollback" title="Tambah ke keranjang belanja">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
                 </a>
             </div>
@@ -104,19 +106,21 @@
         // if exists other products
         if (count($products_db) > 0) :
         foreach ($products_db as $op) :
+
+        $product_sales = $op['product_sales']??0;
     ?>
-        <div class="product__item">
+        <div class="product__item" data-product-id="<?= $op['product_id']; ?>">
             <div class="product__image">
             <img src="<?= base_url('dist/images/product_photo/'.$op['product_photo']); ?>" alt="<?= $op['product_name']?>">
             </div>
             <div class="product__info">
                 <p class="product__name"><?= $op['product_name']; ?></p>
                 <p class="product__category"><?= $op['category_name']; ?></p>
-                <p class="product__sales">Terjual <?= $op['number_product']??0; ?></p>
+                <p class="product__sales" data-product-sales="<?= $product_sales; ?>">Terjual <?= $product_sales; ?></p>
 
                 <div class="product__price">
-                    <h5><?= $op['product_price'][0]['product_price']; ?></h5><span>/</span>
-                    <select name="besaran" onchange="change_product_price_info(event)">
+                    <h5><?= $op['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
+                    <select name="magnitude" onchange="change_product_price_info(event)">
                     <?php foreach($op['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -125,8 +129,8 @@
                 </div>
             </div>
             <div class="product__action">
-                <input type="number" class="form-input" placeholder="Jumlah..." min="1">
-                <a class="btn" href="" title="Tambah ke keranjang belanja">
+                <input type="number" class="form-input" name="product_qty" placeholder="Jumlah..." min="1">
+                <a class="btn" href="#" id="buy-rollback" title="Tambah ke keranjang belanja">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
                 </a>
             </div>
@@ -145,6 +149,12 @@
         <i>Pencarian</i> untuk hasil lebih spesifik!</span>
     <?php endif; ?>
 </div><!-- container-xl -->
+
+<div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none" id="transaction-loading">
+    <div class="loading">
+        <div></div>
+    </div>
+</div>
 
 <aside class="cart">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -167,45 +177,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td width="10"><a href="#" title="Hapus produk" class="text-hover-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah produk">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Kurang jumlah produk">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
-                    </a></td>
-
-                    <td>Mie Goreng</td>
-                    <td>Rp 3.000 / 1 Buah</td>
-                    <td>3</td>
-                    <td>Rp 9.000</td>
-                </tr>
-
-                <tr>
-                    <td width="10"><a href="#" title="Hapus produk" class="text-hover-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah produk">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Kurang jumlah produk">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
-                    </a></td>
-
-                    <td>Minyak Sanco</td>
-                    <td>Rp 3.000 / 1 Kg</td>
-                    <td>3</td>
-                    <td>Rp 9.000</td>
-                </tr>
+                <tr id="empty-shopping-cart"><td colspan="7"></td></tr>
             </tbody>
             <tfoot>
                 <tr>
                     <th colspan="5" class="text-end">Total Semua</th>
-                    <td>6</td>
-                    <td>Rp 18.000</td>
+                    <td id="total-qty" data-total-qty="0">0</td>
+                    <td id="total-payment" data-total-payment="0">Rp 0</td>
                 </tr>
             </tfoot>
         </table>
@@ -218,13 +196,13 @@
         </select>
         <small class="form-message form-message--info">Pilih riwayat transaksi jika ingin melakukan Rollback transaksi!</small>
     </div>
-    <input class="form-input mb-3" type="number" placeholder="Uang Pembeli..." name="uang_pembeli">
-    <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="" name="kembalian">
+    <input class="form-input mb-3" type="number" placeholder="Uang Pembeli..." name="customer_money">
+    <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="" name="change_money">
 
-    <a class="btn btn--gray-outline me-2" href="">
-    Batal</a><a class="btn btn--blue mb-3" href="#">Selesai</a>
+    <a class="btn btn--gray-outline me-2" id="cancel-transaction" href="">
+    Batal</a><a class="btn btn--blue mb-3" id="finish-transaction" href="#">Selesai</a>
 
-    <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none">
+    <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none" id="cart-loading">
         <div class="loading">
             <div></div>
         </div>
@@ -240,162 +218,6 @@
 </footer>
 
 <script src="<?= base_url('dist/js/posw.js'); ?>"></script>
-<script>
-const main = document.querySelector('main.main');
-const show_cart = document.querySelector('a#show-cart');
-const search_product = document.querySelector('a#search-product');
-
-// show cart
-const cart = document.querySelector('aside.cart');
-show_cart.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    cart.classList.add('cart--animate-show');
-    setTimeout(() => {
-        cart.classList.remove('cart--animate-show');
-        cart.classList.add('cart--show');
-
-        // if window less than 991.98px add overflow hidden to body tag
-        if(window.screen.width <= 991.98) {
-            document.querySelector('body').classList.add('overflow-hidden');
-        }
-    }, 501);
-});
-
-// hide cart
-cart.querySelector('a#btn-close').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    cart.classList.replace('cart--show', 'cart--animate-hide');
-    setTimeout(() => {
-        cart.classList.remove('cart--animate-hide');
-    }, 501);
-
-    // remove class overflow hidden in tag body
-    document.querySelector('body').classList.remove('overflow-hidden');
-
-});
-
-// change product price info
-function change_product_price_info(e)
-{
-    const product_price = e.target.selectedOptions[0].dataset.productPrice;
-    e.target.previousElementSibling.previousElementSibling.innerText = product_price;
-}
-
-// search product
-search_product.addEventListener('click', e => {
-    e.preventDefault();
-
-    const container = main.querySelector('div.container-xl');
-    const keyword = document.querySelector('input[name="product_name_search"]').value;
-    const csrf_name = main.dataset.csrfName;
-    const csrf_value = main.dataset.csrfValue;
-
-    // if empty keyword
-    if (keyword.trim() === '') {
-        return false;
-    }
-
-    // loading
-    container.innerHTML = `<div class="d-flex justify-content-center align-items-center mt-4"><div class="loading"><div></div></div></div>`;
-    // disabled button search and show cart
-    search_product.classList.add('btn--disabled');
-    show_cart.classList.add('btn--disabled');
-
-    fetch('/kasir/cari_produk', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: `keyword=${keyword}&${csrf_name}=${csrf_value}`
-    })
-    .finally(() => {
-        // enabled button search and show carf
-        search_product.classList.remove('btn--disabled');
-        show_cart.classList.remove('btn--disabled');
-    })
-    .then(response => {
-        return response.json();
-    })
-    .then(json => {
-        // set new csrf hash to table tag
-        if (json.csrf_value !== undefined) {
-            main.dataset.csrfValue = json.csrf_value;
-        }
-
-        // if product exists
-        if (json.products_db.length !== 0) {
-            let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">
-                    1 - ${json.products_db.length} dari ${json.product_search_total} Total produk hasil pencarian</span>`;
-
-            product += '<h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">';
-
-            json.products_db.forEach(p => {
-                product += `<div class="product__item">
-                    <div class="product__image">
-                        <img src="<?= base_url('dist/images/product_photo'); ?>/${p.product_photo}" alt="${p.product_name}">
-                    </div>
-                    <div class="product__info">
-                        <p class="product__name">${p.product_name}</p>
-                        <p class="product__category">${p.category_name}</p>
-                        <p class="product__sales">Terjual ${p.number_product!==0?p.number_product:0}</p>
-
-                        <div class="product__price">
-                            <h5>${p.product_price[0].product_price}</h5><span>/</span>
-                            <select name="besaran">`;
-
-                            p.product_price.forEach(pp => {
-                                product += `<option data-product-price="${pp.product_price}" value="${pp.product_price_id}">
-                                        ${pp.product_magnitude}</option>`;
-                            });
-
-                product += `</select>
-                        </div>
-                    </div>
-                    <div class="product__action">
-                        <input type="number" class="form-input" placeholder="Jumlah..." min="1">
-                        <a class="btn" href="" title="Tambah ke keranjang belanja">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-                        </a>
-                    </div>
-                </div><!-- product__item -->`;
-            });
-
-            product += '</div><!-- product -->';
-
-            // inner html product to container
-            container.innerHTML = product;
-        }
-        // if product not exists
-        else {
-            let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">0 Total produk hasil pencarian</span>
-                <h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">
-                <p>Produk tidak ada</p>`;
-            container.innerHTML = product
-        }
-
-        const limit_message = document.querySelector('span#limit-message');
-        // add limit message if product search total = product limit && limit message not exists
-        if (json.products_db.length === json.product_limit && limit_message === null) {
-            const span = document.createElement('span');
-            span.classList.add('text-muted');
-            span.classList.add('d-block');
-            span.classList.add('mb-5');
-            span.setAttribute('id', 'limit-message');
-            span.innerHTML = `Hanya ${json.product_limit} Produk terbaru yang ditampilkan, Pakai fitur <i>Pencarian</i> untuk hasil lebih spesifik!`;
-            document.querySelector('div.product').after(span);
-        }
-        // else if product search total != product limit and limit message exists
-        else if (json.products_db.length !== json.product_limit && limit_message !== null) {
-            limit_message.remove();
-        }
-    })
-    .catch(error => {
-        console.error(error);
-    });
-});
-</script>
+<?= $this->include('cashier/cashier_js'); ?>
 </body>
 </html>

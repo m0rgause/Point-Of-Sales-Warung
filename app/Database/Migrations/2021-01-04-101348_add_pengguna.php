@@ -6,7 +6,7 @@ class AddPengguna extends Migration
 {
 	public function up()
     {
-        $this->forge->addField('pengguna_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY');
+        $this->forge->addField('pengguna_id UUID PRIMARY KEY');
         $this->forge->addField([
             'nama_lengkap' => [
                 'type' => 'varchar',

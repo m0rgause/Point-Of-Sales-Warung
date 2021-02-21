@@ -6,10 +6,10 @@ class AddTransaksi extends Migration
 {
 	public function up()
 	{
-        $this->forge->addField('transaksi_id uuid DEFAULT uuid_generate_v4() PRIMARY KEY');
+        $this->forge->addField('transaksi_id UUID PRIMARY KEY');
         $this->forge->addField([
             'pengguna_id' => [
-                'type' => 'uuid'
+                'type' => 'uuid',
             ],
             'status_transaksi' => [
                 'type' => 'varchar',

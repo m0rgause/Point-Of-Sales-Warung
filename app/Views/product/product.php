@@ -166,7 +166,9 @@ table.querySelector('tbody').addEventListener('click', e => {
                     json.product_prices.forEach(val => {
                         li += `<li><span class="table__title">Harga Produk</span>
                             <span class="table__information">Besaran :</span><span class="table__data">${val.besaran_produk}</span>
-                            <span class="table__information">Harga :</span><span class="table__data">Rp ${val.harga_produk}</span></li>`;
+                            <span class="table__information">Harga :</span><span class="table__data">
+                                ${number_formatter_to_currency(parseInt(val.harga_produk))}
+                            </span></li>`;
                     });
                     const tr = document.createElement('tr');
                     tr.classList.add('table__row-details');
@@ -225,7 +227,7 @@ search_product.addEventListener('click', e => {
         }
 
         // if product exists
-        if (json.products_db.length !== 0) {
+        if (json.products_db.length > 0) {
             let tr = '';
 
             json.products_db.forEach((p, i) => {

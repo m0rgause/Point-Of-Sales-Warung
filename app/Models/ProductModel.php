@@ -1,12 +1,13 @@
-<?php namespace App\Models;
+<?php
 
-use CodeIgniter\Model;
+namespace App\Models;
 
-class ProductModel extends Model
+class ProductModel extends BaseModel
 {
-    public $table = 'produk';
+    protected $table = 'produk';
     protected $primaryKey = 'produk_id';
-    protected $allowedFields = ['kategori_produk_id','nama_produk','foto_produk','status_produk','waktu_buat'];
+    protected $allowedFields = ['produk_id','kategori_produk_id','nama_produk','foto_produk','status_produk','waktu_buat'];
+    protected $useAutoIncrement = false;
 
     public function getProducts(int $limit): array
     {
@@ -36,13 +37,13 @@ class ProductModel extends Model
         return $this->select($column)->getWhere(['produk_id'=>$product_id])->getRowArray();
     }
 
-    public function removeProduct(array $product_ids): bool
+    public function removeProduct(array $product_ids): int
     {
         try {
             $this->whereIn('produk_id', $product_ids)->delete();
-            return true;
+            return $this->db->affectedRows();
         } catch (\ErrorException $e) {
-            return false;
+            return 0;
         }
     }
 

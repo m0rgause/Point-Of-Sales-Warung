@@ -2,12 +2,11 @@
 
 use CodeIgniter\Controller;
 use App\Models\UserModel;
-use App\Models\POSWModel;
 use App\Libraries\ValidationMessage;
 
 class User extends Controller
 {
-    protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user'];
+    protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user', 'generate_uuid'];
 
     public function __construct()
     {
@@ -66,8 +65,8 @@ class User extends Controller
             return redirect()->back()->withInput();
         }
 
-        $posw_model = new POSWModel($this->model->db, $this->model->table);
-        $posw_model->insert([
+        $this->model->insert([
+            'pengguna_id' => generate_uuid(),
             'nama_lengkap' => $this->request->getPost('full_name', FILTER_SANITIZE_STRING),
             'username' => $this->request->getPost('username', FILTER_SANITIZE_STRING),
             'tingkat' => $this->request->getPost('level', FILTER_SANITIZE_STRING),
@@ -183,18 +182,15 @@ class User extends Controller
         $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
         $check_password = check_password_sign_in_user($password, $password_db);
         if ($check_password !== true) {
-            echo json_encode(['success'=>false, 'check_password_message'=>$check_password, 'csrf_value'=>csrf_hash()]);
-            return false;
+            return json_encode(['success'=>false, 'check_password_message'=>$check_password, 'csrf_value'=>csrf_hash()]);
         }
 
         $user_id = $this->request->getPost('user_id', FILTER_SANITIZE_STRING);
-        if ($this->model->removeUser($user_id) === true) {
-            echo json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
-            return true;
+        if ($this->model->removeUser($user_id) > 0) {
+            return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
         }
 
         $error_message = 'Gagal menghapus pengguna, cek apakah masih ada transaksi yang terhubung!';
-        echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
-        return false;
+        return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 }

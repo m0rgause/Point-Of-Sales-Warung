@@ -141,3 +141,7 @@ public/dist/images/*noupload].jpg
 
 # ignore diff file
 diff
+
+# ignore product image uploaded
+public/dist/images/product_photo/*.jpg
+public/dist/images/product_photo/*.jpeg

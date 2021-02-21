@@ -111,3 +111,9 @@ function close_alert(e) {
     e.preventDefault();
     e.target.parentElement.remove();
 }
+
+// number formatter currency
+function number_formatter_to_currency(number)
+{
+    return number.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0});
+}

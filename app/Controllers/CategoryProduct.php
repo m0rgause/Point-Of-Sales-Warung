@@ -7,7 +7,7 @@ use App\Libraries\ValidationMessage;
 
 class CategoryProduct extends Controller
 {
-    protected $helpers = ['form', 'active_menu'];
+    protected $helpers = ['form', 'active_menu', 'generate_uuid'];
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class CategoryProduct extends Controller
         $data['page'] = 'kategori_produk';
         $data['category_products_db'] = $this->model->orderBy('waktu_buat','DESC')->findAll();
 
-        return view('category_product/category_product', $data);
+        return view('category-product/category_product', $data);
     }
 
     public function createCategoryProduct()
@@ -29,8 +29,7 @@ class CategoryProduct extends Controller
         $data['title'] = 'Buat Kategori Produk . POSW';
         $data['page'] = 'buat_kategori_produk';
 
-        return view('category_product/create_category_product', $data);
-
+        return view('category-product/create_category_product', $data);
     }
 
     public function saveCategoryProductToDB()
@@ -52,8 +51,8 @@ class CategoryProduct extends Controller
             return redirect()->back()->withInput();
         }
 
-        $posw_model = new POSWModel($this->model->db, $this->model->table);
-        $posw_model->insert([
+        $this->model->insert([
+            'kategori_produk_id' => generate_uuid(),
             'nama_kategori_produk' => $this->request->getPost('category_product_name', FILTER_SANITIZE_STRING),
             'waktu_buat' => date('Y-m-d H:i:s')
         ]);
@@ -69,7 +68,7 @@ class CategoryProduct extends Controller
         $data['category_product_id'] = $category_product_id;
         $data['category_product_db'] = $this->model->findCategoryProduct($category_product_id);
 
-        return view('category_product/update_category_product', $data);
+        return view('category-product/update_category_product', $data);
     }
 
     public function updateCategoryProductInDB()
@@ -111,13 +110,11 @@ class CategoryProduct extends Controller
     public function removeCategoryProductInDB()
     {
         $category_product_id = $this->request->getPost('category_product_id', FILTER_SANITIZE_STRING);
-        if($this->model->removeCategoryProduct($category_product_id) === true) {
-            echo json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
-            return true;
+        if($this->model->removeCategoryProduct($category_product_id) > 0) {
+            return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
         }
 
         $error_message = 'Gagal menghapus kategori produk, cek apakah masih ada produk yang terhubung!';
-        echo json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
-        return false;
+        return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 }
