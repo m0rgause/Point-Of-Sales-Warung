@@ -190,11 +190,11 @@
     </div><!-- table-responsive -->
 
     <div class="mb-3">
-        <select name="history_transaction" class="form-select">
+        <select name="transaction_three_days_ago" class="form-select">
             <option selected>Riwayat transaksi</option>
-            <option value="08:00:00_25-12-2020_4000">08:00 - 25 Des 2020 - Rp 4.000</option>
+            <option value="">25 Desember 2021 18:00:10</option>
         </select>
-        <small class="form-message form-message--info">Pilih riwayat transaksi jika ingin melakukan Rollback transaksi!</small>
+        <small class="form-message form-message--info"></small>
     </div>
     <div class="mb-3" id="customer-money">
         <input class="form-input" type="number" placeholder="Uang Pembeli..." name="customer_money">
@@ -212,6 +212,36 @@
     </div><!-- position-relative -->
 </aside>
 </main>
+
+<div class="modal d-block modal--fade-in">
+    <div class="modal__content modal__content--animate-show">
+        <a class="btn btn--light" id="btn-close" href=""><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg></a>
+        <div class="modal__icon mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" fill="currentColor" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.496 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/></svg>
+        </div>
+        <div class="modal__body mb-4">
+            <h4 class="mb-2">Rollback Transaksi</h4>
+            <p class="mb-4">Pilih riwayat transaksi jika ingin melakukan
+                <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Rollback-Transaksi" target="_blank" rel="noreferrer noopener">
+                Rollback Transaksi</a>!
+            </p>
+            <input type="hidden" name="user_id">
+            <div class="input-group">
+                <input type="password" name="password" class="form-input form-input--focus-red" placeholder="Password mu...">
+                <a class="btn btn--gray-outline" id="show-password" href=""><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg></a>
+            </div>
+        </div>
+        <div class="position-relative d-inline-block">
+            <a class="btn btn--red-outline" href="#" id="remove-user-in-db">Ya, Hapus</a>
+
+            <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center d-none">
+                <div class="loading loading--red">
+                    <div></div>
+                </div>
+            </div>
+        </div><!-- position-relative -->
+    </div>
+</div><!-- modal -->
 
 <footer class="footer">
 <div class="container-xl">

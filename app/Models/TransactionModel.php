@@ -15,4 +15,11 @@ class TransactionModel extends BaseModel
                     ->getWhere(['status_transaksi' => 'belum', 'pengguna_id' => $_SESSION['posw_user_id']])
                     ->getRowArray()['transaksi_id']??null;
     }
+
+    public function getTransactionThreeDaysAgo(string $timestamp_three_days_ago): array
+    {
+        return $this->select('transaksi_id, waktu_buat')
+                    ->getWhere(['waktu_buat >=' => $timestamp_three_days_ago, 'pengguna_id' => $_SESSION['posw_user_id']])
+                    ->getResultArray();
+    }
 }

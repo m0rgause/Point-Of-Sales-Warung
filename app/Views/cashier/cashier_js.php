@@ -897,4 +897,38 @@ btn_cancel_transaction.addEventListener('click', e => {
         cancel_transaction(csrf_name, csrf_value, cart_table, main);
     }
 });
+
+// show transaction three days ago in select input
+document.querySelector('select[name="transaction_three_days_ago"]').addEventListener('click', e => {
+    const csrf_name = main.dataset.csrfName;
+    const csrf_value = main.dataset.csrfValue;
+
+    // loading
+    document.querySelector('div#cart-loading').classList.remove('d-none');
+
+    fetch('/kasir/tampil_transaksi_tiga_hari_yang_lalu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `${csrf_name}=${csrf_value}`
+    })
+    .finally(() => {
+        // loading
+        document.querySelector('div#cart-loading').classList.add('d-none');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            main.dataset.csrfValue = json.csrf_value;
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
 </script>
