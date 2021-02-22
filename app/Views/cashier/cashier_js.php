@@ -831,7 +831,7 @@ function cancel_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
         // if success
         if (json.success === true) {
             // update product sales in product items
-            const products_in_shopping_cart = cart_table.querySelectorAll('tbody tr');
+            const products_in_shopping_cart = cart_table.querySelectorAll('tbody tr[data-product-id="*"]');
             products_in_shopping_cart.forEach (el => {
                 const product_sales_el = document.querySelector(`div.product__item[data-product-id="${el.dataset.productId}"] p.product__sales`);
                 // product sales new = product sales old - product qty
