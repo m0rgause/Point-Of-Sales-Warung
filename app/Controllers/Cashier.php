@@ -286,15 +286,9 @@ class Cashier extends Controller
         return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
     }
 
-    private function generateTimestampThreeDaysAgo()
-    {
-        $today = date('d');
-    }
-
     public function showTransactionThreeDaysAgo()
     {
-        var_dump($this->generateTimestampThreeDaysAgo());
-        die;
-        var_dump($this->transaction_model->getTransactionThreeDaysAgo());
+        $timestamp_three_days_ago = date('Y m d H:i:s', mktime(00, 00, 00, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * 3));
+        var_dump($this->transaction_model->getTransactionThreeDaysAgo($timestamp_three_days_ago));
     }
 }

@@ -899,7 +899,7 @@ btn_cancel_transaction.addEventListener('click', e => {
 });
 
 // show transaction three days ago in select input
-document.querySelector('select[name="transaction_three_days_ago"]').addEventListener('click', e => {
+document.querySelector('a#rollback-transaction').addEventListener('click', e => {
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
 
@@ -926,6 +926,9 @@ document.querySelector('select[name="transaction_three_days_ago"]').addEventList
         if (json.csrf_value !== undefined) {
             main.dataset.csrfValue = json.csrf_value;
         }
+
+        // show modal
+        show_modal(modal, modal_content);
     })
     .catch(error => {
         console.error(error);
