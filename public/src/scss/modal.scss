@@ -1,3 +1,9 @@
+@mixin modal_color($color_name, $color) {
+    &--#{$color_name} &__icon {
+        color: $color;
+    }
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -53,10 +59,6 @@
         }
     }
 
-    &__icon {
-        color: $red;
-    }
-
     .btn--light {
         position: absolute;
         top: 0;
@@ -73,6 +75,9 @@
     &__body strong {
         font-family: 'roboto-medium';
     }
+
+    @include modal_color('red', $red);
+    @include modal_color('green', $green);
 }
 
 @keyframes show_modal_content {
