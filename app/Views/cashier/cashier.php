@@ -213,7 +213,7 @@
 
 <footer class="footer">
 <div class="container-xl">
-    <p class="mb-0">Copyright &copy; <a href="https://rezafikkri.github.io/" target="_blank" rel="noreferrer noopener">Reza Sariful Fikri</a> 2020</p>
+    <p class="mb-0">&copy; 2021 <a href="https://rezafikkri.github.io/" target="_blank" rel="noreferrer noopener">Reza Sariful Fikri</a></p>
 </div>
 </footer>
 
