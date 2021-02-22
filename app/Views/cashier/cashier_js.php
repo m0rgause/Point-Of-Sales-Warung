@@ -110,8 +110,8 @@ btn_show_cart.addEventListener('click', (e) => {
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
 
-    // if not exists attribute aria-label = transaction
-    if (cart_table.getAttribute('aria-label') !== 'transaction') {
+    // if not exists attribute aria-label
+    if (cart_table.getAttribute('aria-label') === null) {
         // get and show transaction detail in cart
         show_transaction_detail(
             cart_table,
