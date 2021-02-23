@@ -900,6 +900,18 @@ btn_cancel_transaction.addEventListener('click', e => {
 
 // show transaction three days ago in select input
 document.querySelector('a#rollback-transaction').addEventListener('click', e => {
+    e.preventDefault();
+
+    // if exists attribute aria-label = transaction in cart table
+    if (cart_table.getAttribute('aria-label') === 'transaction') {
+        const alert_node = create_alert_node(
+            'alert--warning',
+            'Tidak bisa melakukan rollback transaksi, karena kamu masih melakukan transaksi. Selesaikan atau batalkan transaksi, lalu coba kembali!'
+        );
+        e.target.parentElement.insertBefore(alert_node, e.target);
+        return false;
+    }
+
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
 
@@ -928,7 +940,21 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
         }
 
         // show modal
+        const modal = document.querySelector('.modal');
+        const modal_content = modal.querySelector('.modal__content');
         show_modal(modal, modal_content);
+
+        // if exists transaction
+        if (json.transaction_three_days_ago.length > 0) {
+            // show data in select input
+            let options = '<option>Riwayat Transaksi</option>';
+            json.transaction_three_days_ago.forEach(t => {
+                options += `<option value="${t.transaksi_id}">${t.waktu_buat}</option>`;
+            });
+
+            // inner html to select
+            modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = options;
+        }
     })
     .catch(error => {
         console.error(error);

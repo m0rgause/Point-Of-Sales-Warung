@@ -33,7 +33,6 @@ class Cashier extends Controller
         foreach ($products_db as $index => $val) {
             // if product id exists in products ids
             if (in_array($val['produk_id'], $product_ids)) {
-
                 // add product price to product exists in products array
                 $products[array_search($val['produk_id'], $product_ids)]['product_price'][] = [
                     'product_price_id' => $val['harga_produk_id'],
@@ -43,7 +42,6 @@ class Cashier extends Controller
                 ];
 
             } else {
-
                 // note product id to product_ids variabel, for fast check is product exists in products array
                 $product_ids[] = $val['produk_id'];
 
@@ -289,6 +287,17 @@ class Cashier extends Controller
     public function showTransactionThreeDaysAgo()
     {
         $timestamp_three_days_ago = date('Y m d H:i:s', mktime(00, 00, 00, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * 3));
-        var_dump($this->transaction_model->getTransactionThreeDaysAgo($timestamp_three_days_ago));
+        $transaction_three_days_ago = $this->transaction_model->getTransactionThreeDaysAgo($timestamp_three_days_ago);
+
+        // convert timestamp
+        $date_time = new \App\Libraries\DateTime();
+        $count_transaction_three_days_ago = count($transaction_three_days_ago);
+        for($i = 0; $i < $count_transaction_three_days_ago; $i++) {
+            $transaction_three_days_ago[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime(
+                $transaction_three_days_ago[$i]['waktu_buat']
+            );
+        }
+
+        return json_encode(['transaction_three_days_ago' => $transaction_three_days_ago, 'csrf_value'=>csrf_hash()]);
     }
 }

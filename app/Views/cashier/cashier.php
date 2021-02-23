@@ -196,8 +196,8 @@
 
     <a id="rollback-transaction" class="btn btn--gray-outline d-block" href="#">Rollback Transaksi</a>
     <small class="text-muted d-block mt-2 mb-4">
-        Apa itu <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Rollback-Transaksi" target="_blank" rel="noreferrer noopener">
-        Rollback Transaksi</a>?
+        Pelajari lebih lanjut <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Rollback-Transaksi" target="_blank" rel="noreferrer noopener">
+        Rollback Transaksi</a>!
     </small>
 
     <a class="btn btn--gray-outline me-2" id="cancel-transaction" href="">
@@ -220,22 +220,19 @@
         </div>
         <div class="modal__body">
             <h4 class="mb-2">Rollback Transaksi</h4>
-            <p class="mb-4">Pilih riwayat transaksi jika ingin melakukan Rollback Transaksi lalu klik Oke!.
+            <p class="mb-4">Pilih riwayat transaksi jika ingin melakukan Rollback Transaksi lalu klik Oke!
             </p>
-            <select name="transaction_three_days_ago" class="form-select">
-                <option selected>Riwayat transaksi</option>
-                <option value="">25 Desember 2021 18:00:10</option>
-            </select>
-        </div><!-- modal__body -->
-        <div class="position-relative d-inline-block">
-            <a class="btn btn--blue-outline" href="#" id="show-transaction-detail">Oke</a>
+            <select name="transaction_three_days_ago" class="form-select mb-4"></select>
+            <div class="position-relative d-inline-block">
+                <a class="btn btn--blue-outline" href="#" id="show-transaction-detail">Oke</a>
 
-            <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center d-none">
-                <div class="loading loading--red">
-                    <div></div>
+                <div class="loading-bg rounded position-absolute top-0 bottom-0 end-0 start-0 d-flex justify-content-center align-items-center">
+                    <div class="loading loading--blue">
+                        <div></div>
+                    </div>
                 </div>
-            </div>
-        </div><!-- position-relative -->
+            </div><!-- position-relative -->
+        </div><!-- modal__body -->
     </div>
 </div><!-- modal -->
 
