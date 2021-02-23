@@ -37,7 +37,7 @@
                     <label class="form-label" for="product-photo">Foto Produk</label>
                     <div class="form-file">
                         <input type="file" name="product_photo" id="product-photo" accept="image/jpeg">
-                        <label for="product_photo">Pilih file...</label>
+                        <label for="product-photo">Pilih file...</label>
                     </div>
                     <?= $_SESSION['form_errors']['product_photo']??'<small class="form-message form-message--info">
                     Ukuran file maksimal 1 MB dan ekstensi file harus .jpg atau .jpeg!</small>'; ?>
