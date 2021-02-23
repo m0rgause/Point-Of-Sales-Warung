@@ -7,7 +7,7 @@ class SignOut extends Controller
 {
     public function index()
     {
-        $session = \Config\Services::session();
+        $session = session();
 
         // if sign in
         if($session->has('posw_sign_in_status')) {

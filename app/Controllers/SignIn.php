@@ -15,7 +15,7 @@ class SignIn extends Controller
 
     public function signIn()
     {
-        $session = \Config\Services::session();
+        $session = session();
 
         if(!$this->validate([
             'username' => [

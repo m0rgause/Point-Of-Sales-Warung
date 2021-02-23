@@ -15,7 +15,7 @@ class Cashier extends Controller
 
     public function __construct()
     {
-        $this->session = \Config\Services::session();
+        $this->session = session();
         $this->product_model = new ProductModel();
         $this->product_price_model = new ProductPriceModel();
         $this->transaction_model = new TransactionModel();

@@ -11,7 +11,7 @@ class User extends Controller
     public function __construct()
     {
         $this->model = new UserModel;
-        $this->session = \Config\Services::session();
+        $this->session = session();
     }
 
     public function index()

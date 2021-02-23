@@ -14,7 +14,7 @@ class Product extends Controller
 
     public function __construct()
     {
-        $this->session = \Config\Services::session();
+        $this->session = session();
         $this->model = new ProductModel();
         $this->price_model = new ProductPriceModel();
     }
