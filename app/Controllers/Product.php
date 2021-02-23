@@ -233,7 +233,7 @@ class Product extends Controller
         $date_time = new \App\Libraries\DateTime();
         $count_products_db = count($products_db);
         for ($i = 0; $i < $count_products_db; $i++) {
-            $products_db[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+            $products_db[$i]['indo_create_time'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
         }
 
         // get product search total
@@ -502,7 +502,7 @@ class Product extends Controller
             $date_time = new \App\Libraries\DateTime();
             $count_longer_products = count($longer_products);
             for ($i = 0; $i < $count_longer_products; $i++) {
-                $longer_products[$i]['waktu_buat_indo'] = $date_time->convertTimstampToIndonesianDateTime($longer_products[$i]['waktu_buat']);
+                $longer_products[$i]['indo_create_time'] = $date_time->convertTimstampToIndonesianDateTime($longer_products[$i]['waktu_buat']);
             }
 
             return json_encode([

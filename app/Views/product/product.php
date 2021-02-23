@@ -251,7 +251,7 @@ search_product.addEventListener('click', e => {
                 } else {
                      tr += `<td><span class="text-red">Tidak Ada</span></td>`;
                 }
-                tr += `<td>${p.waktu_buat_indo}</td></tr>`;
+                tr += `<td>${p.indo_create_time}</td></tr>`;
             });
 
             table.querySelector('tbody').innerHTML = tr;
@@ -407,7 +407,7 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
                     } else {
                          td += `<td><span class="text-red">Tidak Ada</span></td>`;
                     }
-                    td += `<td>${p.waktu_buat_indo}</td>`;
+                    td += `<td>${p.indo_create_time}</td>`;
 
                     // inner td to tr
                     tr.innerHTML = td;
