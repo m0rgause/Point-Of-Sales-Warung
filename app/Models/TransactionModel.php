@@ -19,6 +19,7 @@ class TransactionModel extends BaseModel
     public function getTransactionThreeDaysAgo(string $timestamp_three_days_ago): array
     {
         return $this->select('transaksi_id, waktu_buat')
+                    ->orderBy('waktu_buat', 'desc')
                     ->getWhere(['waktu_buat >=' => $timestamp_three_days_ago, 'pengguna_id' => $_SESSION['posw_user_id']])
                     ->getResultArray();
     }
