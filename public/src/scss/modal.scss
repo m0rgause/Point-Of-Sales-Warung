@@ -77,7 +77,7 @@
     }
 
     @include modal_color('red', $red);
-    @include modal_color('green', $green);
+    @include modal_color('blue', $blue);
 }
 
 @keyframes show_modal_content {
