@@ -6,6 +6,7 @@ use App\Models\ProductPriceModel;
 use App\Models\TransactionModel;
 use App\Models\TransactionDetailModel;
 use App\Models\POSWModel;
+use App\Libraries\ValidationMessage;
 
 class Cashier extends Controller
 {
@@ -247,8 +248,20 @@ class Cashier extends Controller
 
     public function finishTransaction()
     {
-        // update status transaction
+        if (!$this->validate([
+            'customer_money' => [
+                'label' => 'Uang Pembeli',
+                'rules' => 'required|integer|max_length[10]',
+                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','integer','max_length')
+            ]
+        ])) {
+            return json_encode(['success'=>false, 'form_errors'=>$this->validator->getErrors(), 'csrf_value'=>csrf_hash()]);
+        }
+
+        $customer_money = $this->request->getPost('customer_money', FILTER_SANITIZE_NUMBER_INT);
+        // save customer money in db and update status transaction
         $this->transaction_model->update($_SESSION['posw_transaction_id'], [
+            'uang_pembeli' => $customer_money,
             'status_transaksi' => 'selesai'
         ]);
 
@@ -262,7 +275,6 @@ class Cashier extends Controller
     {
         // remove transaction and will automatic remove transaction detail related to transaction
         $this->transaction_model->delete($_SESSION['posw_transaction_id']);
-
         // remove session status transaction
         $this->session->remove(['posw_transaction_id', 'posw_transaction_status']);
 

@@ -196,7 +196,9 @@
         </select>
         <small class="form-message form-message--info">Pilih riwayat transaksi jika ingin melakukan Rollback transaksi!</small>
     </div>
-    <input class="form-input mb-3" type="number" placeholder="Uang Pembeli..." name="customer_money">
+    <div class="mb-3" id="customer-money">
+        <input class="form-input" type="number" placeholder="Uang Pembeli..." name="customer_money">
+    </div>
     <input class="form-input mb-4" type="text" placeholder="Kembalian..." disabled="" name="change_money">
 
     <a class="btn btn--gray-outline me-2" id="cancel-transaction" href="">

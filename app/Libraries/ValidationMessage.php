@@ -46,6 +46,9 @@ class ValidationMessage
             if($rules[$i] === 'is_unique') {
                 $array_message = array_merge($array_message, [$rules[$i] => '{field} sudah ada']);
             }
+            if ($rules[$i] === 'integer') {
+                $array_message = array_merge($array_message, [$rules[$i] => '{field} harus berupa angka dan tanpa desimal']);
+            }
         }
         return $array_message;
     }

@@ -6,7 +6,7 @@ class TransactionModel extends BaseModel
 {
 	protected $table = 'transaksi';
 	protected $primaryKey = 'transaksi_id';
-    protected $allowedFields = ['transaksi_id', 'pengguna_id', 'status_transaksi', 'waktu_buat'];
+    protected $allowedFields = ['transaksi_id', 'pengguna_id', 'status_transaksi', 'waktu_buat', 'uang_pembeli'];
     protected $useAutoIncrement = false;
 
     public function getNotTransactionYetId(): ? string

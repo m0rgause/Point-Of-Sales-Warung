@@ -15,6 +15,11 @@ class AddTransaksi extends Migration
                 'type' => 'varchar',
                 'constraint' => 7
             ],
+            'uang_pembeli' => [
+                'type' => 'numeric',
+                'constraint' => 10,
+                'null' => true
+            ],
             'waktu_buat' => [
                 'type' => 'timestamp'
             ]

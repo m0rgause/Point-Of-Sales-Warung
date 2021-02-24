@@ -746,9 +746,15 @@ function reset_shopping_cart(cart_table, btn_close_cart)
 
     // remove attribute aria-label in cart table
     cart_table.removeAttribute('aria-label');
+
+    // all form message
+    const all_form_message = document.querySelectorAll('aside.cart small.form-message');
+    if (all_form_message.length > 0) {
+        all_form_message.forEach(el => el.remove());
+    }
 }
 
-function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart)
+function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money)
 {
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
@@ -759,7 +765,7 @@ function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: `${csrf_name}=${csrf_value}`
+        body: `customer_money=${customer_money}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
@@ -778,6 +784,23 @@ function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
         if (json.success === true) {
             reset_shopping_cart(cart_table, btn_close_cart);
         }
+        // if false and form message exists
+        if (json.success === false && json.form_errors !== undefined) {
+            // if exists form message
+            const form_message_customer_money = document.querySelector('aside.cart div#customer-money small.form-message');
+            if (form_message_customer_money !== null) {
+                form_message_customer_money.innerText = json.form_errors.customer_money;
+
+            } else {
+                const small_node = document.createElement('small');
+                small_node.classList.add('form-message');
+                small_node.classList.add('form-message--danger');
+                small_node.innerText = json.form_errors.customer_money;
+
+                // add form message to after customer money input
+                document.querySelector('aside.cart div#customer-money').append(small_node);
+            }
+        }
     })
     .catch(error => {
         console.error(error);
@@ -790,6 +813,7 @@ btn_finish_transaction.addEventListener('click', e => {
 
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
+    const customer_money = document.querySelector('input[name="customer_money"]').value;
 
     // if exists attribute aria-label = rollback-transaction and transaction-id in cart table
     if (cart_table.getAttribute('aria-label') === 'rollback-transaction' && cart_table.getAttribute('transaction-id') !== null) {
@@ -798,7 +822,7 @@ btn_finish_transaction.addEventListener('click', e => {
 
     // else if exists attribute aria-label = transaction
     else if (cart_table.getAttribute('aria-label') === 'transaction') {
-        finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart);
+        finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
     }
 });
 
