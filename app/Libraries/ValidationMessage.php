@@ -20,7 +20,7 @@ class ValidationMessage
         string $close_delimiter,
         array $array_message
     ): void {
-        $session = \Config\Services::session();
+        $session = session();
 
         $new_message = static::setDelimiterMessage($open_delimiter, $close_delimiter, $array_message);
         $session->setFlashData($flash_message_name, $new_message);
