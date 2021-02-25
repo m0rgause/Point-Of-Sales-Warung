@@ -23,4 +23,11 @@ class TransactionModel extends BaseModel
                     ->getWhere(['waktu_buat >=' => $timestamp_three_days_ago, 'pengguna_id' => $_SESSION['posw_user_id']])
                     ->getResultArray();
     }
+
+    public function findTransaction(string $transaction_id, string $column): ? array
+    {
+        return $this->select($column)
+                    ->getWhere(['transaksi_id' => $transaction_id])
+                    ->getRowArray();
+    }
 }

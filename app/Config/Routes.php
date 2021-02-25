@@ -71,6 +71,7 @@ $routes->group('/kasir', function($routes)
     $routes->post('transaksi_selesai', 'Cashier::finishTransaction');
     $routes->post('transaksi_batal', 'Cashier::cancelTransaction');
     $routes->post('tampil_transaksi_tiga_hari_yang_lalu', 'Cashier::showTransactionThreeDaysAgo');
+    $routes->post('tampil_transaksi_detail_tiga_hari_yang_lalu', 'Cashier::showTransactionDetailThreeDaysAgo');
 });
 
 $routes->post('/sign_in', 'SignIn::signIn');

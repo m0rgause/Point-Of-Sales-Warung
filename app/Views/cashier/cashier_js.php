@@ -6,8 +6,45 @@ const btn_cancel_transaction = document.querySelector('a#cancel-transaction');
 const btn_finish_transaction = document.querySelector('a#finish-transaction');
 const cart_table = document.querySelector('aside.cart table.table');
 
-// show transaction detail in cart
-function show_transaction_detail(
+// show transaction detail in cart table
+function show_transaction_detail(cart_table, transaction_detail)
+{
+    let tr = '';
+    let total_payment = 0;
+    let total_qty = 0;
+    transaction_detail.forEach (td => {
+        const payment = parseInt(td.harga_produk) * parseInt(td.jumlah_produk);
+        tr += `<tr data-product-id="${td.produk_id}" data-transaction-detail-id="${td.transaksi_detail_id}">
+            <td width="10"><a href="#" title="Hapus produk" id="remove-product"  class="text-hover-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
+            </a></td>
+            <td width="10"><a href="#" title="Tambah jumlah produk" id="add-product-qty">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
+            </a></td>
+            <td width="10"><a href="#" title="Kurangi jumlah produk" id="reduce-product-qty">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
+            </a></td>
+            <td>${td.nama_produk}</td>
+            <td id="price" data-price="${td.harga_produk}">
+                ${number_formatter_to_currency(parseInt(td.harga_produk))} / ${td.besaran_produk}
+            </td>
+            <td id="qty" data-qty="${td.jumlah_produk}">${td.jumlah_produk}</td>
+            <td id="payment" data-payment="${payment}">${number_formatter_to_currency(payment)}</td>
+        </tr>`;
+        total_payment += payment;
+        total_qty += parseInt(td.jumlah_produk);
+    });
+    // inner html transaction detail to cart table tbody
+    cart_table.querySelector('tbody').innerHTML = tr;
+    // inner text total payment and total qty in cart table
+    cart_table.querySelector('td#total-qty').innerText = total_qty;
+    cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment);
+    cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty;
+    cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment;
+}
+
+// get transaction detail
+function get_transaction_detail(
     cart_table,
     csrf_name,
     csrf_value,
@@ -44,43 +81,8 @@ function show_transaction_detail(
 
         // if exists transaction detail
         if (json.transaction_detail.length > 0) {
-            let tr = '';
-            let total_payment = 0;
-            let total_qty = 0;
-
-            json.transaction_detail.forEach (td => {
-                const payment = parseInt(td.harga_produk) * parseInt(td.jumlah_produk);
-                tr += `<tr data-product-id="${td.produk_id}" data-transaction-detail-id="${td.transaksi_detail_id}">
-                    <td width="10"><a href="#" title="Hapus produk" id="remove-product"  class="text-hover-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah produk" id="add-product-qty">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Kurangi jumlah produk" id="reduce-product-qty">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
-                    </a></td>
-
-                    <td>${td.nama_produk}</td>
-                    <td id="price" data-price="${td.harga_produk}">
-                        ${number_formatter_to_currency(parseInt(td.harga_produk))} / ${td.besaran_produk}
-                    </td>
-                    <td id="qty" data-qty="${td.jumlah_produk}">${td.jumlah_produk}</td>
-                    <td id="payment" data-payment="${payment}">${number_formatter_to_currency(payment)}</td>
-                </tr>`;
-
-                total_payment += payment;
-                total_qty += parseInt(td.jumlah_produk);
-            });
-
-            // inner html transaction detail to cart table tbody
-            cart_table.querySelector('tbody').innerHTML = tr;
-
-            // inner text total payment and total qty in cart table
-            cart_table.querySelector('td#total-qty').innerText = total_qty;
-            cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment);
-            cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty;
-            cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment;
+            // show transaction detail in cart table
+            show_transaction_detail(cart_table, json.transaction_detail);
 
             // add attribute aria label = transaction
             cart_table.setAttribute('aria-label', 'transaction');
@@ -113,7 +115,7 @@ btn_show_cart.addEventListener('click', (e) => {
     // if not exists attribute aria-label
     if (cart_table.getAttribute('aria-label') === null) {
         // get and show transaction detail in cart
-        show_transaction_detail(
+        get_transaction_detail(
             cart_table,
             csrf_name,
             csrf_value,
@@ -898,6 +900,8 @@ btn_cancel_transaction.addEventListener('click', e => {
     }
 });
 
+const modal = document.querySelector('.modal');
+const modal_content = modal.querySelector('.modal__content');
 // show transaction three days ago in select input
 document.querySelector('a#rollback-transaction').addEventListener('click', e => {
     e.preventDefault();
@@ -940,8 +944,6 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
         }
 
         // show modal
-        const modal = document.querySelector('.modal');
-        const modal_content = modal.querySelector('.modal__content');
         show_modal(modal, modal_content);
 
         // if exists transaction
@@ -954,6 +956,91 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
 
             // inner html to select
             modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = options;
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
+
+// close modal
+modal_content.querySelector('a#btn-close').addEventListener('click', e => {
+    e.preventDefault();
+
+    // hide modal
+    hide_modal(modal, modal_content);
+    // reset modal
+    modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = '';
+});
+
+// show transaction detail based on transaction selected in modal
+document.querySelector('div.modal a#show-transaction-detail').addEventListener('click', e => {
+    e.preventDefault();
+
+    const csrf_name = main.dataset.csrfName;
+    const csrf_value = main.dataset.csrfValue;
+    const transaction_id = modal_content.querySelector('select[name="transaction_three_days_ago"]').value;
+    let data = `transaction_id=${transaction_id}&${csrf_name}=${csrf_value}`;
+
+    // if transaction not selected
+    if (transaction_id.toLowerCase() === 'riwayat transaksi') {
+        return false;
+    }
+
+    // if exists attribute aria-label = rollack-transaction in cart table
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        data += `&transaction_id_old=${cart_table.dataset.transactionId}`;
+    }
+
+    // loading
+    e.target.nextElementSibling.classList.remove('d-none');
+
+    fetch('/kasir/tampil_transaksi_detail_tiga_hari_yang_lalu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: data
+    })
+    .finally(() => {
+        // loading
+        e.target.nextElementSibling.classList.remove('d-none');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            main.dataset.csrfValue = json.csrf_value;
+        }
+
+        // if exists customer_money and transaction_detail
+        if (json.customer_money !== null && json.transaction_detail.length > 0) {
+            // hide and reset modal
+            hide_modal(modal, modal_content);
+            // reset modal
+            modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = '';
+
+            // show transaction detail in cart table
+            show_transaction_detail(cart_table, json.transaction_detail);
+
+            // show customer money
+            const customer_money = parseInt(json.customer_money);
+            document.querySelector('input[name="customer_money"]').value = customer_money;
+
+            // show change money
+            const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
+            if (customer_money >= total_payment) {
+                document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
+            } else {
+                document.querySelector('input[name="change_money"]').value = '';
+            }
+
+            // add Attribute arial-label = rollback-transaction and transction-id
+            cart_table.setAttribute('aria-label', 'rollback-transaction');
+            cart_table.setAttribute('data-transaction-id', transaction_id);
         }
     })
     .catch(error => {

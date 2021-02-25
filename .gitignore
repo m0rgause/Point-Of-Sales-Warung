@@ -145,3 +145,6 @@ diff
 # ignore product image uploaded
 public/dist/images/product_photo/*.jpg
 public/dist/images/product_photo/*.jpeg
+
+# ignore transction backup json file
+writable/transaction_backup/*.json
