@@ -312,15 +312,12 @@ class Cashier extends Controller
             $this->transaction_model->update($transaction_id_old, [
                 'status_transaksi' => 'selesai'
             ]);
-
-            // rename old backup json
-            rename(WRITEPATH.'transaction_backup/'.$transaction_id_old.'.json', WRITEPATH.'transaction_backup/'.$transaction_id.'.json');
         }
 
         // change transaction status
-        // $this->transaction_model->update($transaction_id, [
-        //     'status_transaksi' => 'belum'
-        // ]);
+        $this->transaction_model->update($transaction_id, [
+            'status_transaksi' => 'belum'
+        ]);
 
         // get customer money and transaction detail
         $customer_money = $this->transaction_model->findTransaction($transaction_id, 'uang_pembeli')['uang_pembeli']??null;
@@ -328,7 +325,7 @@ class Cashier extends Controller
 
         // backoup transaction detail to json file
         $data_backup = json_encode(['transaction_id'=>$transaction_id, 'customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail]);
-        file_put_contents(WRITEPATH.'transaction_backup/'.$transaction_id.'.json', $data_backup);
+        file_put_contents(WRITEPATH.'transaction_backup/data.json', $data_backup);
 
         return json_encode(['customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
     }
