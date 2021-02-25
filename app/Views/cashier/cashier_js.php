@@ -1005,7 +1005,7 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
     })
     .finally(() => {
         // loading
-        e.target.nextElementSibling.classList.remove('d-none');
+        e.target.nextElementSibling.classList.add('d-none');
     })
     .then(response => {
         return response.json();
