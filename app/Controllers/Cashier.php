@@ -70,8 +70,26 @@ class Cashier extends Controller
         return $products;
     }
 
+    private function generateDataUpdateBatchTransactionDetail()
+    {
+
+    }
+
     public function index()
     {
+        // if exists file backup rollback transaction
+        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
+            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            // reset transaction
+
+            var_dump($data_backup);
+
+            // update transaction status
+            $transaction_id = $data_backup['transaction_id'];
+
+            die;
+        }
+
         $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
         $bestseller_products = $bestseller_products_remapped['products'];
         $product_ids = $bestseller_products_remapped['product_ids'];
