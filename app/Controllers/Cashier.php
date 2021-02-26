@@ -70,9 +70,18 @@ class Cashier extends Controller
         return $products;
     }
 
-    private function generateDataUpdateBatchTransactionDetail()
+    private function generateDataResetTransactionDetail(array $transaction_detail, string $transaction_id, string $customer_money): array
     {
-
+        $data_reset = [];
+        foreach($transaction_detail as $td) {
+            $data_reset[] = [
+                'transaksi_detail_id' => $td['transaksi_detail_id'],
+                'transaksi_id' => $transaction_id,
+                'harga_produk_id' => $td['harga_produk_id'],
+                'jumlah_produk' => $td['jumlah_produk']
+            ];
+        }
+        return $data_reset;
     }
 
     public function index()
@@ -80,11 +89,18 @@ class Cashier extends Controller
         // if exists file backup rollback transaction
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
             $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            // reset transaction detail
+            $data_reset = $this->generateDataResetTransactionDetail(
+                $data_backup['transaction_detail'],
+                $data_backup['transaction_id'],
+                $data_backup['customer_money']
+            );
+
+            var_dump($this->transaction_detail_model->saveTransactionDetail($data_reset));
+
+            // var_dump($data_backup);
+
             // reset transaction
-
-            var_dump($data_backup);
-
-            // update transaction status
             $transaction_id = $data_backup['transaction_id'];
 
             die;
@@ -339,7 +355,10 @@ class Cashier extends Controller
 
         // get customer money and transaction detail
         $customer_money = $this->transaction_model->findTransaction($transaction_id, 'uang_pembeli')['uang_pembeli']??null;
-        $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier($transaction_id);
+        $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+            $transaction_id,
+            'produk.produk_id, harga_produk.harga_produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
+        );
 
         // backoup transaction detail to json file
         $data_backup = json_encode(['transaction_id'=>$transaction_id, 'customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail]);
