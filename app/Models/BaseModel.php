@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class BaseModel extends Model
 {
-    private function generateColumns(array $data): string
+    protected function generateColumns(array $data): string
     {
         $columns = '';
         foreach($data as $key => $value) {
@@ -15,13 +15,13 @@ class BaseModel extends Model
         return rtrim($columns, ',');
     }
 
-    private function generateValues(array $data): string
+    private function generateNamedBindings(array $data): string
     {
-        $values = '';
+        $named = '';
         foreach($data as $key => $value) {
-            $values .= ':'.$key.':,';
+            $named .= ':'.$key.':,';
         }
-        return rtrim($values, ',');
+        return rtrim($named, ',');
     }
 
     /*
@@ -34,7 +34,7 @@ class BaseModel extends Model
     public function insertReturning(array $data_insert, string $field_return)//: bool
     {
         $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumns($data_insert).')
-               VALUES ('.$this->generateValues($data_insert).') RETURNING '.$this->db->escapeString($field_return);
+               VALUES ('.$this->generateNamedBindings($data_insert).') RETURNING '.$this->db->escapeString($field_return);
 
         $insert = $this->db->query($sql, $data_insert);
         $this->insert_return = $insert->getRowArray()[$field_return];
