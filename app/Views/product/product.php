@@ -379,6 +379,13 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
         // if remove product success
         else if (json.success === true) {
             checkboxs_checked.forEach(val => {
+                // if exists detail product
+                const table_row_details = val.parentElement.parentElement.parentElement.nextElementSibling;
+                if (table_row_details !== null && table_row_details.classList.contains('table__row-details')) {
+                    table_row_details.remove();
+                }
+
+                // remove product checklist
                 val.parentElement.parentElement.parentElement.remove();
             });
 
