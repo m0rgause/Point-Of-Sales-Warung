@@ -59,14 +59,19 @@ class TransactionDetailModel extends BaseModel
 
     private function generateValuesBatch(array $data): array
     {
-
+        $values = [];
+        foreach ($data as $d) {
+            $values[] = $d;
+        }
+        return $values;
     }
 
     public function saveTransactionDetail(array $data_save)
     {
         $this->generateColumns($data_save[0]);
         $this->generateQueryUpdateOnConflict($data_save[0]);
-        return $this->generateQuestionMarksBatch($data_save);
+        $this->generateQuestionMarksBatch($data_save);
+        return $this->generateValuesBatch($data_save);
 
         $query = "INSERT INTO transaksi_detail(transaksi_detail_id, transaksi_id, harga_produk_id, jumlah_produk)
             VALUES
