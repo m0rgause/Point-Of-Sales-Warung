@@ -202,14 +202,20 @@ class Cashier extends Controller
     {
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
-            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier($_SESSION['posw_transaction_id']);
+            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+                $_SESSION['posw_transaction_id'],
+                'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
+            );
             return json_encode(['transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
         }
 
         // if exists not transaction yet
         $transaction_id = $this->transaction_model->getNotTransactionYetId();
         if ($transaction_id !== null) {
-            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier($transaction_id);
+            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+                $transaction_id,
+                'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
+            );
 
             // create session
             $data_session = [
@@ -220,7 +226,6 @@ class Cashier extends Controller
 
             return json_encode(['transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
         }
-
         return json_encode(['transaction_detail'=>[], 'csrf_value'=>csrf_hash()]);
     }
 

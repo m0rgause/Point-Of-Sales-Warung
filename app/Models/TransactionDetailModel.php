@@ -9,9 +9,9 @@ class TransactionDetailModel extends BaseModel
     protected $allowedFields = ['transaksi_detail_id', 'transaksi_id', 'harga_produk_id', 'jumlah_produk'];
     protected $useAutoIncrement = false;
 
-    public function getTransactionDetailForCashier(string $transaction_id): array
+    public function getTransactionDetailForCashier(string $transaction_id, string $column): array
     {
-        return $this->select('produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk')
+        return $this->select($column)
                     ->join('harga_produk', 'transaksi_detail.harga_produk_id = harga_produk.harga_produk_id')
                     ->join('produk', 'harga_produk.produk_id = produk.produk_id')
                     ->getWhere(['transaksi_id' => $transaction_id])
