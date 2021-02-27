@@ -36,7 +36,7 @@ class BaseModel extends Model
         $sql = 'INSERT INTO '.$this->table.' ('.$this->generateColumns($data_insert).')
                VALUES ('.$this->generateNamedBindings($data_insert).') RETURNING '.$this->db->escapeString($field_return);
 
-        $insert = $this->db->query($sql, $data_insert);
+        $insert = $this->query($sql, $data_insert);
         $this->insert_return = $insert->getRowArray()[$field_return];
 
         if ($this->insert_return !== null) {
