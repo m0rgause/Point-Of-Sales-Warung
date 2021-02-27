@@ -54,7 +54,7 @@ class ProductModel extends BaseModel
                     ->getResultArray();
     }
 
-    public function getLongerProductSearches(int $limit, string $smallest_create_time, string $match)
+    public function getLongerProductSearches(int $limit, string $smallest_create_time, string $match): array
     {
          return $this->select('produk_id,nama_produk,status_produk,waktu_buat')
                      ->limit($limit)->orderBy('waktu_buat', 'DESC')->like('nama_produk',$match,'after')
