@@ -70,7 +70,7 @@ class Cashier extends Controller
         return $products;
     }
 
-    private function generateDataResetTransactionDetail(array $transaction_detail, string $transaction_id, string $customer_money): array
+    private function generateDataResetTransactionDetail(array $transaction_detail, string $transaction_id): array
     {
         $data_reset = [];
         foreach($transaction_detail as $td) {
@@ -89,21 +89,20 @@ class Cashier extends Controller
         // if exists file backup rollback transaction
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
             $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+
             // reset transaction detail
             $data_reset = $this->generateDataResetTransactionDetail(
                 $data_backup['transaction_detail'],
-                $data_backup['transaction_id'],
-                $data_backup['customer_money']
+                $data_backup['transaction_id']
             );
+            $this->transaction_detail_model->saveTransactionDetail($data_reset);
 
-            var_dump($this->transaction_detail_model->saveTransactionDetail($data_reset));
-
-            // var_dump($data_backup);
-
-            // reset transaction
-            $transaction_id = $data_backup['transaction_id'];
-
-            die;
+            // update status transaction = selesai
+            $this->transaction_model->update($data_backup['transaction_id'], [
+                'status_transaksi' => 'selesai'
+            ]);
+            // remove file backup
+            unlink(WRITEPATH.'transaction_backup/data.json');
         }
 
         $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
@@ -361,7 +360,7 @@ class Cashier extends Controller
         );
 
         // backoup transaction detail to json file
-        $data_backup = json_encode(['transaction_id'=>$transaction_id, 'customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail]);
+        $data_backup = json_encode(['transaction_id'=>$transaction_id, 'transaction_detail'=>$transaction_detail]);
         file_put_contents(WRITEPATH.'transaction_backup/data.json', $data_backup);
 
         return json_encode(['customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
