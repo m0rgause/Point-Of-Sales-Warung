@@ -106,7 +106,7 @@ class Cashier extends Controller
         return true;
     }
 
-    public function buyProduct()
+    public function buyProductTransaction()
     {
         $product_price_id = $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING);
         $product_qty = (int)$this->request->getPost('product_qty', FILTER_SANITIZE_STRING);

@@ -64,7 +64,7 @@ $routes->post('/admin/hapus_produk', 'Product::removeProductInDB');
 $routes->group('/kasir', function($routes)
 {
     $routes->post('cari_produk', 'Cashier::showProductSearches');
-    $routes->post('beli_produk', 'Cashier::buyProduct');
+    $routes->post('beli_produk_transaksi', 'Cashier::buyProductTransaction');
     $routes->post('tampil_transaksi_detail', 'Cashier::showTransactionDetail');
     $routes->post('ubah_jumlah_produk', 'Cashier::updateProductQty');
     $routes->post('hapus_produk_dari_keranjang_belanja', 'Cashier::removeProductFromShoppingCart');

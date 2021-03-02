@@ -259,7 +259,7 @@ btn_search_product.addEventListener('click', e => {
 });
 
 // buy product
-function buy_product(
+function buy_product_transaction(
     target,
     cart_table,
     product_price_id,
@@ -278,7 +278,7 @@ function buy_product(
     btn_cancel_transaction.classList.add('btn--disabled');
     btn_finish_transaction.classList.add('btn--disabled');
 
-    fetch('/kasir/beli_produk', {
+    fetch('/kasir/beli_produk_transaksi', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -407,8 +407,8 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
         if (cart_table.getAttribute('aria-label') === 'rollback-transaksi' && cart_table.getAttribute('transaksi-id' !== null)) {
             // rollback transaction
         } else {
-            // buy product
-            buy_product(
+            // buy product transaction
+            buy_product_transaction(
                 target,
                 cart_table,
                 product_price_id,
