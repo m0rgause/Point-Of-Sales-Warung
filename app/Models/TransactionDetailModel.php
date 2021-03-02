@@ -18,9 +18,9 @@ class TransactionDetailModel extends BaseModel
                     ->getResultArray();
     }
 
-    public function updateProductQty(string $transaction_detail_id, int $product_qty_new): bool
+    public function updateProductQty(string $transaction_detail_id, int $product_qty_new, string $transaction_id): bool
     {
-        return $this->where('transaksi_id', $_SESSION['posw_transaction_id'])
+        return $this->where('transaksi_id', $transaction_id)
                     ->update($transaction_detail_id, ['jumlah_produk'=>$product_qty_new]);
     }
 

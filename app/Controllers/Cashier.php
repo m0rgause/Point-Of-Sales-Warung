@@ -270,7 +270,14 @@ class Cashier extends Controller
             return false;
         }
 
-        $this->transaction_detail_model->updateProductQty($transaction_detail_id, $product_qty_new);
+        // generate transaction id
+        if (isset($_SESSION['posw_transaction_id'])) {
+            $transaction_id = $_SESSION['posw_transaction_id'];
+        } else {
+            $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+        }
+
+        $this->transaction_detail_model->updateProductQty($transaction_detail_id, $product_qty_new, $transaction_id);
         return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
     }
 

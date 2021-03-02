@@ -468,6 +468,12 @@ function update_product_qty(
         return false;
     }
 
+    let data = `product_qty_new=${product_qty_new}&transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`;
+    // if exists aria labe = rollback-transaction
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        data += `&transaction_id=${cart_table.dataset.transactionId}`;
+    }
+
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
 
@@ -477,7 +483,7 @@ function update_product_qty(
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: `product_qty_new=${product_qty_new}&transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`
+        body: data
     })
     .finally(() => {
         // loading
