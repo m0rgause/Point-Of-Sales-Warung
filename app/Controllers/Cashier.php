@@ -284,8 +284,16 @@ class Cashier extends Controller
     public function removeProductFromShoppingCart()
     {
         $transaction_detail_id = $this->request->getPost('transaction_detail_id', FILTER_SANITIZE_STRING);
-        $this->transaction_detail_model->removeTransactionDetail($transaction_detail_id);
 
+        // generate transaction id
+        if (isset($_SESSION['posw_transaction_id'])) {
+            $transaction_id = $_SESSION['posw_transaction_id'];
+        } else {
+            $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+        }
+
+        // remove product
+        $this->transaction_detail_model->removeTransactionDetail($transaction_detail_id, $transaction_id);
         return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
     }
 

@@ -542,6 +542,12 @@ function remove_product_from_shopping_cart(
     csrf_value,
     main
 ) {
+    let data = `transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`;
+    // if exists aria label = rollback-transaction in cart table
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        data += `&transaction_id=${cart_table.dataset.transactionId}`;
+    }
+
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
 
@@ -551,7 +557,7 @@ function remove_product_from_shopping_cart(
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: `transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`
+        body: data
     })
     .finally(() => {
         // loading

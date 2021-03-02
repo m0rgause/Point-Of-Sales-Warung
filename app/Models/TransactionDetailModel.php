@@ -24,9 +24,9 @@ class TransactionDetailModel extends BaseModel
                     ->update($transaction_detail_id, ['jumlah_produk'=>$product_qty_new]);
     }
 
-    public function removeTransactionDetail(string $transaction_detail_id): int
+    public function removeTransactionDetail(string $transaction_detail_id, string $transaction_id): int
     {
-        $this->where('transaksi_id', $_SESSION['posw_transaction_id'])
+        $this->where('transaksi_id', $transaction_id)
              ->delete($transaction_detail_id);
         return $this->db->affectedRows();
     }
