@@ -367,10 +367,9 @@ function buy_product(
                 let customer_money = document.querySelector('input[name="customer_money"]').value;
                 if (customer_money.value !== '') {
                     customer_money = parseInt(customer_money);
-                    const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
 
-                    if (customer_money >= total_payment) {
-                        document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
+                    if (customer_money >= total_payment_new) {
+                        document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
                     } else {
                         document.querySelector('input[name="change_money"]').value = '';
                     }
@@ -488,10 +487,9 @@ function update_product_qty(
             let customer_money = document.querySelector('input[name="customer_money"]').value;
             if (customer_money.value !== '') {
                 customer_money = parseInt(customer_money);
-                const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
 
-                if (customer_money >= total_payment) {
-                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
+                if (customer_money >= total_payment_new) {
+                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
                 } else {
                     document.querySelector('input[name="change_money"]').value = '';
                 }
@@ -560,10 +558,9 @@ function remove_product_from_shopping_cart(
             let customer_money = document.querySelector('input[name="customer_money"]').value;
             if (customer_money.value !== '') {
                 customer_money = parseInt(customer_money);
-                const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
 
-                if (customer_money >= total_payment) {
-                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
+                if (customer_money >= total_payment_new) {
+                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
                 } else {
                     document.querySelector('input[name="change_money"]').value = '';
                 }
