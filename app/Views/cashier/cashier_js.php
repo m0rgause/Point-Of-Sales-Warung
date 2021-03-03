@@ -730,11 +730,8 @@ document.querySelector('aside.cart input[name="customer_money"]').addEventListen
     }
 });
 
-function reset_shopping_cart(cart_table, btn_close_cart)
+function reset_shopping_cart(cart_table)
 {
-    // close cart
-    btn_close_cart.click();
-
     // empty cart
     cart_table.querySelector('tbody').innerHTML = '<tr id="empty-shopping-cart"><td colspan="7"></td></tr>';
     cart_table.querySelector('td#total-qty').innerText = 0;
@@ -782,7 +779,10 @@ function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
 
         // if success
         if (json.success === true) {
-            reset_shopping_cart(cart_table, btn_close_cart);
+            // close cart
+            btn_close_cart.click();
+            // reset shopping cart
+            reset_shopping_cart(cart_table);
         }
         // if false and form message exists
         if (json.success === false && json.form_errors !== undefined) {
@@ -826,7 +826,7 @@ btn_finish_transaction.addEventListener('click', e => {
     }
 });
 
-function cancel_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart)
+function cancel_transaction(csrf_name, csrf_value, cart_table, main)
 {
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
@@ -865,7 +865,7 @@ function cancel_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
             });
 
             // reset shopping cart
-            reset_shopping_cart(cart_table, btn_close_cart);
+            reset_shopping_cart(cart_table);
         }
     })
     .catch(error => {
@@ -887,7 +887,7 @@ btn_cancel_transaction.addEventListener('click', e => {
 
     // else if exists attribute aria-label = transaction
     else if (cart_table.getAttribute('aria-label') === 'transaction') {
-        cancel_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart);
+        cancel_transaction(csrf_name, csrf_value, cart_table, main);
     }
 });
 </script>
