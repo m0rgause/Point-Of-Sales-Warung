@@ -259,7 +259,7 @@ btn_search_product.addEventListener('click', e => {
 });
 
 // buy product
-function buy_product_transaction(
+function buy_product(
     target,
     cart_table,
     product_price_id,
@@ -407,8 +407,8 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
         if (cart_table.getAttribute('aria-label') === 'rollback-transaksi' && cart_table.getAttribute('transaksi-id' !== null)) {
             // rollback transaction
         } else {
-            // buy product transaction
-            buy_product_transaction(
+            // buy product
+            buy_product(
                 target,
                 cart_table,
                 product_price_id,
