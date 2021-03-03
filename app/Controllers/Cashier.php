@@ -229,6 +229,30 @@ class Cashier extends Controller
         }
     }
 
+    public function buyProductRollbackTransaction()
+    {
+        $product_qty = (int)$this->request->getPost('product_qty', FILTER_SANITIZE_STRING);
+        // if product qty = 0
+        if ($product_qty <= 0) {
+            return false;
+        }
+
+        // add product to transaction detail
+        $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
+            'transaksi_detail_id' => generate_uuid(),
+            'transaksi_id' => $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING),
+            'harga_produk_id' => $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING),
+            'jumlah_produk' => $product_qty
+        ], 'transaksi_detail_id');
+        $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+
+        if ($insert_transaction_detail > 0) {
+            return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
+        }
+
+        return json_encode(['success'=>false, 'csrf_value'=>csrf_hash()]);
+    }
+
     public function showTransactionDetail()
     {
         // if exists session transaction status
