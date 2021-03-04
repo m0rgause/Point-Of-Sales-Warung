@@ -296,14 +296,13 @@ document.querySelector('aside.cart input[name="customer_money"]').addEventListen
 function buy_product(
     target,
     cart_table,
-    product_price_id,
+    data,
     product_qty,
-    csrf_name,
-    csrf_value,
     btn_search_product,
     btn_cancel_transaction,
     btn_finish_transaction,
-    main
+    main,
+    url
 ) {
     // loading
     document.querySelector('div#transaction-loading').classList.remove('d-none');
@@ -312,13 +311,13 @@ function buy_product(
     btn_cancel_transaction.classList.add('btn--disabled');
     btn_finish_transaction.classList.add('btn--disabled');
 
-    fetch('/kasir/beli_produk_transaksi', {
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: `product_price_id=${product_price_id}&product_qty=${product_qty}&${csrf_name}=${csrf_value}`
+        body: data
     })
     .finally(() => {
         // loading
@@ -348,8 +347,9 @@ function buy_product(
             product_sales_el.innerText = `Terjual ${product_sales_new}`;
             product_sales_el.dataset.productSales = product_sales_new;
 
-            // if attribute aria label = transaction in cart table
-            if (cart_table.getAttribute('aria-label') === 'transaction') {
+            // if attribute aria label = transaction or rollback-transaction in cart table
+            const aria_label = cart_table.getAttribute('aria-label');
+            if (aria_label === 'transaction' || aria_label === 'rollback-transaction') {
                 const product_id = target.parentElement.parentElement.dataset.productId;
                 const product_info_el = target.parentElement.previousElementSibling;
                 const product_name = product_info_el.querySelector('p.product__name').textContent;
@@ -428,24 +428,27 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
             return false;
         }
 
-        // if attribute aria-label = rollback-transaksi and transaksi-id exists in tag table
-        if (cart_table.getAttribute('aria-label') === 'rollback-transaksi' && cart_table.getAttribute('transaksi-id' !== null)) {
-            // rollback transaction
-        } else {
-            // buy product
-            buy_product(
-                target,
-                cart_table,
-                product_price_id,
-                product_qty,
-                csrf_name,
-                csrf_value,
-                btn_search_product,
-                btn_cancel_transaction,
-                btn_finish_transaction,
-                main
-            );
+        let data = `product_price_id=${product_price_id}&product_qty=${product_qty}&${csrf_name}=${csrf_value}`;
+        let url = '/kasir/beli_produk_transaksi';
+        // if attribute aria-label = rollback-transaksi exists in tag table
+        if (cart_table.getAttribute('aria-label') === 'rollback-transaksi') {
+            // generate data and url for buy product rollback-transaction
+            data += `&transaction_id=${cart_table.dataset.transactionId}`;
+            url = '/kasir/beli_produk_rollback_transaksi';
         }
+
+        // buy product
+        buy_product(
+            target,
+            cart_table,
+            data,
+            product_qty,
+            btn_search_product,
+            btn_cancel_transaction,
+            btn_finish_transaction,
+            main,
+            url
+        );
     }
 });
 
