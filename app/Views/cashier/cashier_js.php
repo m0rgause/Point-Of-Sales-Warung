@@ -386,7 +386,7 @@ function buy_product(
 
                 const total_payment_old = cart_table.querySelector('td#total-payment').dataset.totalPayment;
                 const total_qty_old = cart_table.querySelector('td#total-qty').dataset.totalQty;
-                const total_payment_new = parseInt(payment) + parseInt(total_payment_old);
+                const total_payment_new = payment + parseInt(total_payment_old);
                 const total_qty_new = parseInt(product_qty) + parseInt(total_qty_old);
 
                 // inner text total payment and total qty in cart table
