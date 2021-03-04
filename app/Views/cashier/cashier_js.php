@@ -342,9 +342,9 @@ function buy_product(
 
             // update product sales
             const product_sales_el = target.parentElement.previousElementSibling.querySelector('p.product__sales');
-            const new_product_sales = parseInt(product_qty) + parseInt(product_sales_el.dataset.productSales);
-            product_sales_el.innerText = `Terjual ${new_product_sales}`;
-            product_sales_el.dataset.productSales = new_product_sales;
+            const product_sales_new = parseInt(product_qty) + parseInt(product_sales_el.dataset.productSales);
+            product_sales_el.innerText = `Terjual ${product_sales_new}`;
+            product_sales_el.dataset.productSales = product_sales_new;
 
             // if attribute aria label = transaction in cart table
             if (cart_table.getAttribute('aria-label') === 'transaction') {
