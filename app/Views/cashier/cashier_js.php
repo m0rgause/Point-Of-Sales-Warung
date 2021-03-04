@@ -258,6 +258,38 @@ btn_search_product.addEventListener('click', e => {
     });
 });
 
+// calculate change money
+function calculate_change_money(customer_money, total_payment)
+{
+    const change_money_el = document.querySelector('input[name="change_money"]');
+    if (customer_money >= total_payment) {
+        change_money_el.value = number_formatter_to_currency(customer_money - total_payment);
+    }
+    // if input change money not empty
+    else if (change_money_el.value !== '') {
+        change_money_el.value = '';
+    }
+}
+
+// calculate change money
+let calculate = true;
+document.querySelector('aside.cart input[name="customer_money"]').addEventListener('input', (e) => {
+    if (calculate === true) {
+        // set calculate = false
+        calculate = false;
+
+        // calculate change money after 500ms
+        setTimeout(() => {
+            const customer_money = parseInt(e.target.value);
+            const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
+
+            calculate_change_money(customer_money, total_payment);
+
+            calculate = true;
+        }, 300);
+    }
+});
+
 // buy product
 function buy_product(
     target,
@@ -364,16 +396,8 @@ function buy_product(
                 cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
 
                 // if customer money has inputed
-                let customer_money = document.querySelector('input[name="customer_money"]').value;
-                if (customer_money.value !== '') {
-                    customer_money = parseInt(customer_money);
-
-                    if (customer_money >= total_payment_new) {
-                        document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
-                    } else {
-                        document.querySelector('input[name="change_money"]').value = '';
-                    }
-                }
+                let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
+                calculate_change_money(customer_money, total_payment_new);
             }
         }
     })
@@ -484,16 +508,8 @@ function update_product_qty(
             product_sales_el.dataset.productSales = product_sales_new;
 
             // if customer money has inputed
-            let customer_money = document.querySelector('input[name="customer_money"]').value;
-            if (customer_money.value !== '') {
-                customer_money = parseInt(customer_money);
-
-                if (customer_money >= total_payment_new) {
-                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
-                } else {
-                    document.querySelector('input[name="change_money"]').value = '';
-                }
-            }
+            let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
+            calculate_change_money(customer_money, total_payment_new);
         }
     })
     .catch(error => {
@@ -556,15 +572,7 @@ function remove_product_from_shopping_cart(
 
             // if customer money has inputed
             let customer_money = document.querySelector('input[name="customer_money"]').value;
-            if (customer_money.value !== '') {
-                customer_money = parseInt(customer_money);
-
-                if (customer_money >= total_payment_new) {
-                    document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment_new);
-                } else {
-                    document.querySelector('input[name="change_money"]').value = '';
-                }
-            }
+            calculate_change_money(customer_money, total_payment_new);
 
             // if not exists product in cart table
             if (cart_table.querySelector('tbody tr') === null) {
@@ -701,29 +709,6 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
             csrf_value,
             main
         );
-    }
-});
-
-// calculate change money
-let calculate = true;
-document.querySelector('aside.cart input[name="customer_money"]').addEventListener('input', (e) => {
-    if (calculate === true) {
-        // set calculate = false
-        calculate = false;
-
-        // calculate change money after 500ms
-        setTimeout(() => {
-            const customer_money = parseInt(e.target.value);
-            const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
-
-            if (customer_money >= total_payment) {
-                document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
-            } else {
-                document.querySelector('input[name="change_money"]').value = '';
-            }
-
-            calculate = true;
-        }, 300);
     }
 });
 
