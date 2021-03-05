@@ -375,17 +375,7 @@ class Cashier extends Controller
 
     public function showTransactionDetailThreeDaysAgo()
     {
-        $transaction_id_old = $this->request->getPost('transaction_id_old', FILTER_SANITIZE_STRING);
         $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
-
-        // if exists old transaction id
-        if ($transaction_id_old !== null) {
-            // change transaction status = selesai where transaction id = old transaction id
-            $this->transaction_model->update($transaction_id_old, [
-                'status_transaksi' => 'selesai'
-            ]);
-        }
-
         // change transaction status
         $this->transaction_model->update($transaction_id, [
             'status_transaksi' => 'belum'

@@ -931,6 +931,16 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
         return false;
     }
 
+    // if exists attribute aria-label = rollback-transaction in cart table
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        const alert_node = create_alert_node(
+            'alert--warning',
+            `Tidak bisa melakukan rollback transaksi lagi, karena kamu masih melakukan rollback transaksi. Selesaikan atau batalkan rollback transkasi, lalu coba kembali!`
+        );
+        e.target.parentElement.insertBefore(alert_node, e.target);
+        return false;
+    }
+
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
 
@@ -995,16 +1005,10 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
     const transaction_id = modal_content.querySelector('select[name="transaction_three_days_ago"]').value;
-    let data = `transaction_id=${transaction_id}&${csrf_name}=${csrf_value}`;
 
     // if transaction not selected
     if (transaction_id.toLowerCase() === 'riwayat transaksi') {
         return false;
-    }
-
-    // if exists attribute aria-label = rollack-transaction in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-        data += `&transaction_id_old=${cart_table.dataset.transactionId}`;
     }
 
     // loading
@@ -1016,7 +1020,7 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: data
+        body: `transaction_id=${transaction_id}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
