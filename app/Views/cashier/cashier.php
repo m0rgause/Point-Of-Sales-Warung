@@ -80,7 +80,7 @@
 
                 <div class="product__price">
                     <h5><?= $bp['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
-                    <select name="magnitudes" onchange="change_product_price_info(event)">
+                    <select name="magnitude" onchange="change_product_price_info(event)">
                     <?php foreach($bp['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -120,7 +120,7 @@
 
                 <div class="product__price">
                     <h5><?= $op['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
-                    <select name="magnitudes" onchange="change_product_price_info(event)">
+                    <select name="magnitude" onchange="change_product_price_info(event)">
                     <?php foreach($op['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>

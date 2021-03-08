@@ -207,7 +207,7 @@ btn_search_product.addEventListener('click', e => {
 
                         <div class="product__price">
                             <h5>${p.product_price[0].product_price}</h5><span>/</span>
-                            <select name="magnitudes" onchange="change_product_price_info(event)">`;
+                            <select name="magnitude" onchange="change_product_price_info(event)">`;
 
                             p.product_price.forEach (pp => {
                                 product += `<option data-product-price="${pp.product_price}" value="${pp.product_price_id}">
@@ -353,8 +353,8 @@ function buy_product(
                 const product_id = target.parentElement.parentElement.dataset.productId;
                 const product_info_el = target.parentElement.previousElementSibling;
                 const product_name = product_info_el.querySelector('p.product__name').textContent;
-                const product_price = product_info_el.querySelector('select[name="magnitudes"]').selectedOptions[0].dataset.productPrice;
-                const product_magnitude = product_info_el.querySelector('select[name="magnitudes"]').selectedOptions[0].text;
+                const product_price = product_info_el.querySelector('select[name="magnitude"]').selectedOptions[0].dataset.productPrice;
+                const product_magnitude = product_info_el.querySelector('select[name="magnitude"]').selectedOptions[0].text;
                 const payment = parseInt(product_price) * parseInt(product_qty);
 
                 const tr = document.createElement('tr');
@@ -418,7 +418,7 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
     if (target.getAttribute('id') === 'buy-rollback') {
         e.preventDefault();
 
-        const product_price_id = target.parentElement.previousElementSibling.querySelector('select[name="magnitudes"]').value;
+        const product_price_id = target.parentElement.previousElementSibling.querySelector('select[name="magnitude"]').value;
         const product_qty = target.previousElementSibling.value;
         const csrf_name = main.dataset.csrfName;
         const csrf_value = main.dataset.csrfValue;
