@@ -31,6 +31,14 @@ class TransactionDetailModel extends BaseModel
         return $this->db->affectedRows();
     }
 
+    public function removeTransactionDetails(array $transaction_detail_ids, string $transaction_id): int
+    {
+        $this->whereIn('transaksi_detail_id', $transaction_detail_ids)
+             ->where('transaksi_id', $transaction_id)
+             ->delete();
+        return $this->db->affectedRows();
+    }
+
     /*
      |------------------------
      | save transaction detail

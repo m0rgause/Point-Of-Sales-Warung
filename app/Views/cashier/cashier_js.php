@@ -846,6 +846,125 @@ btn_finish_transaction.addEventListener('click', e => {
     }
 });
 
+function generate_transaction_details_for_update_product_sale(transaction_details_backup, transaction_details_cart_table)
+{
+    let transaction_details = [];
+    let i = 0;
+    // get product id and product qty from transaction detail exists in cart table but not exists in backup
+    for (const el of transaction_details_cart_table) {
+        let exists = false;
+        for (const tdb of transaction_details_backup) {
+            // if exists in backup
+            if (el.dataset.productId === tdb.produk_id) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (exists === false) {
+            transaction_details[i] = {product_id: el.dataset.productId, product_qty: parseInt(el.querySelector('td#qty').dataset.qty)};
+            i++;
+        }
+    }
+
+    // get product id and product qty from transaction detail backup
+    for (const tdb of transaction_details_backup) {
+        // find right product qty
+        let product_qty_cart_table = 0;
+        for (const el of transaction_details_cart_table) {
+            if (tdb.produk_id === el.dataset.productId) {
+                product_qty_cart_table = el.querySelector('td#qty').dataset.qty;
+                break;
+            }
+        }
+
+        let product_qty = 0;
+        // if product qty cart table != 0, this mean product not remove yet
+        if (product_qty_cart_table !== 0) {
+            product_qty = parseInt(product_qty_cart_table) - tdb.jumlah_produk;
+        } else {
+            product_qty = 0 - tdb.jumlah_produk;
+        }
+
+        transaction_details[i] = {product_id: tdb.produk_id, product_qty: product_qty};
+        i++;
+    }
+
+    return transaction_details;
+}
+
+// generate transaction detail ids for remove transaction detail not exists in backup file
+function generate_transaction_detail_ids(transaction_details_cart_table)
+{
+    let transaction_detail_ids = [];
+    transaction_details_cart_table.forEach((el, i) => {
+        transaction_detail_ids[i] = el.dataset.transactionDetailId;
+    });
+
+    return transaction_detail_ids;
+}
+
+function cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main)
+{
+    const transaction_details_cart_table = cart_table.querySelectorAll('tbody tr[data-product-id]');
+    // generate transaction detail ids for remove transaction detail not exists in backup file
+    const transaction_detail_ids = generate_transaction_detail_ids(transaction_details_cart_table);
+
+    // loading
+    document.querySelector('div#cart-loading').classList.remove('d-none');
+
+    fetch('/kasir/rollback_transaksi_batal', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `transaction_detail_ids=${transaction_detail_ids}&${csrf_name}=${csrf_value}`
+    })
+    .finally(() => {
+        // loading
+        document.querySelector('div#cart-loading').classList.add('d-none');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            main.dataset.csrfValue = json.csrf_value;
+        }
+
+        // if success
+        if (json.success === true) {
+            // generate data transaction detail for update product sales
+            const transaction_details = generate_transaction_details_for_update_product_sale(
+                json.transaction_details,
+                transaction_details_cart_table
+            );
+
+            // update product sales in product items
+            transaction_details.forEach (tdcb => {
+                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${tdcb.product_id}"] p.product__sales`);
+                // if exists product sales el
+                if (product_sale_el !== null) {
+                    // product sale new = product sales old - product qty
+                    const product_sale_new = parseInt(product_sale_el.dataset.productSales) - tdcb.product_qty;
+                    product_sale_el.dataset.productSales = product_sale_new;
+                    product_sale_el.innerText = `Terjual ${product_sale_new}`;
+                }
+            });
+
+            // remove attribute transaction-id
+            cart_table.removeAttribute('data-transaction-id');
+            // reset shopping cart
+            reset_shopping_cart(cart_table);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
 function cancel_transaction(csrf_name, csrf_value, cart_table, main)
 {
     // loading
@@ -905,8 +1024,8 @@ btn_cancel_transaction.addEventListener('click', e => {
     const csrf_value = main.dataset.csrfValue;
 
     // if exists attribute aria-label = rollback-transaction and transaction-id in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction' && cart_table.getAttribute('transaction-id') !== null) {
-
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main);
     }
 
     // else if exists attribute aria-label = transaction

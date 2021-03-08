@@ -394,4 +394,56 @@ class Cashier extends Controller
 
         return json_encode(['customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
     }
+
+    private function generateTransactionDetailIdsNotInBackup(array $transaction_details_backup, array $transaction_detail_ids): array
+    {
+        $result = [];
+        foreach ($transaction_detail_ids as $tdi) {
+            $exists = false;
+            foreach ($transaction_details_backup as $tdb) {
+                // transaction detail id = data backup transaction detail id
+                if ($tdi === $tdb['transaksi_detail_id']) {
+                    $exists = true;
+                    break;
+                }
+            }
+
+            // if exists = false, this mean transaction detail id not exists in backup
+            if ($exists === false) {
+                $result[] = $tdi;
+            }
+        }
+        return $result;
+    }
+
+    public function cancelRollbackTransaction()
+    {
+        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
+            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            $transaction_details = $data_backup['transaction_detail'];
+
+            // remove transaction detail not exists in backup file
+            $transaction_detail_ids = explode(',', $this->request->getPost('transaction_detail_ids', FILTER_SANITIZE_STRING));
+            $transaction_detail_ids_not_in_backup = $this->generateTransactionDetailIdsNotInBackup($transaction_details, $transaction_detail_ids);
+            if (count($transaction_detail_ids_not_in_backup) > 0) {
+                $this->transaction_detail_model->removeTransactionDetails($transaction_detail_ids_not_in_backup, $data_backup['transaction_id']);
+            }
+
+            // reset transaction detail
+            $data_reset = $this->generateDataResetTransactionDetail(
+                $transaction_details,
+                $data_backup['transaction_id']
+            );
+            $this->transaction_detail_model->saveTransactionDetail($data_reset);
+
+            // update status transaction = selesai
+            $this->transaction_model->update($data_backup['transaction_id'], [
+                'status_transaksi' => 'selesai'
+            ]);
+
+            // remove file backup
+            unlink(WRITEPATH.'transaction_backup/data.json');
+            return json_encode(['success'=>true, 'transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
+        }
+    }
 }
