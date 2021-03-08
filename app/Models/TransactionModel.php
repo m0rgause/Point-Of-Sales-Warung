@@ -16,7 +16,7 @@ class TransactionModel extends BaseModel
                     ->getRowArray()['transaksi_id']??null;
     }
 
-    public function getTransactionThreeDaysAgo(string $timestamp_three_days_ago): array
+    public function getTransactionsThreeDaysAgo(string $timestamp_three_days_ago): array
     {
         return $this->select('transaksi_id, waktu_buat')
                     ->orderBy('waktu_buat', 'desc')

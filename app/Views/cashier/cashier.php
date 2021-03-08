@@ -67,7 +67,7 @@
         if (count($bestseller_products) > 0) :
         foreach ($bestseller_products as $bp) :
 
-        $product_sales = $bp['product_sales']??0;
+        $product_sale = $bp['product_sale']??0;
     ?>
         <div class="product__item" data-product-id="<?= $bp['product_id']; ?>">
             <div class="product__image">
@@ -76,11 +76,11 @@
             <div class="product__info">
                 <p class="product__name"><?= $bp['product_name']; ?></p>
                 <p class="product__category"><?= $bp['category_name']; ?></p>
-                <p class="product__sales" data-product-sales="<?= $product_sales; ?>">Terjual <?= $product_sales; ?></p>
+                <p class="product__sales" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
 
                 <div class="product__price">
                     <h5><?= $bp['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
-                    <select name="magnitude" onchange="change_product_price_info(event)">
+                    <select name="magnitudes" onchange="change_product_price_info(event)">
                     <?php foreach($bp['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -107,7 +107,7 @@
         if (count($products_db) > 0) :
         foreach ($products_db as $op) :
 
-        $product_sales = $op['product_sales']??0;
+        $product_sale = $op['product_sale']??0;
     ?>
         <div class="product__item" data-product-id="<?= $op['product_id']; ?>">
             <div class="product__image">
@@ -116,11 +116,11 @@
             <div class="product__info">
                 <p class="product__name"><?= $op['product_name']; ?></p>
                 <p class="product__category"><?= $op['category_name']; ?></p>
-                <p class="product__sales" data-product-sales="<?= $product_sales; ?>">Terjual <?= $product_sales; ?></p>
+                <p class="product__sales" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
 
                 <div class="product__price">
                     <h5><?= $op['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
-                    <select name="magnitude" onchange="change_product_price_info(event)">
+                    <select name="magnitudes" onchange="change_product_price_info(event)">
                     <?php foreach($op['product_price'] as $pp) : ?>
                         <option data-product-price="<?= $pp['product_price']; ?>" value="<?= $pp['product_price_id']; ?>">
                         <?= $pp['product_magnitude']; ?></option>
@@ -222,7 +222,7 @@
             <h4 class="mb-2">Rollback Transaksi</h4>
             <p class="mb-4">Pilih riwayat transaksi jika ingin melakukan Rollback Transaksi lalu klik Oke!
             </p>
-            <select name="transaction_three_days_ago" class="form-select mb-4"></select>
+            <select name="transactions_three_days_ago" class="form-select mb-4"></select>
             <div class="position-relative d-inline-block">
                 <a class="btn btn--blue-outline" href="#" id="show-transaction-detail">Oke</a>
 

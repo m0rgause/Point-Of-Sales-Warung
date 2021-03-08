@@ -23,7 +23,7 @@ class Cashier extends Controller
         $this->transaction_detail_model = new TransactionDetailModel();
     }
 
-    private function remapDataProducts(array $products_db, bool $return_product_ids=false): ? array
+    private function remapDataProduct(array $products_db, bool $return_product_ids=false): ? array
     {
         $fmt = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
         $fmt->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
@@ -59,7 +59,7 @@ class Cashier extends Controller
                     'product_name' => $val['nama_produk'],
                     'product_photo' => $val['foto_produk'],
                     'category_name' => $val['nama_kategori_produk'],
-                    'product_sales' => $val['jumlah_produk']
+                    'product_sale' => $val['jumlah_produk']
                 ];
             }
         }
@@ -70,10 +70,10 @@ class Cashier extends Controller
         return $products;
     }
 
-    private function generateDataResetTransactionDetail(array $transaction_detail, string $transaction_id): array
+    private function generateDataResetTransactionDetail(array $transaction_details, string $transaction_id): array
     {
         $data_reset = [];
-        foreach($transaction_detail as $td) {
+        foreach($transaction_details as $td) {
             $data_reset[] = [
                 'transaksi_detail_id' => $td['transaksi_detail_id'],
                 'transaksi_id' => $transaction_id,
@@ -92,10 +92,10 @@ class Cashier extends Controller
 
             // reset transaction detail
             $data_reset = $this->generateDataResetTransactionDetail(
-                $data_backup['transaction_detail'],
+                $data_backup['transaction_details'],
                 $data_backup['transaction_id']
             );
-            $this->transaction_detail_model->saveTransactionDetail($data_reset);
+            $this->transaction_detail_model->saveTransactionDetails($data_reset);
 
             // update status transaction = selesai
             $this->transaction_model->update($data_backup['transaction_id'], [
@@ -105,11 +105,11 @@ class Cashier extends Controller
             unlink(WRITEPATH.'transaction_backup/data.json');
         }
 
-        $bestseller_products_remapped = $this->remapDataProducts($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
+        $bestseller_products_remapped = $this->remapDataProduct($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
         $bestseller_products = $bestseller_products_remapped['products'];
         $product_ids = $bestseller_products_remapped['product_ids'];
 
-        $products_remapped = $this->remapDataProducts($this->product_model->getProductsForCashier($product_ids, static::PRODUCT_LIMIT));
+        $products_remapped = $this->remapDataProduct($this->product_model->getProductsForCashier($product_ids, static::PRODUCT_LIMIT));
 
         $data['bestseller_products'] = $bestseller_products;
         $data['products_db'] = $products_remapped;
@@ -123,13 +123,13 @@ class Cashier extends Controller
     public function showProductSearches()
     {
         $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
-        $product_remapped = $this->remapDataProducts($this->product_model->getProductSearchesForCashier(static::PRODUCT_LIMIT, $keyword));
+        $products_remapped = $this->remapDataProduct($this->product_model->getProductSearchesForCashier(static::PRODUCT_LIMIT, $keyword));
 
         // get product search total
         $product_search_total = $this->product_model->countAllProductSearchForCashier($keyword);
 
         echo json_encode([
-            'products_db' => $product_remapped,
+            'products_db' => $products_remapped,
             'product_search_total' => $product_search_total,
             'product_limit' => static::PRODUCT_LIMIT,
             'csrf_value' => csrf_hash()
@@ -253,21 +253,21 @@ class Cashier extends Controller
         return json_encode(['success'=>false, 'csrf_value'=>csrf_hash()]);
     }
 
-    public function showTransactionDetail()
+    public function showTransactionDetails()
     {
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
-            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+            $transaction_details = $this->transaction_detail_model->getTransactionDetailsForCashier(
                 $_SESSION['posw_transaction_id'],
                 'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
             );
-            return json_encode(['transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
+            return json_encode(['transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
         }
 
         // if exists not transaction yet
         $transaction_id = $this->transaction_model->getNotTransactionYetId();
         if ($transaction_id !== null) {
-            $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+            $transaction_details = $this->transaction_detail_model->getTransactionDetailsForCashier(
                 $transaction_id,
                 'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
             );
@@ -279,9 +279,9 @@ class Cashier extends Controller
             ];
             $this->session->set($data_session);
 
-            return json_encode(['transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
+            return json_encode(['transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
         }
-        return json_encode(['transaction_detail'=>[], 'csrf_value'=>csrf_hash()]);
+        return json_encode(['transaction_details'=>[], 'csrf_value'=>csrf_hash()]);
     }
 
     public function updateProductQty()
@@ -356,24 +356,24 @@ class Cashier extends Controller
         return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
     }
 
-    public function showTransactionThreeDaysAgo()
+    public function showTransactionsThreeDaysAgo()
     {
         $timestamp_three_days_ago = date('Y m d H:i:s', mktime(00, 00, 00, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * 3));
-        $transaction_three_days_ago = $this->transaction_model->getTransactionThreeDaysAgo($timestamp_three_days_ago);
+        $transactions_three_days_ago = $this->transaction_model->getTransactionsThreeDaysAgo($timestamp_three_days_ago);
 
         // convert timestamp
         $date_time = new \App\Libraries\DateTime();
-        $count_transaction_three_days_ago = count($transaction_three_days_ago);
+        $count_transaction_three_days_ago = count($transactions_three_days_ago);
         for($i = 0; $i < $count_transaction_three_days_ago; $i++) {
-            $transaction_three_days_ago[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime(
-                $transaction_three_days_ago[$i]['waktu_buat']
+            $transactions_three_days_ago[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime(
+                $transactions_three_days_ago[$i]['waktu_buat']
             );
         }
 
-        return json_encode(['transaction_three_days_ago' => $transaction_three_days_ago, 'csrf_value'=>csrf_hash()]);
+        return json_encode(['transactions_three_days_ago' => $transactions_three_days_ago, 'csrf_value'=>csrf_hash()]);
     }
 
-    public function showTransactionDetailThreeDaysAgo()
+    public function showTransactionDetailsThreeDaysAgo()
     {
         $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
         // change transaction status
@@ -383,21 +383,21 @@ class Cashier extends Controller
 
         // get customer money and transaction detail
         $customer_money = $this->transaction_model->findTransaction($transaction_id, 'uang_pembeli')['uang_pembeli']??null;
-        $transaction_detail = $this->transaction_detail_model->getTransactionDetailForCashier(
+        $transaction_details = $this->transaction_detail_model->getTransactionDetailsForCashier(
             $transaction_id,
             'produk.produk_id, harga_produk.harga_produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
         );
 
         // backoup transaction detail to json file
-        $data_backup = json_encode(['transaction_id'=>$transaction_id, 'transaction_detail'=>$transaction_detail]);
+        $data_backup = json_encode(['transaction_id'=>$transaction_id, 'transaction_details'=>$transaction_details]);
         file_put_contents(WRITEPATH.'transaction_backup/data.json', $data_backup);
 
-        return json_encode(['customer_money'=>$customer_money, 'transaction_detail'=>$transaction_detail, 'csrf_value'=>csrf_hash()]);
+        return json_encode(['customer_money'=>$customer_money, 'transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
     }
 
     private function generateTransactionDetailIdsNotInBackup(array $transaction_details_backup, array $transaction_detail_ids): array
     {
-        $result = [];
+        $results = [];
         foreach ($transaction_detail_ids as $tdi) {
             $exists = false;
             foreach ($transaction_details_backup as $tdb) {
@@ -410,17 +410,17 @@ class Cashier extends Controller
 
             // if exists = false, this mean transaction detail id not exists in backup
             if ($exists === false) {
-                $result[] = $tdi;
+                $results[] = $tdi;
             }
         }
-        return $result;
+        return $results;
     }
 
     public function cancelRollbackTransaction()
     {
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
             $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
-            $transaction_details = $data_backup['transaction_detail'];
+            $transaction_details = $data_backup['transaction_details'];
 
             // remove transaction detail not exists in backup file
             $transaction_detail_ids = explode(',', $this->request->getPost('transaction_detail_ids', FILTER_SANITIZE_STRING));
@@ -434,7 +434,7 @@ class Cashier extends Controller
                 $transaction_details,
                 $data_backup['transaction_id']
             );
-            $this->transaction_detail_model->saveTransactionDetail($data_reset);
+            $this->transaction_detail_model->saveTransactionDetails($data_reset);
 
             // update status transaction = selesai
             $this->transaction_model->update($data_backup['transaction_id'], [

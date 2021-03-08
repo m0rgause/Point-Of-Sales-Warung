@@ -9,7 +9,7 @@ class TransactionDetailModel extends BaseModel
     protected $allowedFields = ['transaksi_detail_id', 'transaksi_id', 'harga_produk_id', 'jumlah_produk'];
     protected $useAutoIncrement = false;
 
-    public function getTransactionDetailForCashier(string $transaction_id, string $column): array
+    public function getTransactionDetailsForCashier(string $transaction_id, string $column): array
     {
         return $this->select($column)
                     ->join('harga_produk', 'transaksi_detail.harga_produk_id = harga_produk.harga_produk_id')
@@ -76,7 +76,7 @@ class TransactionDetailModel extends BaseModel
         return $values;
     }
 
-    public function saveTransactionDetail(array $data_save): int
+    public function saveTransactionDetails(array $data_save): int
     {
         $query = "INSERT INTO transaksi_detail(".$this->generateColumns($data_save[0]).")
             VALUES ".$this->generateQuestionMarksBatch($data_save)."

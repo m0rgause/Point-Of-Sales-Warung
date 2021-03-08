@@ -7,12 +7,12 @@ const btn_finish_transaction = document.querySelector('a#finish-transaction');
 const cart_table = document.querySelector('aside.cart table.table');
 
 // show transaction detail in cart table
-function show_transaction_detail(cart_table, transaction_detail)
+function show_transaction_details(cart_table, transaction_details)
 {
     let tr = '';
     let total_payment = 0;
     let total_qty = 0;
-    transaction_detail.forEach (td => {
+    transaction_details.forEach (td => {
         const payment = parseInt(td.harga_produk) * parseInt(td.jumlah_produk);
         tr += `<tr data-product-id="${td.produk_id}" data-transaction-detail-id="${td.transaksi_detail_id}">
             <td width="10"><a href="#" title="Hapus produk" id="remove-product"  class="text-hover-red">
@@ -44,7 +44,7 @@ function show_transaction_detail(cart_table, transaction_detail)
 }
 
 // get transaction detail
-function get_transaction_detail(
+function get_transaction_details(
     cart_table,
     csrf_name,
     csrf_value,
@@ -80,9 +80,9 @@ function get_transaction_detail(
         }
 
         // if exists transaction detail
-        if (json.transaction_detail.length > 0) {
+        if (json.transaction_details.length > 0) {
             // show transaction detail in cart table
-            show_transaction_detail(cart_table, json.transaction_detail);
+            show_transaction_details(cart_table, json.transaction_details);
 
             // add attribute aria label = transaction
             cart_table.setAttribute('aria-label', 'transaction');
@@ -115,7 +115,7 @@ btn_show_cart.addEventListener('click', (e) => {
     // if not exists attribute aria-label
     if (cart_table.getAttribute('aria-label') === null) {
         // get and show transaction detail in cart
-        get_transaction_detail(
+        get_transaction_details(
             cart_table,
             csrf_name,
             csrf_value,
@@ -194,7 +194,7 @@ btn_search_product.addEventListener('click', e => {
             product += '<h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">';
 
             json.products_db.forEach (p => {
-                const product_sales = p.product_sales!==null?p.product_sales:0;
+                const product_sale = p.product_sale!==null?p.product_sale:0;
 
                 product += `<div class="product__item" data-product-id="${p.product_id}">
                     <div class="product__image">
@@ -203,11 +203,11 @@ btn_search_product.addEventListener('click', e => {
                     <div class="product__info">
                         <p class="product__name">${p.product_name}</p>
                         <p class="product__category">${p.category_name}</p>
-                        <p class="product__sales" data-product-sales="${product_sales}">Terjual ${product_sales}</p>
+                        <p class="product__sales" data-product-sale="${product_sale}">Terjual ${product_sale}</p>
 
                         <div class="product__price">
                             <h5>${p.product_price[0].product_price}</h5><span>/</span>
-                            <select name="magnitude" onchange="change_product_price_info(event)">`;
+                            <select name="magnitudes" onchange="change_product_price_info(event)">`;
 
                             p.product_price.forEach (pp => {
                                 product += `<option data-product-price="${pp.product_price}" value="${pp.product_price_id}">
@@ -341,11 +341,11 @@ function buy_product(
             // reset form number of product
             target.previousElementSibling.value = '';
 
-            // update product sales
-            const product_sales_el = target.parentElement.previousElementSibling.querySelector('p.product__sales');
-            const product_sales_new = parseInt(product_qty) + parseInt(product_sales_el.dataset.productSales);
-            product_sales_el.innerText = `Terjual ${product_sales_new}`;
-            product_sales_el.dataset.productSales = product_sales_new;
+            // update product sale
+            const product_sale_el = target.parentElement.previousElementSibling.querySelector('p.product__sales');
+            const product_sale_new = parseInt(product_qty) + parseInt(product_sale_el.dataset.productSale);
+            product_sale_el.innerText = `Terjual ${product_sale_new}`;
+            product_sale_el.dataset.productSale = product_sale_new;
 
             // if attribute aria label = transaction or rollback-transaction in cart table
             const aria_label = cart_table.getAttribute('aria-label');
@@ -353,8 +353,8 @@ function buy_product(
                 const product_id = target.parentElement.parentElement.dataset.productId;
                 const product_info_el = target.parentElement.previousElementSibling;
                 const product_name = product_info_el.querySelector('p.product__name').textContent;
-                const product_price = product_info_el.querySelector('select[name="magnitude"]').selectedOptions[0].dataset.productPrice;
-                const product_magnitude = product_info_el.querySelector('select[name="magnitude"]').selectedOptions[0].text;
+                const product_price = product_info_el.querySelector('select[name="magnitudes"]').selectedOptions[0].dataset.productPrice;
+                const product_magnitude = product_info_el.querySelector('select[name="magnitudes"]').selectedOptions[0].text;
                 const payment = parseInt(product_price) * parseInt(product_qty);
 
                 const tr = document.createElement('tr');
@@ -418,7 +418,7 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
     if (target.getAttribute('id') === 'buy-rollback') {
         e.preventDefault();
 
-        const product_price_id = target.parentElement.previousElementSibling.querySelector('select[name="magnitude"]').value;
+        const product_price_id = target.parentElement.previousElementSibling.querySelector('select[name="magnitudes"]').value;
         const product_qty = target.previousElementSibling.value;
         const csrf_name = main.dataset.csrfName;
         const csrf_value = main.dataset.csrfValue;
@@ -460,8 +460,8 @@ function update_product_qty(
     total_qty_new,
     payment_new,
     total_payment_new,
-    product_sales_el,
-    product_sales_new,
+    product_sale_el,
+    product_sale_new,
     transaction_detail_id,
     csrf_name,
     csrf_value,
@@ -515,11 +515,11 @@ function update_product_qty(
             cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
 
             // update product sale in product item
-            const product_sales_el = document.querySelector(`div.product__item[data-product-id="${target_tr.dataset.productId}"] p.product__sales`);
+            const product_sale_el = document.querySelector(`div.product__item[data-product-id="${target_tr.dataset.productId}"] p.product__sales`);
             // if exists product item
-            if (product_sales_el !== null) {
-                product_sales_el.innerText = `Terjual ${product_sales_new}`;
-                product_sales_el.dataset.productSales = product_sales_new;
+            if (product_sale_el !== null) {
+                product_sale_el.innerText = `Terjual ${product_sale_new}`;
+                product_sale_el.dataset.productSale = product_sale_new;
             }
 
             // if customer money has inputed
@@ -538,8 +538,8 @@ function remove_product_from_shopping_cart(
     cart_table,
     total_qty_new,
     total_payment_new,
-    product_sales_el,
-    product_sales_new,
+    product_sale_el,
+    product_sale_new,
     transaction_detail_id,
     csrf_name,
     csrf_value,
@@ -585,9 +585,9 @@ function remove_product_from_shopping_cart(
             cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
 
             // if exists product item, update product sale in product item
-            if (product_sales_el !== null) {
-                product_sales_el.innerText = `Terjual ${product_sales_new}`;
-                product_sales_el.dataset.productSales = product_sales_new;
+            if (product_sale_el !== null) {
+                product_sale_el.innerText = `Terjual ${product_sale_new}`;
+                product_sale_el.dataset.productSale = product_sale_new;
             }
 
             // remove product in table cart
@@ -647,11 +647,11 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_add.parentElement.parentElement.dataset.productId;
-        const product_sales_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
-        let product_sales_new = 0;
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        let product_sale_new = 0;
         // if exists product item
-        if (product_sales_el !== null) {
-            product_sales_new = parseInt(product_sales_el.dataset.productSales) + 1;
+        if (product_sale_el !== null) {
+            product_sale_new = parseInt(product_sale_el.dataset.productSale) + 1;
         }
 
         update_product_qty(
@@ -661,8 +661,8 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
             total_qty_new,
             payment_new,
             total_payment_new,
-            product_sales_el,
-            product_sales_new,
+            product_sale_el,
+            product_sale_new,
             transaction_detail_id,
             csrf_name,
             csrf_value,
@@ -688,11 +688,11 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_reduce.parentElement.parentElement.dataset.productId;
-        const product_sales_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
-        let product_sales_new = 0;
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        let product_sale_new = 0;
         // if exists product item
-        if (product_sales_el !== null) {
-            product_sales_new = parseInt(product_sales_el.dataset.productSales) - 1;
+        if (product_sale_el !== null) {
+            product_sale_new = parseInt(product_sale_el.dataset.productSale) - 1;
         }
 
         update_product_qty(
@@ -702,8 +702,8 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
             total_qty_new,
             payment_new,
             total_payment_new,
-            product_sales_el,
-            product_sales_new,
+            product_sale_el,
+            product_sale_new,
             transaction_detail_id,
             csrf_name,
             csrf_value,
@@ -728,11 +728,11 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_remove.parentElement.parentElement.dataset.productId;
-        const product_sales_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
-        let product_sales_new = 0;
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        let product_sale_new = 0;
         // if exists product item
-        if (product_sales_el !== null) {
-            product_sales_new = parseInt(product_sales_el.dataset.productSales) - product_qty;
+        if (product_sale_el !== null) {
+            product_sale_new = parseInt(product_sale_el.dataset.productSale) - product_qty;
         }
 
         remove_product_from_shopping_cart(
@@ -740,8 +740,8 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
             cart_table,
             total_qty_new,
             total_payment_new,
-            product_sales_el,
-            product_sales_new,
+            product_sale_el,
+            product_sale_new,
             transaction_detail_id,
             csrf_name,
             csrf_value,
@@ -948,8 +948,8 @@ function cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main)
                 // if exists product sales el
                 if (product_sale_el !== null) {
                     // product sale new = product sales old - product qty
-                    const product_sale_new = parseInt(product_sale_el.dataset.productSales) - tdcb.product_qty;
-                    product_sale_el.dataset.productSales = product_sale_new;
+                    const product_sale_new = parseInt(product_sale_el.dataset.productSale) - tdcb.product_qty;
+                    product_sale_el.dataset.productSale = product_sale_new;
                     product_sale_el.innerText = `Terjual ${product_sale_new}`;
                 }
             });
@@ -996,14 +996,14 @@ function cancel_transaction(csrf_name, csrf_value, cart_table, main)
             // update product sales in product items
             const products_in_cart_table = cart_table.querySelectorAll('tbody tr[data-product-id]');
             products_in_cart_table.forEach (el => {
-                const product_sales_el = document.querySelector(`div.product__item[data-product-id="${el.dataset.productId}"] p.product__sales`);
+                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${el.dataset.productId}"] p.product__sales`);
 
                 // if exists product item
-                if (product_sales_el !== null) {
-                    // product sales new = product sales old - product qty
-                    const product_sales_new = parseInt(product_sales_el.dataset.productSales) - parseInt(el.querySelector('td#qty').dataset.qty);
-                    product_sales_el.dataset.productSales = product_sales_new;
-                    product_sales_el.innerText = `Terjual ${product_sales_new}`;
+                if (product_sale_el !== null) {
+                    // product sale new = product sale old - product qty
+                    const product_sale_new = parseInt(product_sale_el.dataset.productSale) - parseInt(el.querySelector('td#qty').dataset.qty);
+                    product_sale_el.dataset.productSale = product_sale_new;
+                    product_sale_el.innerText = `Terjual ${product_sale_new}`;
                 }
             });
 
@@ -1091,15 +1091,15 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
         show_modal(modal, modal_content);
 
         // if exists transaction
-        if (json.transaction_three_days_ago.length > 0) {
+        if (json.transactions_three_days_ago.length > 0) {
             // show data in select input
             let options = '<option>Riwayat Transaksi</option>';
-            json.transaction_three_days_ago.forEach(t => {
+            json.transactions_three_days_ago.forEach(t => {
                 options += `<option value="${t.transaksi_id}">${t.waktu_buat}</option>`;
             });
 
             // inner html to select
-            modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = options;
+            modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = options;
         }
     })
     .catch(error => {
@@ -1114,7 +1114,7 @@ modal_content.querySelector('a#btn-close').addEventListener('click', e => {
     // hide modal
     hide_modal(modal, modal_content);
     // reset modal
-    modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = '';
+    modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = '';
 });
 
 // show transaction detail based on transaction selected in modal
@@ -1123,7 +1123,7 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
 
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
-    const transaction_id = modal_content.querySelector('select[name="transaction_three_days_ago"]').value;
+    const transaction_id = modal_content.querySelector('select[name="transactions_three_days_ago"]').value;
 
     // if transaction not selected
     if (transaction_id.toLowerCase() === 'riwayat transaksi') {
@@ -1155,14 +1155,14 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
         }
 
         // if exists customer_money and transaction_detail
-        if (json.customer_money !== null && json.transaction_detail.length > 0) {
+        if (json.customer_money !== null && json.transaction_details.length > 0) {
             // hide and reset modal
             hide_modal(modal, modal_content);
             // reset modal
-            modal_content.querySelector('select[name="transaction_three_days_ago"]').innerHTML = '';
+            modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = '';
 
             // show transaction detail in cart table
-            show_transaction_detail(cart_table, json.transaction_detail);
+            show_transaction_details(cart_table, json.transaction_details);
 
             // show customer money
             const customer_money = parseInt(json.customer_money);

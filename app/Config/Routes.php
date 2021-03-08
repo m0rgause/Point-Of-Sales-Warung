@@ -66,13 +66,13 @@ $routes->group('/kasir', function($routes)
     $routes->post('cari_produk', 'Cashier::showProductSearches');
     $routes->post('beli_produk_transaksi', 'Cashier::buyProductTransaction');
     $routes->post('beli_produk_rollback_transaksi', 'Cashier::buyProductRollbackTransaction');
-    $routes->post('tampil_transaksi_detail', 'Cashier::showTransactionDetail');
+    $routes->post('tampil_transaksi_detail', 'Cashier::showTransactionDetails');
     $routes->post('ubah_jumlah_produk', 'Cashier::updateProductQty');
     $routes->post('hapus_produk_dari_keranjang_belanja', 'Cashier::removeProductFromShoppingCart');
     $routes->post('transaksi_selesai', 'Cashier::finishTransaction');
     $routes->post('transaksi_batal', 'Cashier::cancelTransaction');
-    $routes->post('tampil_transaksi_tiga_hari_yang_lalu', 'Cashier::showTransactionThreeDaysAgo');
-    $routes->post('tampil_transaksi_detail_tiga_hari_yang_lalu', 'Cashier::showTransactionDetailThreeDaysAgo');
+    $routes->post('tampil_transaksi_tiga_hari_yang_lalu', 'Cashier::showTransactionsThreeDaysAgo');
+    $routes->post('tampil_transaksi_detail_tiga_hari_yang_lalu', 'Cashier::showTransactionDetailsThreeDaysAgo');
     $routes->post('rollback_transaksi_batal', 'Cashier::cancelRollbackTransaction');
 });
 
