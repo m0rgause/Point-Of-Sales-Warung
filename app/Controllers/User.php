@@ -95,7 +95,7 @@ class User extends Controller
         $password_sign_in_user = $this->request->getPost('password_sign_in_user', FILTER_SANITIZE_STRING);
         $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
         $check_password = check_password_sign_in_user($password_sign_in_user, $password_db);
-        if ($check_password !== true) {
+        if ($check_password !== 'yes') {
             // make password errors message
             ValidationMessage::setFlashMessage(
                 'form_errors',
@@ -181,7 +181,7 @@ class User extends Controller
         $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
         $password_db = $this->model->findUser($_SESSION['posw_user_id'], 'password')['password'];
         $check_password = check_password_sign_in_user($password, $password_db);
-        if ($check_password !== true) {
+        if ($check_password !== 'yes') {
             return json_encode(['success'=>false, 'check_password_message'=>$check_password, 'csrf_value'=>csrf_hash()]);
         }
 
