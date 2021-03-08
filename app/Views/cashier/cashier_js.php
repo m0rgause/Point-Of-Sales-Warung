@@ -431,7 +431,7 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
         let data = `product_price_id=${product_price_id}&product_qty=${product_qty}&${csrf_name}=${csrf_value}`;
         let url = '/kasir/beli_produk_transaksi';
         // if attribute aria-label = rollback-transaksi exists in tag table
-        if (cart_table.getAttribute('aria-label') === 'rollback-transaksi') {
+        if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
             // generate data and url for buy product rollback-transaction
             data += `&transaction_id=${cart_table.dataset.transactionId}`;
             url = '/kasir/beli_produk_rollback_transaksi';
