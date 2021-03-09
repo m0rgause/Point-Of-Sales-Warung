@@ -76,7 +76,7 @@
             <div class="product__info">
                 <p class="product__name"><?= $bp['product_name']; ?></p>
                 <p class="product__category"><?= $bp['category_name']; ?></p>
-                <p class="product__sales" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
+                <p class="product__sale" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
 
                 <div class="product__price">
                     <h5><?= $bp['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>
@@ -116,7 +116,7 @@
             <div class="product__info">
                 <p class="product__name"><?= $op['product_name']; ?></p>
                 <p class="product__category"><?= $op['category_name']; ?></p>
-                <p class="product__sales" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
+                <p class="product__sale" data-product-sale="<?= $product_sale; ?>">Terjual <?= $product_sale; ?></p>
 
                 <div class="product__price">
                     <h5><?= $op['product_price'][0]['product_price_formatted']; ?></h5><span>/</span>

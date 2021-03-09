@@ -203,7 +203,7 @@ btn_search_product.addEventListener('click', e => {
                     <div class="product__info">
                         <p class="product__name">${p.product_name}</p>
                         <p class="product__category">${p.category_name}</p>
-                        <p class="product__sales" data-product-sale="${product_sale}">Terjual ${product_sale}</p>
+                        <p class="product__sale" data-product-sale="${product_sale}">Terjual ${product_sale}</p>
 
                         <div class="product__price">
                             <h5>${p.product_price[0].product_price}</h5><span>/</span>
@@ -342,7 +342,7 @@ function buy_product(
             target.previousElementSibling.value = '';
 
             // update product sale
-            const product_sale_el = target.parentElement.previousElementSibling.querySelector('p.product__sales');
+            const product_sale_el = target.parentElement.previousElementSibling.querySelector('p.product__sale');
             const product_sale_new = parseInt(product_qty) + parseInt(product_sale_el.dataset.productSale);
             product_sale_el.innerText = `Terjual ${product_sale_new}`;
             product_sale_el.dataset.productSale = product_sale_new;
@@ -515,7 +515,7 @@ function update_product_qty(
             cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
 
             // update product sale in product item
-            const product_sale_el = document.querySelector(`div.product__item[data-product-id="${target_tr.dataset.productId}"] p.product__sales`);
+            const product_sale_el = document.querySelector(`div.product__item[data-product-id="${target_tr.dataset.productId}"] p.product__sale`);
             // if exists product item
             if (product_sale_el !== null) {
                 product_sale_el.innerText = `Terjual ${product_sale_new}`;
@@ -647,7 +647,7 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_add.parentElement.parentElement.dataset.productId;
-        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sale`);
         let product_sale_new = 0;
         // if exists product item
         if (product_sale_el !== null) {
@@ -688,7 +688,7 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_reduce.parentElement.parentElement.dataset.productId;
-        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sale`);
         let product_sale_new = 0;
         // if exists product item
         if (product_sale_el !== null) {
@@ -728,7 +728,7 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
 
         // generate product sales new
         const product_id = target_remove.parentElement.parentElement.dataset.productId;
-        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sales`);
+        const product_sale_el = document.querySelector(`div.product__item[data-product-id="${product_id}"] p.product__sale`);
         let product_sale_new = 0;
         // if exists product item
         if (product_sale_el !== null) {
@@ -944,7 +944,7 @@ function cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main)
 
             // update product sales in product items
             transaction_details.forEach (tdcb => {
-                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${tdcb.product_id}"] p.product__sales`);
+                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${tdcb.product_id}"] p.product__sale`);
                 // if exists product sales el
                 if (product_sale_el !== null) {
                     // product sale new = product sales old - product qty
@@ -996,7 +996,7 @@ function cancel_transaction(csrf_name, csrf_value, cart_table, main)
             // update product sales in product items
             const products_in_cart_table = cart_table.querySelectorAll('tbody tr[data-product-id]');
             products_in_cart_table.forEach (el => {
-                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${el.dataset.productId}"] p.product__sales`);
+                const product_sale_el = document.querySelector(`div.product__item[data-product-id="${el.dataset.productId}"] p.product__sale`);
 
                 // if exists product item
                 if (product_sale_el !== null) {

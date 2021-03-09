@@ -121,13 +121,13 @@ table.querySelector('tbody').addEventListener('click', e => {
     if (target.getAttribute('id') === 'show-product-detail') {
         e.preventDefault();
 
-        // if next element sibling exists and next element sibling is tr.table__row-details
+        // if next element sibling exists and next element sibling is tr.table__row-detail
         const table_row_detail = target.parentElement.parentElement.nextElementSibling;
-        if (table_row_detail !== null && table_row_detail.classList.contains('table__row-details')) {
-            table_row_detail.classList.toggle('table__row-details--show');
+        if (table_row_detail !== null && table_row_detail.classList.contains('table__row-detail')) {
+            table_row_detail.classList.toggle('table__row-detail--show');
 
-        // if next element sibling not exits or next element sibling is not tr.table__row-details
-        } else if (table_row_detail === null || !table_row_detail.classList.contains('table__row-details')) {
+        // if next element sibling not exits or next element sibling is not tr.table__row-detail
+        } else if (table_row_detail === null || !table_row_detail.classList.contains('table__row-detail')) {
             const product_id = target.dataset.productId;
             const csrf_name = table.dataset.csrfName;
             const csrf_value = table.dataset.csrfValue;
@@ -171,8 +171,8 @@ table.querySelector('tbody').addEventListener('click', e => {
                             </span></li>`;
                     });
                     const tr = document.createElement('tr');
-                    tr.classList.add('table__row-details');
-                    tr.classList.add('table__row-details--show');
+                    tr.classList.add('table__row-detail');
+                    tr.classList.add('table__row-detail--show');
                     tr.innerHTML = `<td colspan="4"><ul>${li}</ul></td>
                         <td colspan="2"><img src="<?= base_url().'/dist/images/product_photo/'; ?>${json.product_photo}"></td>`;
                     target.parentElement.parentElement.after(tr);
@@ -381,7 +381,7 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
             checkboxs_checked.forEach(val => {
                 // if exists detail product
                 const table_row_detail = val.parentElement.parentElement.parentElement.nextElementSibling;
-                if (table_row_detail !== null && table_row_detail.classList.contains('table__row-details')) {
+                if (table_row_detail !== null && table_row_detail.classList.contains('table__row-detail')) {
                     table_row_detail.remove();
                 }
 
