@@ -281,7 +281,7 @@ class Cashier extends Controller
 
             return json_encode(['transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
         }
-        return json_encode(['transaction_details'=>[], 'csrf_value'=>csrf_hash()]);
+        return json_encode(['transaction_details'=>null, 'csrf_value'=>csrf_hash()]);
     }
 
     public function updateProductQty()

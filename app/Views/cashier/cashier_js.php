@@ -34,8 +34,11 @@ function show_transaction_details(cart_table, transaction_details)
         total_payment += payment;
         total_qty += parseInt(td.jumlah_produk);
     });
-    // inner html transaction detail to cart table tbody
-    cart_table.querySelector('tbody').innerHTML = tr;
+
+    if (tr !== '') {
+        // inner html transaction detail to cart table tbody
+        cart_table.querySelector('tbody').innerHTML = tr;
+    }
     // inner text total payment and total qty in cart table
     cart_table.querySelector('td#total-qty').innerText = total_qty;
     cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment);
@@ -80,7 +83,7 @@ function get_transaction_details(
         }
 
         // if exists transaction detail
-        if (json.transaction_details.length > 0) {
+        if (json.transaction_details !== null) {
             // show transaction detail in cart table
             show_transaction_details(cart_table, json.transaction_details);
 
@@ -1155,7 +1158,7 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
         }
 
         // if exists customer_money and transaction_detail
-        if (json.customer_money !== null && json.transaction_details.length > 0) {
+        if (json.customer_money !== null && json.transaction_details !== null) {
             // hide and reset modal
             hide_modal(modal, modal_content);
             // reset modal
