@@ -893,7 +893,7 @@ function generate_transaction_details_for_update_product_sale(transaction_detail
     return transaction_details;
 }
 
-// generate transaction detail ids for remove transaction detail not exists in backup file
+// generate transaction detail ids for remove transaction detail not exists in backup file when cancel rollback transaction
 function generate_transaction_detail_ids(transaction_details_cart_table)
 {
     let transaction_detail_ids = [];
