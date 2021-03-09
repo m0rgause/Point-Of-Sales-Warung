@@ -467,12 +467,12 @@ class Product extends Controller
         return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 
-    public function removeProductInDB()
+    public function removeProductsInDB()
     {
         $product_ids = explode(',',$this->request->getPost('product_ids', FILTER_SANITIZE_STRING));
         $photo_products = $this->model->findProducts($product_ids, 'foto_produk');
         // remove product
-        if ($this->model->removeProduct($product_ids) > 0) {
+        if ($this->model->removeProducts($product_ids) > 0) {
             // remove photo product
             foreach($photo_products as $p) {
                 if (file_exists('dist/images/product_photo/'.$p['foto_produk'])) {
@@ -480,7 +480,7 @@ class Product extends Controller
                 }
             }
 
-            $count_product_ids = count($product_ids);
+            $count_product_id = count($product_ids);
             $smallest_create_time = $this->request->getPost('smallest_create_time');
             $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
 
@@ -489,16 +489,16 @@ class Product extends Controller
                 // product total
                 $product_total = $this->model->countAllProductSearch($keyword);
                 // get longer product
-                $longer_products = $this->model->getLongerProductSearches($count_product_ids, $smallest_create_time, $keyword);
+                $longer_products = $this->model->getLongerProductSearches($count_product_id, $smallest_create_time, $keyword);
 
             } else {
                 // product total
                 $product_total = $this->model->countAllProduct();
                 // get longer product
-                $longer_products = $this->model->getLongerProducts($count_product_ids, $smallest_create_time);
+                $longer_products = $this->model->getLongerProducts($count_product_id, $smallest_create_time);
             }
 
-            // convert timestamp
+            // add array indo create time to longer products array
             $date_time = new \App\Libraries\DateTime();
             $count_longer_products = count($longer_products);
             for ($i = 0; $i < $count_longer_products; $i++) {

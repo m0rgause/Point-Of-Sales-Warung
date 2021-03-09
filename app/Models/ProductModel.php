@@ -37,7 +37,7 @@ class ProductModel extends BaseModel
         return $this->select($column)->getWhere(['produk_id'=>$product_id])->getRowArray();
     }
 
-    public function removeProduct(array $product_ids): int
+    public function removeProducts(array $product_ids): int
     {
         try {
             $this->whereIn('produk_id', $product_ids)->delete();

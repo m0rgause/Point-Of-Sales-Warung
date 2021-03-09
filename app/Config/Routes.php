@@ -59,7 +59,7 @@ $routes->post('/admin/tampil_produk_detail', 'Product::showProductDetail');
 $routes->post('/admin/cari_produk', 'Product::showProductSearches');
 $routes->post('/admin/perbaharui_produk_di_db', 'Product::updateProductInDB');
 $routes->post('/admin/hapus_harga_produk', 'Product::removeProductPriceInDB');
-$routes->post('/admin/hapus_produk', 'Product::removeProductInDB');
+$routes->post('/admin/hapus_produk', 'Product::removeProductsInDB');
 
 $routes->group('/kasir', function($routes)
 {

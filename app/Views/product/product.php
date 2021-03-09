@@ -122,12 +122,12 @@ table.querySelector('tbody').addEventListener('click', e => {
         e.preventDefault();
 
         // if next element sibling exists and next element sibling is tr.table__row-details
-        const table_row_details = target.parentElement.parentElement.nextElementSibling;
-        if (table_row_details !== null && table_row_details.classList.contains('table__row-details')) {
-            table_row_details.classList.toggle('table__row-details--show');
+        const table_row_detail = target.parentElement.parentElement.nextElementSibling;
+        if (table_row_detail !== null && table_row_detail.classList.contains('table__row-details')) {
+            table_row_detail.classList.toggle('table__row-details--show');
 
         // if next element sibling not exits or next element sibling is not tr.table__row-details
-        } else if (table_row_details === null || !table_row_details.classList.contains('table__row-details')) {
+        } else if (table_row_detail === null || !table_row_detail.classList.contains('table__row-details')) {
             const product_id = target.dataset.productId;
             const csrf_name = table.dataset.csrfName;
             const csrf_value = table.dataset.csrfValue;
@@ -380,9 +380,9 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
         else if (json.success === true) {
             checkboxs_checked.forEach(val => {
                 // if exists detail product
-                const table_row_details = val.parentElement.parentElement.parentElement.nextElementSibling;
-                if (table_row_details !== null && table_row_details.classList.contains('table__row-details')) {
-                    table_row_details.remove();
+                const table_row_detail = val.parentElement.parentElement.parentElement.nextElementSibling;
+                if (table_row_detail !== null && table_row_detail.classList.contains('table__row-details')) {
+                    table_row_detail.remove();
                 }
 
                 // remove product checklist
@@ -423,7 +423,7 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
                 });
             }
 
-            const products_in_table = table.querySelectorAll('tbody tr').length;
+            const count_product_in_table = table.querySelectorAll('tbody tr').length;
             // if product total = 0
             if (json.product_total === 0) {
                 // inner html message
@@ -442,16 +442,16 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
                 // if attribute aria-label="search" and attribute keyword exists in table tag
                 if (table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
                     // show result status
-                    result_status.innerText = `1 - ${products_in_table} dari ${json.product_total} Total produk hasil pencarian`;
+                    result_status.innerText = `1 - ${count_product_in_table} dari ${json.product_total} Total produk hasil pencarian`;
                 } else {
                     // show result status
-                    result_status.innerText = `1 - ${products_in_table} dari ${json.product_total} Total produk`;
+                    result_status.innerText = `1 - ${count_product_in_table} dari ${json.product_total} Total produk`;
                 }
             }
 
             // if total product in table < product limit and limit message exists
             const limit_message = document.querySelector('span#limit-message');
-            if (products_in_table < json.product_limit && limit_message !== null) {
+            if (count_product_in_table < json.product_limit && limit_message !== null) {
                 limit_message.remove();
             }
         }
