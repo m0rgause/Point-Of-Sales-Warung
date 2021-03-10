@@ -70,41 +70,8 @@ class Cashier extends Controller
         return $products;
     }
 
-    private function generateDataResetTransactionDetail(array $transaction_details, string $transaction_id): array
-    {
-        $data_reset = [];
-        foreach($transaction_details as $td) {
-            $data_reset[] = [
-                'transaksi_detail_id' => $td['transaksi_detail_id'],
-                'transaksi_id' => $transaction_id,
-                'harga_produk_id' => $td['harga_produk_id'],
-                'jumlah_produk' => $td['jumlah_produk']
-            ];
-        }
-        return $data_reset;
-    }
-
     public function index()
     {
-        // if exists file backup rollback transaction
-        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
-            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
-
-            // reset transaction detail
-            $data_reset = $this->generateDataResetTransactionDetail(
-                $data_backup['transaction_details'],
-                $data_backup['transaction_id']
-            );
-            $this->transaction_detail_model->saveTransactionDetails($data_reset);
-
-            // update status transaction = selesai
-            $this->transaction_model->update($data_backup['transaction_id'], [
-                'status_transaksi' => 'selesai'
-            ]);
-            // remove file backup
-            unlink(WRITEPATH.'transaction_backup/data.json');
-        }
-
         $bestseller_products_remapped = $this->remapDataProduct($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
         $bestseller_products = $bestseller_products_remapped['products'];
         $product_ids = $bestseller_products_remapped['product_ids'];
@@ -414,6 +381,20 @@ class Cashier extends Controller
             }
         }
         return $results;
+    }
+
+    private function generateDataResetTransactionDetail(array $transaction_details, string $transaction_id): array
+    {
+        $data_reset = [];
+        foreach($transaction_details as $td) {
+            $data_reset[] = [
+                'transaksi_detail_id' => $td['transaksi_detail_id'],
+                'transaksi_id' => $transaction_id,
+                'harga_produk_id' => $td['harga_produk_id'],
+                'jumlah_produk' => $td['jumlah_produk']
+            ];
+        }
+        return $data_reset;
     }
 
     public function cancelRollbackTransaction()
