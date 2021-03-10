@@ -423,18 +423,29 @@ class Cashier extends Controller
             $transaction_details = $data_backup['transaction_details'];
 
             // remove transaction detail not exists in backup file
-            $transaction_detail_ids = explode(',', $this->request->getPost('transaction_detail_ids', FILTER_SANITIZE_STRING));
-            $transaction_detail_ids_not_in_backup = $this->generateTransactionDetailIdsNotInBackup($transaction_details, $transaction_detail_ids);
+            $transaction_detail_ids = $this->request->getPost('transaction_detail_ids', FILTER_SANITIZE_STRING);
+            if (!empty(trim($transaction_detail_ids))) {
+                $transaction_detail_ids_not_in_backup = $this->generateTransactionDetailIdsNotInBackup(
+                    $transaction_details,
+                    explode(',', $transaction_detail_ids)
+                );
+            } else {
+                $transaction_detail_ids_not_in_backup = [];
+            }
+
             if (count($transaction_detail_ids_not_in_backup) > 0) {
                 $this->transaction_detail_model->removeTransactionDetails($transaction_detail_ids_not_in_backup, $data_backup['transaction_id']);
             }
 
-            // reset transaction detail
-            $data_reset = $this->generateDataResetTransactionDetail(
-                $transaction_details,
-                $data_backup['transaction_id']
-            );
-            $this->transaction_detail_model->saveTransactionDetails($data_reset);
+            // if exists transaction details
+            if (count($transaction_details) > 0) {
+                // reset transaction detail
+                $data_reset = $this->generateDataResetTransactionDetail(
+                    $transaction_details,
+                    $data_backup['transaction_id']
+                );
+                $this->transaction_detail_model->saveTransactionDetails($data_reset);
+            }
 
             // update status transaction = selesai
             $this->transaction_model->update($data_backup['transaction_id'], [
