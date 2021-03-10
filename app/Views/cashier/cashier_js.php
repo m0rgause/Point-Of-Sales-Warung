@@ -597,7 +597,7 @@ function remove_product_from_shopping_cart(
             target_tr.remove();
 
             // if customer money has inputed
-            let customer_money = document.querySelector('input[name="customer_money"]').value;
+            let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
             calculate_change_money(customer_money, total_payment_new);
 
             // if not exists product in cart table
