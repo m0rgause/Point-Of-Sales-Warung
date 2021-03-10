@@ -220,7 +220,7 @@ class Cashier extends Controller
         return json_encode(['success'=>false, 'csrf_value'=>csrf_hash()]);
     }
 
-    public function showTransactionDetails()
+    private function getTransactionDetailsInTransaction(): string
     {
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
@@ -228,7 +228,12 @@ class Cashier extends Controller
                 $_SESSION['posw_transaction_id'],
                 'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
             );
-            return json_encode(['transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
+
+            return json_encode([
+                'transaction_details' => $transaction_details,
+                'type' => 'transaction',
+                'csrf_value' => csrf_hash()
+            ]);
         }
 
         // if exists not transaction yet
@@ -246,9 +251,41 @@ class Cashier extends Controller
             ];
             $this->session->set($data_session);
 
-            return json_encode(['transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
+            return json_encode([
+                'transaction_details' => $transaction_details,
+                'type' => 'transaction',
+                'csrf_value' => csrf_hash()
+            ]);
         }
         return json_encode(['transaction_details'=>null, 'csrf_value'=>csrf_hash()]);
+    }
+
+    private function getTransactionDetailsInRollbackTransaction(string $transaction_id): string
+    {
+        $customer_money = $this->transaction_model->findTransaction($transaction_id, 'uang_pembeli')['uang_pembeli']??null;
+        $transaction_details = $this->transaction_detail_model->getTransactionDetailsForCashier(
+            $transaction_id,
+            'produk.produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
+        );
+
+        return json_encode([
+            'transaction_id' => $transaction_id,
+            'customer_money' => $customer_money,
+            'transaction_details' => $transaction_details,
+            'type' => 'rollback-transaction',
+            'csrf_value' => csrf_hash()
+        ]);
+    }
+
+    public function showTransactionDetails()
+    {
+        // if file backup exists
+        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
+            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            return $this->getTransactionDetailsInRollbackTransaction($data_backup['transaction_id']);
+        }
+
+        return $this->getTransactionDetailsInTransaction();
     }
 
     public function updateProductQty()

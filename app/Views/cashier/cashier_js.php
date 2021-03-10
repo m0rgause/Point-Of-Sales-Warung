@@ -87,8 +87,24 @@ function get_transaction_details(
             // show transaction detail in cart table
             show_transaction_details(cart_table, json.transaction_details);
 
-            // add attribute aria label = transaction
-            cart_table.setAttribute('aria-label', 'transaction');
+            // if type = transaction
+            if (json.type === 'transaction') {
+                // add attribute aria label = transaction
+                cart_table.setAttribute('aria-label', 'transaction');
+
+            } else if (json.type === 'rollback-transaction') {
+                // show customer money
+                const customer_money = parseInt(json.customer_money);
+                document.querySelector('input[name="customer_money"]').value = customer_money;
+
+                // calculate change money
+                const total_payment = parseInt(cart_table.querySelector('td#total-payment').dataset.totalPayment);
+                calculate_change_money(customer_money, total_payment);
+
+                // add attribute aria label = rollback-transaction and transaction-id
+                cart_table.setAttribute('aria-label', 'rollback-transaction');
+                cart_table.setAttribute('data-transaction-id', json.transaction_id);
+            }
         }
     })
     .catch(error => {
