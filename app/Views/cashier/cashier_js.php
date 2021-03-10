@@ -417,7 +417,7 @@ function buy_product(
                 cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
 
                 // if customer money has inputed
-                let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
+                const customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
                 calculate_change_money(customer_money, total_payment_new);
             }
         }
@@ -542,7 +542,7 @@ function update_product_qty(
             }
 
             // if customer money has inputed
-            let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
+            const customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
             calculate_change_money(customer_money, total_payment_new);
         }
     })
@@ -613,7 +613,7 @@ function remove_product_from_shopping_cart(
             target_tr.remove();
 
             // if customer money has inputed
-            let customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
+            const customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
             calculate_change_money(customer_money, total_payment_new);
 
             // if not exists product in cart table
