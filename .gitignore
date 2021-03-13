@@ -148,3 +148,6 @@ public/dist/images/product_photo/*.jpeg
 
 # ignore transction backup json file
 writable/transaction_backup/data.json
+
+# ignore node modules
+node_modules/

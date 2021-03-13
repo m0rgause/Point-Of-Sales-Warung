@@ -67,9 +67,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-<script>
-// show password
-document.querySelector('a#show-password').addEventListener('click', show_password);
-document.querySelector('a#show-password-sign-in-user').addEventListener('click', show_password);
-</script>
+<script src="<?= base_url('dist/js/update_user.posw.min.js'); ?>"></script>
 <?= $this->endSection(); ?>

@@ -209,7 +209,7 @@ class Product extends Controller
         ValidationMessage::setFlashMessage(
             'form_errors',
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
-            '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+            '</p><a class="alert__close" href="#"></a></div>',
             ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat']
         );
         return redirect()->back()->withInput();
@@ -439,7 +439,7 @@ class Product extends Controller
             ValidationMessage::setFlashMessage(
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
-                '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+                '</p><a class="alert__close" href="#"></a></div>',
                 ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui']
             );
 
@@ -450,7 +450,7 @@ class Product extends Controller
         ValidationMessage::setFlashMessage(
             'form_errors',
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
-            '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+            '</p><a class="alert__close" href="#"></a></div>',
             ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui']
         );
         return redirect()->back();

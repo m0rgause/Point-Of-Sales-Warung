@@ -32,3 +32,7 @@
 </div>
 </main>
 <?= $this->endSection(); ?>
+
+<?= $this->section('script'); ?>
+<script src="<?= base_url('dist/js/update_category_product.posw.min.js'); ?>"></script>
+<?= $this->endSection(); ?>

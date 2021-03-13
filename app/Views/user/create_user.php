@@ -57,22 +57,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-<script>
-// generate password
-document.querySelector('a#generate-password').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const chart = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let password = '';
-
-    for(i = 0; i < 8; i++) {
-        password += chart[Math.floor(Math.random()*chart.length)];
-    }
-
-    document.querySelector('input[name="password"]').value = password;
-});
-
-// show password
-document.querySelector('a#show-password').addEventListener('click', show_password);
-</script>
+<script src="<?= base_url('dist/js/create_user.posw.min.js'); ?>"></script>
 <?= $this->endSection(); ?>

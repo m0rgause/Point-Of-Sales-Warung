@@ -100,7 +100,7 @@ class CategoryProduct extends Controller
             ValidationMessage::setFlashMessage(
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
-                '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+                '</p><a class="alert__close" href="#"></a></div>',
                 ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui']
             );
         }

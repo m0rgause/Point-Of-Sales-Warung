@@ -168,7 +168,7 @@ class User extends Controller
             ValidationMessage::setFlashMessage(
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
-                '</p><a class="alert__close" onclick="close_alert(event)" href="#"></a></div>',
+                '</p><a class="alert__close" href="#"></a></div>',
                 ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui']
             );
         }

@@ -73,7 +73,7 @@
 </div>
 </footer>
 
-<script src="<?= base_url('dist/js/posw.js'); ?>"></script>
+<script src="<?= base_url('dist/js/posw.min.js'); ?>"></script>
 <?= $this->renderSection('script'); ?>
 
 </body>

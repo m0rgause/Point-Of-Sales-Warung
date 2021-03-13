@@ -48,7 +48,7 @@
 </div><!-- container-xl -->
 </header>
 
-<main class="main" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>">
+<main class="main" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>" data-base-url="<?= base_url(); ?>">
 <div class="container-xl">
     <?php
         // if exists product
@@ -242,7 +242,7 @@
 </div>
 </footer>
 
-<script src="<?= base_url('dist/js/posw.js'); ?>"></script>
-<?= $this->include('cashier/cashier_js'); ?>
+<script src="<?= base_url('dist/js/posw.min.js'); ?>"></script>
+<script src="<?= base_url('dist/js/cashier.posw.min.js'); ?>"></script>
 </body>
 </html>

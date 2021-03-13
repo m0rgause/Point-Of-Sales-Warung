@@ -1,4 +1,5 @@
-<script>
+import {create_alert_node, number_formatter_to_currency, show_modal, hide_modal} from './module.posw.js';
+
 const main = document.querySelector('main.main');
 const btn_show_cart = document.querySelector('a#show-cart');
 const btn_search_product = document.querySelector('a#search-product');
@@ -207,6 +208,7 @@ btn_search_product.addEventListener('click', e => {
 
         // if product exists
         if (json.products_db.length > 0) {
+            const base_url = main.dataset.baseUrl;
             let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">
                     1 - ${json.products_db.length} dari ${json.product_search_total} Total produk hasil pencarian</span>`;
 
@@ -217,7 +219,7 @@ btn_search_product.addEventListener('click', e => {
 
                 product += `<div class="product__item" data-product-id="${p.product_id}">
                     <div class="product__image">
-                        <img src="<?= base_url('dist/images/product_photo'); ?>/${p.product_photo}" alt="${p.product_name}">
+                        <img src="${base_url}/dist/images/product_photo/${p.product_photo}" alt="${p.product_name}">
                     </div>
                     <div class="product__info">
                         <p class="product__name">${p.product_name}</p>
@@ -491,7 +493,7 @@ function update_product_qty(
     }
 
     let data = `product_qty_new=${product_qty_new}&transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`;
-    // if exists aria labe = rollback-transaction
+    // if exists aria label = rollback-transaction
     if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
         data += `&transaction_id=${cart_table.dataset.transactionId}`;
     }
@@ -1204,4 +1206,3 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
         console.error(error);
     });
 });
-</script>

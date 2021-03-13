@@ -1,23 +1,3 @@
-/*!
- * Point Of Sales Warung
- * Licensed under GPL (https://github.com/rezafikkri/Point-Of-Sales-Warung/blob/master/LICENSE)
- */
-
-// dropdown menu
-const nav = document.querySelector("nav.navbar");
-nav.addEventListener('click', e => {
-    const target = e.target;
-
-    if(target.classList.contains('dropdown-toggle')) {
-        e.preventDefault();
-
-        const dropdown_menu = document.querySelector(target.getAttribute('target'));
-        dropdown_menu.classList.toggle('d-none');
-        dropdown_menu.previousElementSibling.classList.toggle('navbar__link--active');
-
-    }
-});
-
 // show modal
 function show_modal(modal, modal_content)
 {
@@ -45,17 +25,6 @@ function hide_modal(modal, modal_content)
         modal.classList.remove('modal--show');
         modal.classList.remove('d-block');;
     }, 200);
-}
-
-// navbar collapse
-const navbar_toggler = document.querySelector('.navbar a.btn--toggler');
-const navbar_collapse = document.querySelector('.navbar__right--collapse');
-if(navbar_toggler !== null) {
-    navbar_toggler.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        navbar_collapse.classList.toggle('navbar__right--collapse-show');
-    });
 }
 
 // add form input magnitude and price
@@ -102,14 +71,9 @@ function create_alert_node(type_alert_class, message)
 
     alert.innerHTML = `<span class="alert__icon"></span>
     <p>${message}</p>
-    <a class="alert__close" onclick="close_alert(event)" href="#"></a>`;
+    <a class="alert__close" href="#"></a>`;
 
     return alert;
-}
-
-function close_alert(e) {
-    e.preventDefault();
-    e.target.parentElement.remove();
 }
 
 // number formatter currency
@@ -117,3 +81,12 @@ function number_formatter_to_currency(number)
 {
     return number.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0});
 }
+
+export {
+    show_modal,
+    hide_modal,
+    add_form_input_magnitude_price,
+    show_password,
+    create_alert_node,
+    number_formatter_to_currency
+};
