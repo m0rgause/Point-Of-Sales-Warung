@@ -125,7 +125,7 @@ class Cashier extends Controller
             ], 'transaksi_detail_id');
             $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
 
-            if ($insert_transaction_detail > 0) {
+            if ($insert_transaction_detail === true) {
                 return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
             }
 
@@ -151,7 +151,7 @@ class Cashier extends Controller
                 ], 'transaksi_detail_id');
                 $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
 
-                if ($insert_transaction_detail > 0) {
+                if ($insert_transaction_detail === true) {
                     return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
                 }
 
@@ -180,7 +180,7 @@ class Cashier extends Controller
 
                 $this->transaction_model->db->transComplete();
 
-                if ($insert_transaction === true && $insert_transaction_detail > 0) {
+                if ($insert_transaction === true && $insert_transaction_detail === true) {
                     // create session
                     $data_session = [
                         'posw_transaction_status' => 'not yet',
@@ -213,7 +213,7 @@ class Cashier extends Controller
         ], 'transaksi_detail_id');
         $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
 
-        if ($insert_transaction_detail > 0) {
+        if ($insert_transaction_detail === true) {
             return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
         }
 

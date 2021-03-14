@@ -179,26 +179,34 @@ class Product extends Controller
         // genearate new random name for product photo
         $product_photo_name = $product_photo_file->getRandomName();
 
-        $this->model->db->transStart();
-        // insert product
-        $insert_product = $this->model->insertReturning([
-            'produk_id' => generate_uuid(),
-            'kategori_produk_id' => $this->request->getPost('category_product', FILTER_SANITIZE_STRING),
-            'nama_produk' => $this->request->getPost('product_name', FILTER_SANITIZE_STRING),
-            'foto_produk' => $product_photo_name,
-            'status_produk' => $this->request->getPost('product_status', FILTER_SANITIZE_STRING),
-            'waktu_buat' => date('Y-m-d H:i:s')
-        ], 'produk_id');
+        try {
+            $this->model->db->transBegin();
 
-        // insert product price
-        $produk_id = $this->model->getInsertReturned()??'';
-        $data_product_price = $this->generateDataInsertBatchProductPrice($produk_id, $product_magnitudes, $product_prices);
-        $insert_product_price = $this->price_model->insertBatch($data_product_price);
+            // insert product
+            $insert = $this->model->insertReturning([
+                'produk_id' => generate_uuid(),
+                'kategori_produk_id' => $this->request->getPost('category_product', FILTER_SANITIZE_STRING),
+                'nama_produk' => $this->request->getPost('product_name', FILTER_SANITIZE_STRING),
+                'foto_produk' => $product_photo_name,
+                'status_produk' => $this->request->getPost('product_status', FILTER_SANITIZE_STRING),
+                'waktu_buat' => date('Y-m-d H:i:s')
+            ], 'produk_id');
 
-        $this->model->db->transComplete();
+            // insert product price
+            $produk_id = $this->model->getInsertReturned()??'';
+            $data_product_price = $this->generateDataInsertBatchProductPrice($produk_id, $product_magnitudes, $product_prices);
+            $this->price_model->insertBatch($data_product_price);
+
+            $this->model->transCommit();
+            $process = true;
+
+        } catch (\ErrorException $e) {
+            $this->model->transRollback();
+            $process = false;
+        }
 
         // if insert product and insert product price success
-        if ($insert_product === true && $insert_product_price > 0) {
+        if ($process === true) {
             // move product photo
             $product_photo_file->move('dist/images/product_photo', $product_photo_name);
 
@@ -210,7 +218,7 @@ class Product extends Controller
             'form_errors',
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
-            ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat']
+            ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat. Silahkan coba kembali!']
         );
         return redirect()->back()->withInput();
     }
@@ -404,26 +412,28 @@ class Product extends Controller
             $data_product_price_insert
         );
 
-        $this->model->transStart();
+        try {
+            $this->model->transBegin();
 
-        // update product
-        $update_product = $this->model->update($product_id, $data_product_update);
-        // update product price
-        $update_product_price = $this->price_model->updateBatch($data_product_price_update, 'harga_produk_id');
-        // insert product price
-        if (count($data_product_price_insert) > 0) {
-            $insert_product_price = $this->price_model->insertBatch($data_product_price_insert);
+            // update product
+            $this->model->update($product_id, $data_product_update);
+            // update product price
+            $this->price_model->updateBatch($data_product_price_update, 'harga_produk_id');
+            // insert product price
+            if (count($data_product_price_insert) > 0) {
+                $this->price_model->insertBatch($data_product_price_insert);
+            }
+
+            $this->model->transCommit();
+            $process = true;
+
+        } catch (\ErrorException $e) {
+            $this->model->transRollback();
+            $process = false;
         }
 
-        $this->model->transComplete();
-
-        /* if update product and update product price success and
-         *  data insert product price not found or insert product price success */
-        if (
-            $update_product === true &&
-            $update_product_price === count($data_product_price_update) &&
-            (count($data_product_price_insert) === 0 || $insert_product_price > 0)
-        ) {
+        // if update product and update product price success and insert product price success
+        if ($process === true) {
             // if exists product photo
             if ($product_photo_file->getError() === 0) {
                 // move product photo
@@ -440,7 +450,7 @@ class Product extends Controller
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui']
+                ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui.']
             );
 
             return redirect()->back();
@@ -451,7 +461,7 @@ class Product extends Controller
             'form_errors',
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
-            ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui']
+            ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui. Silahkan coba kembali!']
         );
         return redirect()->back();
     }

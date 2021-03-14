@@ -1175,8 +1175,8 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
             main.dataset.csrfValue = json.csrf_value;
         }
 
-        // if exists customer_money and transaction_detail
-        if (json.customer_money !== null && json.transaction_details !== null) {
+        // if exists customer_money
+        if (json.customer_money !== null) {
             // hide and reset modal
             hide_modal(modal, modal_content);
             // reset modal

@@ -28,7 +28,7 @@ class BaseModel extends Model
      |------------------------
      | Insert Returning
      |----------------------------
-     | If insert success, return a value from new data was inserted, ex. id
+     | If insert success, returning a value from new data was inserted, ex. id
     */
 
     public function insertReturning(array $data_insert, string $field_return)//: bool
