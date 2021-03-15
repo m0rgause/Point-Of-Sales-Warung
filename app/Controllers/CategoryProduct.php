@@ -101,7 +101,7 @@ class CategoryProduct extends Controller
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui']
+                ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui.']
             );
         }
         return redirect()->back();

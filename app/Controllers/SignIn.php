@@ -67,7 +67,7 @@ class SignIn extends Controller
                 'form_errors',
                 '<small class="form-message form-message--danger">',
                 '</small>',
-                ['password' => 'Password salah']
+                ['password' => 'Password salah.']
             );
             return redirect()->back();
         }
@@ -77,7 +77,7 @@ class SignIn extends Controller
             'form_errors',
             '<small class="form-message form-message--danger">',
             '</small>',
-            ['username' => 'Username tidak ditemukan']
+            ['username' => 'Username tidak ditemukan.']
         );
         return redirect()->back();
     }

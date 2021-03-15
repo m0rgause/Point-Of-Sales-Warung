@@ -256,7 +256,7 @@ btn_search_product.addEventListener('click', e => {
         else {
             let product = `<span class="text-muted me-1 d-block mb-3" id="result-status">0 Total produk hasil pencarian</span>
                 <h5 class="mb-2 main__title">Produk</h5><div class="product mb-4">
-                <p>Produk tidak ada</p>`;
+                <p>Produk tidak ada.</p>`;
             container.innerHTML = product
         }
 

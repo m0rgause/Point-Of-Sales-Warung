@@ -169,7 +169,7 @@ class User extends Controller
                 'form_success',
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui']
+                ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui.']
             );
         }
         return redirect()->back();

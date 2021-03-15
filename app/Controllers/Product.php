@@ -52,7 +52,7 @@ class Product extends Controller
             }
             // if magnitude more than 20 character
             elseif (strlen($product_magnitudes[$i]) > 20) {
-                $this->product_magnitude_errors[$i] = "Besaran tidak bisa melebihi 20 karakter";
+                $this->product_magnitude_errors[$i] = "Besaran tidak bisa melebihi 20 karakter.";
             }
 
             // if empty price
@@ -61,7 +61,7 @@ class Product extends Controller
             }
             // if price more than 10 character
             elseif (strlen($product_prices[$i]) > 10) {
-                $this->product_price_errors[$i] = "Harga tidak bisa melebihi 10 karakter";
+                $this->product_price_errors[$i] = "Harga tidak bisa melebihi 10 karakter.";
             }
             // if price not a number
             elseif (!preg_match('/^\d+$/', $product_prices[$i])) {
@@ -79,15 +79,15 @@ class Product extends Controller
     {
         // if not file was uploaded
         if ($product_photo_file->getError() === 4) {
-            $this->product_photo_error = "Tidak ada file yang diupload";
+            $this->product_photo_error = "Tidak ada file yang diupload.";
         }
         // if not valid file
         elseif (!$product_photo_file->isValid()) {
-            $this->product_photo_error = "File yang diupload tidak benar";
+            $this->product_photo_error = "File yang diupload tidak benar.";
         }
         // if size file exceed 1MB
         elseif ($product_photo_file->getSizeByUnit('mb') > 1) {
-            $this->product_photo_error = "Ukuran file tidak bisa melebihi 1MB";
+            $this->product_photo_error = "Ukuran file tidak bisa melebihi 1MB.";
         }
         // if file extension not jpg or jpeg
         elseif (strtolower($product_photo_file->getExtension()) !== 'jpg' && strtolower($product_photo_file->getExtension()) !== 'jpeg') {

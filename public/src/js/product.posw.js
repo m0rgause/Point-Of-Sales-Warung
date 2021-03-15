@@ -158,7 +158,7 @@ search_product.addEventListener('click', e => {
         // if product not exists
         else {
             // inner html message
-            table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
+            table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada.</td></tr>`;
 
             // show result status
             result_status.innerText = '0 Total produk hasil pencarian';
@@ -319,7 +319,7 @@ document.querySelector('a#remove-product').addEventListener('click', e => {
             // if product total = 0
             if (json.product_total === 0) {
                 // inner html message
-                table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada</td></tr>`;
+                table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada.</td></tr>`;
 
                 // if attribute aria-label="search" and attribute keyword exists in table tag
                 if (table.getAttribute('aria-label') === 'search' && table.getAttribute('keyword') !== null) {
