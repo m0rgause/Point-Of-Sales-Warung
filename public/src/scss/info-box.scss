@@ -16,7 +16,7 @@
     }
 
     @include info_box_color('green', $green);
-    @include info_box_color('orange', $orange);
+    @include info_box_color('sky-blue', $sky_blue);
     @include info_box_color('blue', $blue);
 
     &__data {

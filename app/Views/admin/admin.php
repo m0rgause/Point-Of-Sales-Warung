@@ -33,7 +33,7 @@
             </div>
         </div><!-- infor-box__item -->
 
-        <div class="info-box__item info-box__item--orange">
+        <div class="info-box__item info-box__item--sky-blue">
             <div class="info-box__data">
                 <h4 class="mb-0 mb-2">12</h4>
                 <p class="me-2 mb-0 d-inline-block">Total Pengguna</p><p class="mb-0 d-inline-block" title="Pengguna terakhir ditambahkan">3 Jan 2020</p>
