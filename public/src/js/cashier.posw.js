@@ -160,11 +160,14 @@ btn_close_cart.addEventListener('click', (e) => {
 });
 
 // change product price info
-function change_product_price_info(e)
-{
-    const product_price = e.target.selectedOptions[0].dataset.productPrice;
-    e.target.previousElementSibling.previousElementSibling.innerText = number_formatter_to_currency(parseInt(product_price));
-}
+main.addEventListener('change', (e) => {
+    // if changed is select magnitude in product item
+    let target = e.target;
+    if (target.getAttribute('name') === 'magnitude') {
+        const product_price = target.selectedOptions[0].dataset.productPrice;
+        target.previousElementSibling.previousElementSibling.innerText = number_formatter_to_currency(parseInt(product_price));
+    }
+});
 
 // search product
 btn_search_product.addEventListener('click', e => {
@@ -228,7 +231,7 @@ btn_search_product.addEventListener('click', e => {
 
                         <div class="product__price">
                             <h5>${p.product_price[0].product_price}</h5><span>/</span>
-                            <select name="magnitude" onchange="change_product_price_info(event)">`;
+                            <select name="magnitude">`;
 
                             p.product_price.forEach (pp => {
                                 product += `<option data-product-price="${pp.product_price}" value="${pp.product_price_id}">
