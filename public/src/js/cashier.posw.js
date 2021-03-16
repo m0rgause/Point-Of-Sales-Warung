@@ -1111,11 +1111,11 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
             main.dataset.csrfValue = json.csrf_value;
         }
 
-        // show modal
-        show_modal(modal, modal_content);
-
         // if exists transaction
         if (json.transactions_three_days_ago.length > 0) {
+            // show modal
+            show_modal(modal, modal_content);
+
             // show data in select input
             let options = '<option>Riwayat Transaksi</option>';
             json.transactions_three_days_ago.forEach(t => {
@@ -1124,6 +1124,12 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
 
             // inner html to select
             modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = options;
+        } else {
+            const alert_node = create_alert_node(
+                'alert--info',
+                `Tidak ada transaksi dari 3 hari yang lalu.`
+            );
+            e.target.parentElement.insertBefore(alert_node, e.target);
         }
     })
     .catch(error => {
