@@ -6,6 +6,7 @@ use App\Models\ProductModel;
 use App\Models\ProductPriceModel;
 use App\Libraries\ValidationMessage;
 use CodeIgniter\HTTP\Files\UploadedFile;
+use App\Libraries\IndoTime;
 
 class Product extends Controller
 {
@@ -17,6 +18,7 @@ class Product extends Controller
         $this->session = session();
         $this->model = new ProductModel();
         $this->price_model = new ProductPriceModel();
+        $this->indo_time = new IndoTime();
     }
 
     public function index()
@@ -238,10 +240,9 @@ class Product extends Controller
         $products_db = $this->model->getProductSearches(static::PRODUCT_LIMIT, $keyword);
 
         // convert timestamp
-        $date_time = new \App\Libraries\DateTime();
         $count_products_db = count($products_db);
         for ($i = 0; $i < $count_products_db; $i++) {
-            $products_db[$i]['indo_create_time'] = $date_time->convertTimstampToIndonesianDateTime($products_db[$i]['waktu_buat']);
+            $products_db[$i]['indo_create_time'] = $this->indo_time->toIndoLocalizedString($products_db[$i]['waktu_buat']);
         }
 
         // get product search total
@@ -509,10 +510,9 @@ class Product extends Controller
             }
 
             // add array indo create time to longer products array
-            $date_time = new \App\Libraries\DateTime();
             $count_longer_products = count($longer_products);
             for ($i = 0; $i < $count_longer_products; $i++) {
-                $longer_products[$i]['indo_create_time'] = $date_time->convertTimstampToIndonesianDateTime($longer_products[$i]['waktu_buat']);
+                $longer_products[$i]['indo_create_time'] = $this->indo_time->toIndoLocalizedString($longer_products[$i]['waktu_buat']);
             }
 
             return json_encode([

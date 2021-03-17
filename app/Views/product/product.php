@@ -48,7 +48,7 @@
             </thead>
             <tbody>
             <?php
-                $date_time = new \App\Libraries\DateTime();
+                $indo_time = new \App\Libraries\IndoTime();
 
                 // if exists product
                 if (count($products_db) > 0) :
@@ -77,7 +77,7 @@
                     <?php else : ?>
                     <td><span class="text-red">Tidak Ada</span></td>
                     <?php endif; ?>
-                    <td><?= $date_time->convertTimstampToIndonesianDateTime($p['waktu_buat']); ?></td>
+                    <td><?= $indo_time->toIndoLocalizedString($p['waktu_buat']); ?></td>
                 </tr>
             <?php $i++; endforeach; else : ?>
                 <tr class="table__row-odd">

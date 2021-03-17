@@ -366,10 +366,11 @@ class Cashier extends Controller
         $transactions_three_days_ago = $this->transaction_model->getTransactionsThreeDaysAgo($timestamp_three_days_ago);
 
         // convert timestamp
-        $date_time = new \App\Libraries\DateTime();
+        $indo_time = new \App\Libraries\IndoTime();
         $count_transaction_three_days_ago = count($transactions_three_days_ago);
+
         for($i = 0; $i < $count_transaction_three_days_ago; $i++) {
-            $transactions_three_days_ago[$i]['waktu_buat'] = $date_time->convertTimstampToIndonesianDateTime(
+            $transactions_three_days_ago[$i]['waktu_buat'] = $indo_time->toIndoLocalizedString(
                 $transactions_three_days_ago[$i]['waktu_buat']
             );
         }

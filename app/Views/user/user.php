@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <?php
-                $date_time = new \App\Libraries\DateTime();
+                $indo_time = new \App\Libraries\IndoTime();
                 foreach ($users_db as $u) :
             ?>
                 <tr id="user<?= $u['pengguna_id']; ?>">
@@ -46,7 +46,7 @@
 
                     <td><?= $u['nama_lengkap']; ?></td>
                     <td><?= $u['tingkat']; ?></td>
-                    <td><?= $date_time->convertTimstampToIndonesianDateTime($u['sign_in_terakhir']); ?></td>
+                    <td><?= $indo_time->toIndoLocalizedString($u['sign_in_terakhir']); ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
