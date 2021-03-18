@@ -185,7 +185,7 @@ class Product extends Controller
             $this->model->db->transBegin();
 
             // insert product
-            $insert = $this->model->insertReturning([
+            $this->model->insertReturning([
                 'produk_id' => generate_uuid(),
                 'kategori_produk_id' => $this->request->getPost('category_product', FILTER_SANITIZE_STRING),
                 'nama_produk' => $this->request->getPost('product_name', FILTER_SANITIZE_STRING),
@@ -195,7 +195,7 @@ class Product extends Controller
             ], 'produk_id');
 
             // insert product price
-            $produk_id = $this->model->getInsertReturned()??'';
+            $produk_id = $this->model->getInsertReturned();
             $data_product_price = $this->generateDataInsertBatchProductPrice($produk_id, $product_magnitudes, $product_prices);
             $this->price_model->insertBatch($data_product_price);
 

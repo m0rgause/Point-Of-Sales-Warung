@@ -6,6 +6,8 @@ use CodeIgniter\Model;
 
 class BaseModel extends Model
 {
+    protected $insert_returned;
+
     protected function generateColumns(array $data): string
     {
         $columns = '';
@@ -47,6 +49,6 @@ class BaseModel extends Model
 
     public function getInsertReturned(): ? string
     {
-        return $this->insert_return??null;
+        return $this->insert_return;
     }
 }
