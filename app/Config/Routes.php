@@ -31,11 +31,11 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/kasir', 'Cashier::index', ['filter' => 'accessRights:kasir']);
+$routes->get('kasir', 'Cashier::index', ['filter' => 'accessRights:kasir']);
 
-$routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
+$routes->group('admin', ['filter' => 'accessRights:admin'], function($routes)
 {
-    $routes->get('/', 'Admin::index');
+    $routes->get('', 'Admin::index');
     $routes->get('kategori_produk', 'CategoryProduct::index');
     $routes->get('buat_kategori_produk', 'CategoryProduct::createCategoryProduct');
     $routes->get('perbaharui_kategori_produk/(:segment)', 'CategoryProduct::updateCategoryProduct/$1');
@@ -48,20 +48,20 @@ $routes->group('/admin', ['filter' => 'accessRights:admin'], function($routes)
     $routes->get('perbaharui_pengguna/(:segment)', 'User::updateUser/$1');
 });
 
-$routes->post('/admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
-$routes->post('/admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
-$routes->post('/admin/hapus_pengguna_di_db', 'User::removeUserInDB');
-$routes->post('/admin/simpan_kategori_produk_ke_db', 'CategoryProduct::saveCategoryProductToDB');
-$routes->post('/admin/perbaharui_kategori_produk_di_db', 'CategoryProduct::updateCategoryProductInDB');
-$routes->post('/admin/hapus_kategori_produk_di_db', 'CategoryProduct::removeCategoryProductInDB');
-$routes->post('/admin/simpan_produk_ke_db', 'Product::saveProductToDB');
-$routes->post('/admin/tampil_produk_detail', 'Product::showProductDetail');
-$routes->post('/admin/cari_produk', 'Product::showProductSearches');
-$routes->post('/admin/perbaharui_produk_di_db', 'Product::updateProductInDB');
-$routes->post('/admin/hapus_harga_produk', 'Product::removeProductPriceInDB');
-$routes->post('/admin/hapus_produk', 'Product::removeProductsInDB');
+$routes->post('admin/simpan_pengguna_ke_db', 'User::saveUserToDB');
+$routes->post('admin/perbaharui_pengguna_di_db', 'User::updateUserInDB');
+$routes->post('admin/hapus_pengguna_di_db', 'User::removeUserInDB');
+$routes->post('admin/simpan_kategori_produk_ke_db', 'CategoryProduct::saveCategoryProductToDB');
+$routes->post('admin/perbaharui_kategori_produk_di_db', 'CategoryProduct::updateCategoryProductInDB');
+$routes->post('admin/hapus_kategori_produk_di_db', 'CategoryProduct::removeCategoryProductInDB');
+$routes->post('admin/simpan_produk_ke_db', 'Product::saveProductToDB');
+$routes->post('admin/tampil_produk_detail', 'Product::showProductDetail');
+$routes->post('admin/cari_produk', 'Product::showProductSearches');
+$routes->post('admin/perbaharui_produk_di_db', 'Product::updateProductInDB');
+$routes->post('admin/hapus_harga_produk', 'Product::removeProductPriceInDB');
+$routes->post('admin/hapus_produk', 'Product::removeProductsInDB');
 
-$routes->group('/kasir', function($routes)
+$routes->group('kasir', function($routes)
 {
     $routes->post('cari_produk', 'Cashier::showProductSearches');
     $routes->post('beli_produk_transaksi', 'Cashier::buyProductTransaction');
@@ -76,8 +76,8 @@ $routes->group('/kasir', function($routes)
     $routes->post('rollback_transaksi_batal', 'Cashier::cancelRollbackTransaction');
 });
 
-$routes->post('/sign_in', 'SignIn::signIn');
-$routes->get('/sign_out', 'SignOut::index');
+$routes->post('sign_in', 'SignIn::signIn');
+$routes->get('sign_out', 'SignOut::index');
 
 // Default Route, if each route above not match
 $routes->get('(:any)', 'SignIn::index', ['filter' => 'hasSignedIn']);

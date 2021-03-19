@@ -16,7 +16,8 @@ class Validation
 		\CodeIgniter\Validation\Rules::class,
 		\CodeIgniter\Validation\FormatRules::class,
 		\CodeIgniter\Validation\FileRules::class,
-		\CodeIgniter\Validation\CreditCardRules::class,
+        \CodeIgniter\Validation\CreditCardRules::class,
+        \App\Libraries\POSWRules::class
 	];
 
 	/**
@@ -27,7 +28,7 @@ class Validation
 	 */
 	public $templates = [
 		'list'   => 'CodeIgniter\Validation\Views\list',
-		'single' => 'CodeIgniter\Validation\Views\single',
+        'single' => 'CodeIgniter\Validation\Views\single',
 	];
 
 	//--------------------------------------------------------------------
