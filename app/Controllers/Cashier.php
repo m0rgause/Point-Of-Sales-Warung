@@ -95,13 +95,12 @@ class Cashier extends BaseController
         // get product search total
         $product_search_total = $this->product_model->countAllProductSearchForCashier($keyword);
 
-        echo json_encode([
+        return json_encode([
             'products_db' => $products_remapped,
             'product_search_total' => $product_search_total,
             'product_limit' => static::PRODUCT_LIMIT,
             'csrf_value' => csrf_hash()
         ]);
-        return true;
     }
 
     public function buyProductTransaction()
