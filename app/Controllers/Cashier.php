@@ -337,7 +337,7 @@ class Cashier extends BaseController
         }
 
         $customer_money = $this->request->getPost('customer_money', FILTER_SANITIZE_NUMBER_INT);
-        // save customer money in db and update status transaction
+        // update customer money in db and update status transaction
         $this->transaction_model->update($_SESSION['posw_transaction_id'], [
             'uang_pembeli' => $customer_money,
             'status_transaksi' => 'selesai'
@@ -474,5 +474,34 @@ class Cashier extends BaseController
             unlink(WRITEPATH.'transaction_backup/data.json');
             return json_encode(['success'=>true, 'transaction_details'=>$transaction_details, 'csrf_value'=>csrf_hash()]);
         }
+    }
+
+    public function finishRollbackTransaction()
+    {
+        if (!$this->validate([
+            'customer_money' => [
+                'label' => 'Uang Pembeli',
+                'rules' => 'required|integer|max_length[10]',
+                'errors' => $this->generateIndoErrorMessages(['required','integer','max_length'])
+            ]
+        ])) {
+            return json_encode(['success'=>false, 'form_errors'=>$this->validator->getErrors(), 'csrf_value'=>csrf_hash()]);
+        }
+
+        $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+        $customer_money = $this->request->getPost('customer_money', FILTER_SANITIZE_NUMBER_INT);
+        // update customer money in db and update status transaction
+        $this->transaction_model->update($transaction_id, [
+            'uang_pembeli' => $customer_money,
+            'status_transaksi' => 'selesai'
+        ]);
+
+        // if exists file backup
+        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
+            // remove file backup
+            unlink(WRITEPATH.'transaction_backup/data.json');
+        }
+
+        return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
     }
 }

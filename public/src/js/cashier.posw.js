@@ -795,6 +795,72 @@ function reset_shopping_cart(cart_table)
     }
 }
 
+// show form message in cart
+function show_form_message(message, type)
+{
+    // if exists form message
+    const form_message_customer_money = document.querySelector('aside.cart div#customer-money small.form-message');
+    if (form_message_customer_money !== null) {
+        form_message_customer_money.innerText = message;
+
+    } else {
+        const small_node = document.createElement('small');
+        small_node.classList.add('form-message');
+        small_node.classList.add(`form-message--${type}`);
+        small_node.innerText = json.form_errors.customer_money;
+        // add form message to after customer money input
+        document.querySelector('aside.cart div#customer-money').append(small_node);
+    }
+}
+
+function finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money)
+{
+    const transaction_id = cart_table.dataset.transactionId;
+    // loading
+    document.querySelector('div#cart-loading').classList.remove('d-none');
+
+    fetch('/kasir/rollback_transaksi_selesai', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `transaction_id=${transaction_id}&customer_money=${customer_money}&${csrf_name}=${csrf_value}`
+    })
+    .finally(() => {
+        // loading
+        document.querySelector('div#cart-loading').classList.add('d-none');
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        // set new csrf hash to table tag
+        if (json.csrf_value !== undefined) {
+            main.dataset.csrfValue = json.csrf_value;
+        }
+
+        // if success
+        if (json.success === true) {
+            // close cart
+            btn_close_cart.click();
+
+            // remove attribute transaction-id
+            cart_table.removeAttribute('data-transaction-id');
+
+            // reset shopping cart
+            reset_shopping_cart(cart_table);
+        }
+        // if false and form message exists
+        if (json.success === false && json.form_errors !== undefined) {
+            show_form_message(json.form_errors, 'danger');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
 function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money)
 {
     // loading
@@ -830,20 +896,7 @@ function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
         }
         // if false and form message exists
         if (json.success === false && json.form_errors !== undefined) {
-            // if exists form message
-            const form_message_customer_money = document.querySelector('aside.cart div#customer-money small.form-message');
-            if (form_message_customer_money !== null) {
-                form_message_customer_money.innerText = json.form_errors.customer_money;
-
-            } else {
-                const small_node = document.createElement('small');
-                small_node.classList.add('form-message');
-                small_node.classList.add('form-message--danger');
-                small_node.innerText = json.form_errors.customer_money;
-
-                // add form message to after customer money input
-                document.querySelector('aside.cart div#customer-money').append(small_node);
-            }
+            show_form_message(json.form_errors, 'danger');
         }
     })
     .catch(error => {
@@ -860,8 +913,8 @@ btn_finish_transaction.addEventListener('click', e => {
     const customer_money = document.querySelector('input[name="customer_money"]').value;
 
     // if exists attribute aria-label = rollback-transaction and transaction-id in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction' && cart_table.getAttribute('transaction-id') !== null) {
-
+    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
     }
 
     // else if exists attribute aria-label = transaction
