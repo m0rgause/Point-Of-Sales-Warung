@@ -2,15 +2,13 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use App\Models\CategoryProductModel;
 use App\Models\ProductModel;
 use App\Models\ProductPriceModel;
-use App\Libraries\ValidationMessage;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use App\Libraries\IndoTime;
 
-class Product extends Controller
+class Product extends BaseController
 {
     protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user', 'generate_uuid'];
     private const PRODUCT_LIMIT = 50;
@@ -67,24 +65,29 @@ class Product extends Controller
             'category_product' => [
                 'label' => 'Kategori produk',
                 'rules' => 'required',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndonesianErrorMessage('required')
             ],
             'product_name' => [
                 'label' => 'Nama produk',
                 'rules' => 'required|max_length[50]|is_unique[produk.nama_produk]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','max_length','is_unique')
+                'errors' => $this->generateIndonesianErrorMessage('required','max_length','is_unique')
             ],
             'product_status' => [
                 'label' => 'Status Produk',
                 'rules' => 'in_list[ada,tidak_ada]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndonesianErrorMessage('in_list')
             ],
             'product_photo' => 'product_photo',
             'product_magnitudes' => 'product_magnitude',
             'product_prices' => 'product_price'
         ])) {
-            // set form errors to session flash data
-            $this->session->setFlashData('form_errors', $this->validator->getErrors());
+            // set validation errors message to flash session
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+                '<small class="form-message form-message--danger">',
+                '</small>',
+                $this->validator->getErrors(),
+                ['product_magnitudes', 'product_prices']
+            ));
 
             return redirect()->back()->withInput();
         }
@@ -132,12 +135,11 @@ class Product extends Controller
         }
 
         // make error message
-        ValidationMessage::setFlashMessage(
-            'form_errors',
+        $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
             ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat. Silahkan coba kembali!']
-        );
+        ));
         return redirect()->back()->withInput();
     }
 
@@ -236,17 +238,17 @@ class Product extends Controller
             'category_product' => [
                 'label' => 'Kategori produk',
                 'rules' => 'required',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndonesianErrorMessage('required')
             ],
             'product_name' => [
                 'label' => 'Nama produk',
                 'rules' => 'required|max_length[50]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
             ],
             'product_status' => [
                 'label' => 'Status Produk',
                 'rules' => 'in_list[ada,tidak_ada]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndonesianErrorMessage('in_list')
             ],
             'product_magnitudes' => 'product_magnitude',
             'product_prices' => 'product_price'
@@ -260,8 +262,13 @@ class Product extends Controller
 
         // validate data
         if (!$this->validate($data_validate)) {
-            // set form errors to session flash data
-            $this->session->setFlashData('form_errors', $this->validator->getErrors());
+            // set validation errors message to flash session
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+                '<small class="form-message form-message--danger">',
+                '</small>',
+                $this->validator->getErrors(),
+                ['product_magnitudes', 'product_prices']
+            ));
 
             return redirect()->back()->withInput();
         }
@@ -343,23 +350,21 @@ class Product extends Controller
             }
 
             // make success message
-            ValidationMessage::setFlashMessage(
-                'form_success',
+            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui.']
-            );
+            ));
 
             return redirect()->back();
         }
 
         // make error message
-        ValidationMessage::setFlashMessage(
-            'form_errors',
+        $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
             ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui. Silahkan coba kembali!']
-        );
+        ));
         return redirect()->back();
     }
 

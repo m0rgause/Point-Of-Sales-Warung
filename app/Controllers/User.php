@@ -1,10 +1,10 @@
-<?php namespace App\Controllers;
+<?php
 
-use CodeIgniter\Controller;
+namespace App\Controllers;
+
 use App\Models\UserModel;
-use App\Libraries\ValidationMessage;
 
-class User extends Controller
+class User extends BaseController
 {
     protected $helpers = ['form', 'active_menu', 'check_password_sign_in_user', 'generate_uuid'];
 
@@ -37,31 +37,31 @@ class User extends Controller
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','min_length','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length')
             ],
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required|min_length[4]|max_length[32]|is_unique[pengguna.username]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
+                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
             ],
             'level' => [
                 'label' => 'Tingkat',
                 'rules' => 'in_list[admin,kasir]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndonesianErrorMessage('in_list')
             ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required|min_length[8]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','min_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','min_length')
             ]
         ])) {
             // set validation errors message to flash session
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
-            );
+            ));
+
             return redirect()->back()->withInput();
         }
 
@@ -97,35 +97,32 @@ class User extends Controller
         $check_password = check_password_sign_in_user($password_sign_in_user, $password_db);
         if ($check_password !== 'yes') {
             // make password errors message
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 ['password_sign_in_user' => $check_password]
-            );
+            ));
             return redirect()->back();
         }
 
         // generate array validate
-        $data_validate = [];
-
-        $data_validate = array_merge($data_validate, [
+        $data_validate = [
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','min_length','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length')
             ],
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required|min_length[4]|max_length[32]|is_unique[pengguna.username,pengguna_id,'.$user_id.']',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
+                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
             ],
             'level' => [
                 'label' => 'Tingkat',
                 'rules' => 'in_list[admin,kasir]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndonesianErrorMessage('in_list')
             ]
-        ]);
+        ];
 
         $password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
         if (!empty(trim($password))) {
@@ -133,30 +130,27 @@ class User extends Controller
                 'password' => [
                     'label' => 'Password',
                     'rules' => 'min_length[8]',
-                    'errors' => ValidationMessage::generateIndonesianErrorMessage('min_length')
+                    'errors' => $this->generateIndonesianErrorMessage('min_length')
                 ]
             ]);
         }
 
         if (!$this->validate($data_validate)) {
             // set validation errors message to flash session
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
-            );
+            ));
             return redirect()->back();
         }
 
         // generate array update data
-        $data_update = [];
-
-        $data_update = array_merge($data_update, [
+        $data_update = [
             'nama_lengkap' => $this->request->getPost('full_name', FILTER_SANITIZE_STRING),
             'username' => $this->request->getPost('username', FILTER_SANITIZE_STRING),
             'tingkat' => $this->request->getPost('level', FILTER_SANITIZE_STRING)
-        ]);
+        ];
 
         if (!empty(trim($password))) {
             $data_update = array_merge($data_update, ['password' => password_hash($password, PASSWORD_DEFAULT)]);
@@ -165,12 +159,11 @@ class User extends Controller
         // update data
         if ($this->model->update($user_id, $data_update)) {
             // make success message
-            ValidationMessage::setFlashMessage(
-                'form_success',
+            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui.']
-            );
+            ));
         }
         return redirect()->back();
     }

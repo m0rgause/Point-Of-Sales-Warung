@@ -1,10 +1,10 @@
-<?php namespace App\Controllers;
+<?php
 
-use CodeIgniter\Controller;
-use App\Libraries\ValidationMessage;
+namespace App\Controllers;
+
 use App\Models\UserModel;
 
-class SignIn extends Controller
+class SignIn extends BaseController
 {
     protected $helpers = ['form'];
 
@@ -21,21 +21,20 @@ class SignIn extends Controller
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndonesianErrorMessage('required')
             ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndonesianErrorMessage('required')
             ]
         ])) {
             // set validation errors message to flash session
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
-            );
+            ));
             return redirect()->back()->withInput();
         }
 
@@ -63,22 +62,20 @@ class SignIn extends Controller
             }
 
             // if password is wrong
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 ['password' => 'Password salah.']
-            );
+            ));
             return redirect()->back();
         }
 
         // if username not found
-        ValidationMessage::setFlashMessage(
-            'form_errors',
+        $session->setFlashData('form_errors', $this->setDelimiterMessage(
             '<small class="form-message form-message--danger">',
             '</small>',
             ['username' => 'Username tidak ditemukan.']
-        );
+        ));
         return redirect()->back();
     }
 }

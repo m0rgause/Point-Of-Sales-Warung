@@ -1,11 +1,9 @@
 <?php namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use App\Models\CategoryProductModel;
 use App\Models\POSWModel;
-use App\Libraries\ValidationMessage;
 
-class CategoryProduct extends Controller
+class CategoryProduct extends BaseController
 {
     protected $helpers = ['form', 'active_menu', 'generate_uuid'];
 
@@ -38,16 +36,16 @@ class CategoryProduct extends Controller
             'category_product_name' => [
                 'label' => 'Nama Kategori Produk',
                 'rules' => 'required|max_length[20]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
             ]
         ])) {
             // set validation errors message to flash session
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
-            );
+            ));
+
             return redirect()->back()->withInput();
         }
 
@@ -77,16 +75,15 @@ class CategoryProduct extends Controller
             'category_product_name' => [
                 'label' => 'Nama Kategori Produk',
                 'rules' => 'required|max_length[20]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
             ]
         ])) {
             // set validation errors message to flash session
-            ValidationMessage::setFlashMessage(
-                'form_errors',
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
-            );
+            ));
             return redirect()->back();
         }
 
@@ -97,12 +94,11 @@ class CategoryProduct extends Controller
             'waktu_buat' => date('Y-m-d H:i:s')
         ])) {
             // make success message
-            ValidationMessage::setFlashMessage(
-                'form_success',
+            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui.']
-            );
+            ));
         }
         return redirect()->back();
     }

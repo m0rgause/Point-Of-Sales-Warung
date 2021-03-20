@@ -1,14 +1,14 @@
-<?php namespace App\Controllers;
+<?php
 
-use CodeIgniter\Controller;
+namespace App\Controllers;
+
 use App\Models\ProductModel;
 use App\Models\ProductPriceModel;
 use App\Models\TransactionModel;
 use App\Models\TransactionDetailModel;
 use App\Models\POSWModel;
-use App\Libraries\ValidationMessage;
 
-class Cashier extends Controller
+class Cashier extends BaseController
 {
     protected $helpers = ['form', 'generate_uuid'];
     private const BESTSELLER_PRODUCT_LIMIT = 8;
@@ -331,7 +331,7 @@ class Cashier extends Controller
             'customer_money' => [
                 'label' => 'Uang Pembeli',
                 'rules' => 'required|integer|max_length[10]',
-                'errors' => ValidationMessage::generateIndonesianErrorMessage('required','integer','max_length')
+                'errors' => $this->generateIndonesianErrorMessage('required','integer','max_length')
             ]
         ])) {
             return json_encode(['success'=>false, 'form_errors'=>$this->validator->getErrors(), 'csrf_value'=>csrf_hash()]);
