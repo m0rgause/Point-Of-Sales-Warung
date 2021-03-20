@@ -36,7 +36,7 @@ class CategoryProduct extends BaseController
             'category_product_name' => [
                 'label' => 'Nama Kategori Produk',
                 'rules' => 'required|max_length[20]',
-                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','max_length'])
             ]
         ])) {
             // set validation errors message to flash session
@@ -75,7 +75,7 @@ class CategoryProduct extends BaseController
             'category_product_name' => [
                 'label' => 'Nama Kategori Produk',
                 'rules' => 'required|max_length[20]',
-                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','max_length'])
             ]
         ])) {
             // set validation errors message to flash session

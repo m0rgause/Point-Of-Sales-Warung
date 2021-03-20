@@ -30,7 +30,7 @@ class BaseController extends Controller
         return $new_messages;
     }
 
-    protected function generateIndonesianErrorMessage(string ...$rules): array
+    protected function generateIndoErrorMessages(array $rules): array
     {
         $rules_length = count($rules);
         $array_message = [];

@@ -21,12 +21,12 @@ class SignIn extends BaseController
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required',
-                'errors' => $this->generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndoErrorMessages(['required'])
             ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required',
-                'errors' => $this->generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndoErrorMessages(['required'])
             ]
         ])) {
             // set validation errors message to flash session

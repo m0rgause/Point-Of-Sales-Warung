@@ -331,7 +331,7 @@ class Cashier extends BaseController
             'customer_money' => [
                 'label' => 'Uang Pembeli',
                 'rules' => 'required|integer|max_length[10]',
-                'errors' => $this->generateIndonesianErrorMessage('required','integer','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','integer','max_length'])
             ]
         ])) {
             return json_encode(['success'=>false, 'form_errors'=>$this->validator->getErrors(), 'csrf_value'=>csrf_hash()]);

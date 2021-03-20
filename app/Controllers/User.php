@@ -37,22 +37,22 @@ class User extends BaseController
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
-                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','min_length','max_length'])
             ],
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required|min_length[4]|max_length[32]|is_unique[pengguna.username]',
-                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
+                'errors' => $this->generateIndoErrorMessages(['required','min_length','max_length','is_unique'])
             ],
             'level' => [
                 'label' => 'Tingkat',
                 'rules' => 'in_list[admin,kasir]',
-                'errors' => $this->generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndoErrorMessages(['in_list'])
             ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required|min_length[8]',
-                'errors' => $this->generateIndonesianErrorMessage('required','min_length')
+                'errors' => $this->generateIndoErrorMessages(['required','min_length'])
             ]
         ])) {
             // set validation errors message to flash session
@@ -110,17 +110,17 @@ class User extends BaseController
             'full_name' => [
                 'label' => 'Nama lengkap',
                 'rules' => 'required|min_length[4]|max_length[32]',
-                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','min_length','max_length'])
             ],
             'username' => [
                 'label' => 'Username',
                 'rules' => 'required|min_length[4]|max_length[32]|is_unique[pengguna.username,pengguna_id,'.$user_id.']',
-                'errors' => $this->generateIndonesianErrorMessage('required','min_length','max_length','is_unique')
+                'errors' => $this->generateIndoErrorMessages(['required','min_length','max_length','is_unique'])
             ],
             'level' => [
                 'label' => 'Tingkat',
                 'rules' => 'in_list[admin,kasir]',
-                'errors' => $this->generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndoErrorMessages(['in_list'])
             ]
         ];
 
@@ -130,7 +130,7 @@ class User extends BaseController
                 'password' => [
                     'label' => 'Password',
                     'rules' => 'min_length[8]',
-                    'errors' => $this->generateIndonesianErrorMessage('min_length')
+                    'errors' => $this->generateIndoErrorMessages(['min_length'])
                 ]
             ]);
         }

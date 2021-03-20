@@ -65,17 +65,17 @@ class Product extends BaseController
             'category_product' => [
                 'label' => 'Kategori produk',
                 'rules' => 'required',
-                'errors' => $this->generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndoErrorMessages(['required'])
             ],
             'product_name' => [
                 'label' => 'Nama produk',
                 'rules' => 'required|max_length[50]|is_unique[produk.nama_produk]',
-                'errors' => $this->generateIndonesianErrorMessage('required','max_length','is_unique')
+                'errors' => $this->generateIndoErrorMessages(['required','max_length','is_unique'])
             ],
             'product_status' => [
                 'label' => 'Status Produk',
                 'rules' => 'in_list[ada,tidak_ada]',
-                'errors' => $this->generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndoErrorMessages(['in_list'])
             ],
             'product_photo' => 'product_photo',
             'product_magnitudes' => 'product_magnitude',
@@ -238,17 +238,17 @@ class Product extends BaseController
             'category_product' => [
                 'label' => 'Kategori produk',
                 'rules' => 'required',
-                'errors' => $this->generateIndonesianErrorMessage('required')
+                'errors' => $this->generateIndoErrorMessages(['required'])
             ],
             'product_name' => [
                 'label' => 'Nama produk',
                 'rules' => 'required|max_length[50]',
-                'errors' => $this->generateIndonesianErrorMessage('required','max_length')
+                'errors' => $this->generateIndoErrorMessages(['required','max_length'])
             ],
             'product_status' => [
                 'label' => 'Status Produk',
                 'rules' => 'in_list[ada,tidak_ada]',
-                'errors' => $this->generateIndonesianErrorMessage('in_list')
+                'errors' => $this->generateIndoErrorMessages(['in_list'])
             ],
             'product_magnitudes' => 'product_magnitude',
             'product_prices' => 'product_price'
