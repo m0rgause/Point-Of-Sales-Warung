@@ -40,7 +40,7 @@ class CategoryProduct extends BaseController
             ]
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
@@ -79,7 +79,7 @@ class CategoryProduct extends BaseController
             ]
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
@@ -94,7 +94,7 @@ class CategoryProduct extends BaseController
             'waktu_buat' => date('Y-m-d H:i:s')
         ])) {
             // make success message
-            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui.']

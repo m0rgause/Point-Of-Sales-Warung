@@ -6,7 +6,7 @@ use CodeIgniter\Controller;
 
 class BaseController extends Controller
 {
-    protected function setDelimiterMessage(
+    protected function setDelimiterMessages(
         string $open_delimiter,
         string $close_delimiter,
         array $messages,

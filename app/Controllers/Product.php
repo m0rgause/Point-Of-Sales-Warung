@@ -82,7 +82,7 @@ class Product extends BaseController
             'product_prices' => 'product_price'
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors(),
@@ -135,7 +135,7 @@ class Product extends BaseController
         }
 
         // make error message
-        $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+        $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
             ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat. Silahkan coba kembali!']
@@ -263,7 +263,7 @@ class Product extends BaseController
         // validate data
         if (!$this->validate($data_validate)) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors(),
@@ -350,7 +350,7 @@ class Product extends BaseController
             }
 
             // make success message
-            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui.']
@@ -360,7 +360,7 @@ class Product extends BaseController
         }
 
         // make error message
-        $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+        $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
             ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui. Silahkan coba kembali!']

@@ -30,7 +30,7 @@ class SignIn extends BaseController
             ]
         ])) {
             // set validation errors message to flash session
-            $session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
@@ -62,7 +62,7 @@ class SignIn extends BaseController
             }
 
             // if password is wrong
-            $session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 ['password' => 'Password salah.']
@@ -71,7 +71,7 @@ class SignIn extends BaseController
         }
 
         // if username not found
-        $session->setFlashData('form_errors', $this->setDelimiterMessage(
+        $session->setFlashData('form_errors', $this->setDelimiterMessages(
             '<small class="form-message form-message--danger">',
             '</small>',
             ['username' => 'Username tidak ditemukan.']

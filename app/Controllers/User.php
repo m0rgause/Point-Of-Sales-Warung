@@ -56,7 +56,7 @@ class User extends BaseController
             ]
         ])) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
@@ -97,7 +97,7 @@ class User extends BaseController
         $check_password = check_password_sign_in_user($password_sign_in_user, $password_db);
         if ($check_password !== 'yes') {
             // make password errors message
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 ['password_sign_in_user' => $check_password]
@@ -137,7 +137,7 @@ class User extends BaseController
 
         if (!$this->validate($data_validate)) {
             // set validation errors message to flash session
-            $this->session->setFlashData('form_errors', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
                 '<small class="form-message form-message--danger">',
                 '</small>',
                 $this->validator->getErrors()
@@ -159,7 +159,7 @@ class User extends BaseController
         // update data
         if ($this->model->update($user_id, $data_update)) {
             // make success message
-            $this->session->setFlashData('form_success', $this->setDelimiterMessage(
+            $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
                 ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui.']
