@@ -13,7 +13,7 @@
     <!-- POSW CSS -->
     <link rel="stylesheet" href="<?= base_url('/dist/css/posw.min.css'); ?>">
 
-    <title>Sign in ke POSW</title>
+    <title>Sign In . POSW</title>
 </head>
 <body class="p-0">
 
