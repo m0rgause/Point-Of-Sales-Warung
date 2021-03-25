@@ -151,7 +151,7 @@
 </div><!-- container-xl -->
 
 <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none" id="transaction-loading">
-    <div class="loading">
+    <div class="loading position-fixed top-50">
         <div></div>
     </div>
 </div>
