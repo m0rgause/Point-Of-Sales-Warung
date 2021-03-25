@@ -72,14 +72,16 @@ class Cashier extends BaseController
 
     public function index()
     {
-        $bestseller_products_remapped = $this->remapDataProduct($this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true);
-        $bestseller_products = $bestseller_products_remapped['products'];
-        $product_ids = $bestseller_products_remapped['product_ids'];
+        // get bestseller products and product_ids, product ids for ignore product when get other products
+        ['products' => $bestseller_products, 'product_ids' => $product_ids] = $this->remapDataProduct(
+            $this->product_model->getBestsellerProducts(static::BESTSELLER_PRODUCT_LIMIT), true
+        );
 
-        $products_remapped = $this->remapDataProduct($this->product_model->getProductsForCashier($product_ids, static::PRODUCT_LIMIT));
+        // get other products
+        $products_db = $this->remapDataProduct($this->product_model->getProductsForCashier($product_ids, static::PRODUCT_LIMIT));
 
         $data['bestseller_products'] = $bestseller_products;
-        $data['products_db'] = $products_remapped;
+        $data['products_db'] = $products_db;
         $data['product_total'] = $this->product_model->countAllProductForCashier();
         $data['product_limit'] = static::PRODUCT_LIMIT;
         $data['bestseller_product_limit'] = static::BESTSELLER_PRODUCT_LIMIT;
@@ -90,13 +92,14 @@ class Cashier extends BaseController
     public function showProductSearches()
     {
         $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
-        $products_remapped = $this->remapDataProduct($this->product_model->getProductSearchesForCashier(static::PRODUCT_LIMIT, $keyword));
+        // get products
+        $products_db = $this->remapDataProduct($this->product_model->getProductSearchesForCashier(static::PRODUCT_LIMIT, $keyword));
 
         // get product search total
         $product_search_total = $this->product_model->countAllProductSearchForCashier($keyword);
 
         return json_encode([
-            'products_db' => $products_remapped,
+            'products_db' => $products_db,
             'product_search_total' => $product_search_total,
             'product_limit' => static::PRODUCT_LIMIT,
             'csrf_value' => csrf_hash()
@@ -280,8 +283,8 @@ class Cashier extends BaseController
     {
         // if file backup exists
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
-            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
-            return $this->getTransactionDetailsInRollbackTransaction($data_backup['transaction_id']);
+            ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            return $this->getTransactionDetailsInRollbackTransaction($transaction_id);
         }
 
         return $this->getTransactionDetailsInTransaction();
@@ -392,7 +395,7 @@ class Cashier extends BaseController
             'produk.produk_id, harga_produk.harga_produk_id, transaksi_detail_id, nama_produk, harga_produk, besaran_produk, jumlah_produk'
         );
 
-        // backoup transaction detail to json file
+        // backup transaction and transaction detail to json file
         $data_backup = json_encode(['transaction_id'=>$transaction_id, 'transaction_details'=>$transaction_details]);
         file_put_contents(WRITEPATH.'transaction_backup/data.json', $data_backup);
 
@@ -437,8 +440,11 @@ class Cashier extends BaseController
     public function cancelRollbackTransaction()
     {
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
-            $data_backup = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
-            $transaction_details = $data_backup['transaction_details'];
+            // get transaction id and transaction details in backup file
+            [
+                'transaction_id' => $transaction_id,
+                'transaction_details' => $transaction_details
+            ] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
 
             // remove transaction detail not exists in backup file
             $transaction_detail_ids = $this->request->getPost('transaction_detail_ids', FILTER_SANITIZE_STRING);
@@ -452,7 +458,7 @@ class Cashier extends BaseController
             }
 
             if (count($transaction_detail_ids_not_in_backup) > 0) {
-                $this->transaction_detail_model->removeTransactionDetails($transaction_detail_ids_not_in_backup, $data_backup['transaction_id']);
+                $this->transaction_detail_model->removeTransactionDetails($transaction_detail_ids_not_in_backup, $transaction_id);
             }
 
             // if exists transaction details
@@ -460,13 +466,13 @@ class Cashier extends BaseController
                 // reset transaction detail
                 $data_reset = $this->generateDataResetTransactionDetail(
                     $transaction_details,
-                    $data_backup['transaction_id']
+                    $transaction_id
                 );
                 $this->transaction_detail_model->saveTransactionDetails($data_reset);
             }
 
             // update status transaction = selesai
-            $this->transaction_model->update($data_backup['transaction_id'], [
+            $this->transaction_model->update($transaction_id, [
                 'status_transaksi' => 'selesai'
             ]);
 

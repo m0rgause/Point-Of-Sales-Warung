@@ -16,9 +16,10 @@ class Product extends BaseController
     public function __construct()
     {
         $this->session = session();
-        $this->model = new ProductModel();
+        $this->product_model = new ProductModel();
         $this->price_model = new ProductPriceModel();
         $this->indo_time = new IndoTime();
+        $this->category_model = new CategoryProductModel();
     }
 
     public function index()
@@ -26,8 +27,8 @@ class Product extends BaseController
         $data['title'] = 'Produk . POSW';
         $data['page'] = 'produk';
 
-        $data['product_total'] = $this->model->countAllProduct();
-        $data['products_db'] = $this->model->getProducts(static::PRODUCT_LIMIT);
+        $data['product_total'] = $this->product_model->countAllProduct();
+        $data['products_db'] = $this->product_model->getProducts(static::PRODUCT_LIMIT);
         $data['product_limit'] = static::PRODUCT_LIMIT;
 
         return view('product/product', $data);
@@ -35,9 +36,7 @@ class Product extends BaseController
 
     public function createProduct()
     {
-        $category_product_model = new CategoryProductModel;
-
-        $data['category_products_db'] = $category_product_model->getCategoryProductsForFormSelect();
+        $data['category_products_db'] = $this->category_model->getCategoryProductsForFormSelect();
         $data['title'] = 'Buat Produk . POSW';
         $data['page'] = 'buat_produk';
 
@@ -97,10 +96,10 @@ class Product extends BaseController
         $product_photo_name = $product_photo_file->getRandomName();
 
         try {
-            $this->model->db->transBegin();
+            $this->product_model->db->transBegin();
 
             // insert product
-            $this->model->insertReturning([
+            $this->product_model->insertReturning([
                 'produk_id' => generate_uuid(),
                 'kategori_produk_id' => $this->request->getPost('category_product', FILTER_SANITIZE_STRING),
                 'nama_produk' => $this->request->getPost('product_name', FILTER_SANITIZE_STRING),
@@ -110,7 +109,7 @@ class Product extends BaseController
             ], 'produk_id');
 
             // insert product price
-            $produk_id = $this->model->getInsertReturned();
+            $produk_id = $this->product_model->getInsertReturned();
             $data_product_price = $this->generateDataInsertBatchProductPrice(
                 $produk_id,
                 $this->request->getPost('product_magnitudes'),
@@ -118,11 +117,11 @@ class Product extends BaseController
             );
             $this->price_model->insertBatch($data_product_price);
 
-            $this->model->transCommit();
+            $this->product_model->transCommit();
             $process = true;
 
         } catch (\ErrorException $e) {
-            $this->model->transRollback();
+            $this->product_model->transRollback();
             $process = false;
         }
 
@@ -147,7 +146,7 @@ class Product extends BaseController
     {
         $product_id = $this->request->getPost('product_id', FILTER_SANITIZE_STRING);
         $product_prices = $this->price_model->getProductPrices($product_id, 'harga_produk, besaran_produk');
-        $product_photo = $this->model->findProduct($product_id, 'foto_produk')['foto_produk']??null;
+        $product_photo = $this->product_model->findProduct($product_id, 'foto_produk')['foto_produk']??null;
 
         return json_encode(['product_prices'=>$product_prices, 'product_photo'=>$product_photo, 'csrf_value'=>csrf_hash()]);
     }
@@ -155,7 +154,7 @@ class Product extends BaseController
     public function showProductSearches()
     {
         $keyword = $this->request->getPost('keyword', FILTER_SANITIZE_STRING);
-        $products_db = $this->model->getProductSearches(static::PRODUCT_LIMIT, $keyword);
+        $products_db = $this->product_model->getProductSearches(static::PRODUCT_LIMIT, $keyword);
 
         // convert timestamp
         $count_products_db = count($products_db);
@@ -164,7 +163,7 @@ class Product extends BaseController
         }
 
         // get product search total
-        $product_search_total = $this->model->countAllProductSearch($keyword);
+        $product_search_total = $this->product_model->countAllProductSearch($keyword);
 
         return json_encode([
             'products_db' => $products_db,
@@ -176,16 +175,14 @@ class Product extends BaseController
 
     public function updateProduct(string $product_id)
     {
-        $category_product_model = new CategoryProductModel;
-
         $product_id = filter_var($product_id, FILTER_SANITIZE_STRING);
 
         $data['title'] = 'Perbaharui Produk . POSW';
         $data['page'] = 'perbaharui_produk';
         $data['product_id'] = $product_id;
-        $data['product_db'] = $this->model->findProduct($product_id, 'kategori_produk_id,nama_produk,status_produk,foto_produk');
+        $data['product_db'] = $this->product_model->findProduct($product_id, 'kategori_produk_id,nama_produk,status_produk,foto_produk');
         $data['product_prices_db'] = $this->price_model->getProductPrices($product_id, 'harga_produk_id, besaran_produk, harga_produk');
-        $data['category_products_db'] = $category_product_model->getCategoryProductsForFormSelect();
+        $data['category_products_db'] = $this->category_model->getCategoryProductsForFormSelect();
 
         return view('product/update_product', $data);
     }
@@ -317,10 +314,10 @@ class Product extends BaseController
         );
 
         try {
-            $this->model->transBegin();
+            $this->product_model->transBegin();
 
             // update product
-            $this->model->update($product_id, $data_update_product);
+            $this->product_model->update($product_id, $data_update_product);
             // update product price
             $this->price_model->updateBatch($data_product_price_update, 'harga_produk_id');
             // insert product price
@@ -328,11 +325,11 @@ class Product extends BaseController
                 $this->price_model->insertBatch($data_product_price_insert);
             }
 
-            $this->model->transCommit();
+            $this->product_model->transCommit();
             $process = true;
 
         } catch (\ErrorException $e) {
-            $this->model->transRollback();
+            $this->product_model->transRollback();
             $process = false;
         }
 
@@ -382,9 +379,9 @@ class Product extends BaseController
     public function removeProductsInDB()
     {
         $product_ids = explode(',',$this->request->getPost('product_ids', FILTER_SANITIZE_STRING));
-        $photo_products = $this->model->findProducts($product_ids, 'foto_produk');
+        $photo_products = $this->product_model->findProducts($product_ids, 'foto_produk');
         // remove product
-        if ($this->model->removeProducts($product_ids) > 0) {
+        if ($this->product_model->removeProducts($product_ids) > 0) {
             // remove photo product
             foreach($photo_products as $p) {
                 if (file_exists('dist/images/product_photo/'.$p['foto_produk'])) {
@@ -399,15 +396,15 @@ class Product extends BaseController
             // if keyword !== null
             if ($keyword !== null) {
                 // product total
-                $product_total = $this->model->countAllProductSearch($keyword);
+                $product_total = $this->product_model->countAllProductSearch($keyword);
                 // get longer product
-                $longer_products = $this->model->getLongerProductSearches($count_product_id, $smallest_create_time, $keyword);
+                $longer_products = $this->product_model->getLongerProductSearches($count_product_id, $smallest_create_time, $keyword);
 
             } else {
                 // product total
-                $product_total = $this->model->countAllProduct();
+                $product_total = $this->product_model->countAllProduct();
                 // get longer product
-                $longer_products = $this->model->getLongerProducts($count_product_id, $smallest_create_time);
+                $longer_products = $this->product_model->getLongerProducts($count_product_id, $smallest_create_time);
             }
 
             // add array indo create time to longer products array

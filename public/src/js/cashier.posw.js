@@ -288,11 +288,13 @@ btn_search_product.addEventListener('click', e => {
 function calculate_change_money(customer_money, total_payment)
 {
     const change_money_el = document.querySelector('input[name="change_money"]');
+    // if customer money greater than total payment
     if (customer_money >= total_payment) {
         change_money_el.value = number_formatter_to_currency(customer_money - total_payment);
     }
-    // if input change money not empty
+    // else if input change money not empty
     else if (change_money_el.value !== '') {
+        // reset input change money
         change_money_el.value = '';
     }
 }
@@ -415,7 +417,7 @@ function buy_product(
                 const total_payment_new = payment + parseInt(total_payment_old);
                 const total_qty_new = parseInt(product_qty) + parseInt(total_qty_old);
 
-                // inner text total payment and total qty in cart table
+                // inner text total qty and total payment in cart table
                 cart_table.querySelector('td#total-qty').innerText = total_qty_new;
                 cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty_new;
                 cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment_new);
@@ -742,7 +744,7 @@ document.querySelector('aside.cart table.table tbody').addEventListener('click',
         // get transaction detail id
         const transaction_detail_id = target_remove.parentElement.parentElement.dataset.transactionDetailId;
 
-        // generate product qty new, total qty new, payment new and total payment new
+        // generate total qty new and total payment new
         const payment = parseInt(target_remove.parentElement.parentElement.querySelector('td#payment').dataset.payment);
         const total_payment_old = parseInt(cart_table.querySelector('td#total-payment').dataset.totalPayment);
         const product_qty = parseInt(target_remove.parentElement.parentElement.querySelector('td#qty').dataset.qty);

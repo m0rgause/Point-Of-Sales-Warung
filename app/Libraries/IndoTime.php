@@ -26,17 +26,15 @@ class IndoTime extends Time
     {
         if($timestamp === null) return null;
 
-        $arr_timestamp = static::explodeTimestamp($timestamp);
+        [
+            'year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'hour' => $hour,
+            'minutes' => $minutes,
+            'seconds' => $seconds
+        ] = static::explodeTimestamp($timestamp);
 
-        return static::create(
-            $arr_timestamp['year'],
-            $arr_timestamp['month'],
-            $arr_timestamp['day'],
-            $arr_timestamp['hour'],
-            $arr_timestamp['minutes'],
-            $arr_timestamp['seconds'],
-            'Asia/Jakarta',
-            'id_ID'
-        )->toLocalizedString('dd MMMM YYYY, HH:mm:ss');
+        return static::create($year, $month, $day, $hour, $minutes, $seconds, 'Asia/Jakarta', 'id_ID')->toLocalizedString('dd MMMM YYYY, HH:mm:ss');
     }
 }
