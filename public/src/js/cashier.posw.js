@@ -234,7 +234,7 @@ btn_search_product.addEventListener('click', e => {
                         <p class="product__sale" data-product-sale="${product_sale}">Terjual ${product_sale}</p>
 
                         <div class="product__price">
-                            <h5>${p.product_price[0].product_price}</h5><span>/</span>
+                            <h5>${p.product_price[0].product_price_formatted}</h5><span>/</span>
                             <select name="magnitude">`;
 
                             p.product_price.forEach (pp => {
