@@ -22,7 +22,7 @@
         <div class="signin__head text-center">
             <img src="<?= base_url('/dist/images/posw.svg'); ?>" width="100" class="mb-4">
             <h5 class="mb-4">Sign in ke POSW</h5>
-        </div>
+        </div><!-- sign in head -->
         <div class="signin__body">
             <?= form_open('/sign_in'); ?>
                 <div class="mb-3">
@@ -45,6 +45,15 @@
 
                 <button type="submit" class="btn btn--blue">Sign In</button>
             </form>
+        </div><!-- sign in body -->
+        <div class="signin__footer mt-3">
+            <ul>
+                <li>&copy; 2021 <a href="https://rezafikkri.github.io/" target="_blank" rel="noreferrer noopener">Reza Sariful Fikri</a>
+            </li>
+                <li>
+                    <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki" target="_blank" rel="noreferrer noopener">Bantuan</a>
+                </li>
+            </ul>
         </div>
     </div>
 </main>

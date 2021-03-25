@@ -33,10 +33,10 @@ const options = {
     dataLabels: {
         enabled: false,
    },
-    grid: {
-        borderColor: '#e8e8e8',
-        strokeDashArray: 4
-    }
+   grid: {
+       borderColor: '#e8e8e8',
+       strokeDashArray: 4
+   },
 };
 const chart = new ApexCharts(document.querySelector('.chart .chart__body'), options);
 chart.render();
