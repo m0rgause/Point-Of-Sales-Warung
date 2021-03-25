@@ -3,7 +3,7 @@
 <?= $this->section('main'); ?>
 <header class="header">
 <div class="container-xl d-flex justify-content-between align-items-center flex-wrap">
-    <h4 class="mb-0">Aktivitas Harian</h4>
+    <h4 class="mb-0">Aktivitas</h4>
 </div><!-- container-xl -->
 </header>
 
