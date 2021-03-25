@@ -117,6 +117,10 @@
     background-color: #fff;
     transform: translate(768px);
 
+    h5 {
+        color: #acacac;
+    }
+
     @media (max-width: 767.98px) {
         width: 100%;
         padding: 12px;
