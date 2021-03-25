@@ -184,7 +184,9 @@ btn_search_product.addEventListener('click', e => {
     }
 
     // loading
-    container.innerHTML = `<div class="d-flex justify-content-center align-items-center mt-4"><div class="loading"><div></div></div></div>`;
+    container.innerHTML = `<div id="search-loading" class="d-flex justify-content-center align-items-center mt-4">
+    <div class="loading"><div></div></div>
+</div>`;
     // disabled button search
     btn_search_product.classList.add('btn--disabled');
 
@@ -197,6 +199,8 @@ btn_search_product.addEventListener('click', e => {
         body: `keyword=${keyword}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
+        // loading
+        container.querySelector('div#search-loading').remove();
         // enabled button search
         btn_search_product.classList.remove('btn--disabled');
     })

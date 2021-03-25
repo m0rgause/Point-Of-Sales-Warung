@@ -9,7 +9,7 @@ export default (function(){
     const file_names = [
         //'posw',
         //'signin.posw',
-        'admin.posw',
+        //'admin.posw',
         //'user.posw',
         //'create_user.posw',
         //'update_user.posw',
@@ -17,7 +17,7 @@ export default (function(){
         //'product.posw',
         //'create_product.posw',
         //'update_product.posw',
-        //'cashier.posw'
+        'cashier.posw'
     ];
 
     let arrConfig = [];
