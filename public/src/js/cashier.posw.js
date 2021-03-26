@@ -802,7 +802,7 @@ function reset_shopping_cart(cart_table)
 }
 
 // show form message in cart
-function show_form_message(message, type)
+function show_form_error_message_customer_money(message)
 {
     // if exists form message
     const form_message_customer_money = document.querySelector('aside.cart div#customer-money small.form-message');
@@ -812,8 +812,8 @@ function show_form_message(message, type)
     } else {
         const small_node = document.createElement('small');
         small_node.classList.add('form-message');
-        small_node.classList.add(`form-message--${type}`);
-        small_node.innerText = json.form_errors.customer_money;
+        small_node.classList.add(`form-message--danger`);
+        small_node.innerText = message.customer_money;
         // add form message to after customer money input
         document.querySelector('aside.cart div#customer-money').append(small_node);
     }
@@ -859,7 +859,7 @@ function finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, bt
         }
         // if false and form message exists
         if (json.success === false && json.form_errors !== undefined) {
-            show_form_message(json.form_errors, 'danger');
+            show_form_error_message_customer_money(json.form_errors);
         }
     })
     .catch(error => {
@@ -902,7 +902,7 @@ function finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_c
         }
         // if false and form message exists
         if (json.success === false && json.form_errors !== undefined) {
-            show_form_message(json.form_errors, 'danger');
+            show_form_error_message_customer_money(json.form_errors);
         }
     })
     .catch(error => {
