@@ -496,10 +496,11 @@ class Cashier extends BaseController
 
         $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
         $customer_money = $this->request->getPost('customer_money', FILTER_SANITIZE_NUMBER_INT);
-        // update customer money in db and update status transaction
+        // update customer money, created time and update status transaction
         $this->transaction_model->update($transaction_id, [
             'uang_pembeli' => $customer_money,
-            'status_transaksi' => 'selesai'
+            'status_transaksi' => 'selesai',
+            'waktu_buat' => date('Y-m-d H:i:s')
         ]);
 
         // if exists file backup
