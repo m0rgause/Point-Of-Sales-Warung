@@ -166,8 +166,7 @@ class Cashier extends BaseController
                 $insert_transaction = $this->transaction_model->insertReturning([
                     'transaksi_id' => generate_uuid(),
                     'pengguna_id' => $_SESSION['posw_user_id'],
-                    'status_transaksi' => 'belum',
-                    'waktu_buat' => date('Y-m-d H:i:s')
+                    'status_transaksi' => 'belum'
                 ], 'transaksi_id');
                 $inserted_transaction_id = $this->transaction_model->getInsertReturned();
 
@@ -343,7 +342,8 @@ class Cashier extends BaseController
         // update customer money in db and update status transaction
         $this->transaction_model->update($_SESSION['posw_transaction_id'], [
             'uang_pembeli' => $customer_money,
-            'status_transaksi' => 'selesai'
+            'status_transaksi' => 'selesai',
+            'waktu_buat' => date('Y-m-d H:i:s')
         ]);
 
         // remove session status transaction

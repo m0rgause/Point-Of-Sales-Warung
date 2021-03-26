@@ -21,7 +21,8 @@ class AddTransaksi extends Migration
                 'null' => true
             ],
             'waktu_buat' => [
-                'type' => 'timestamp'
+                'type' => 'timestamp',
+                'null' => true
             ]
         ]);
         $this->forge->addForeignKey('pengguna_id','pengguna','pengguna_id','NO ACTION','RESTRICT');
