@@ -918,14 +918,14 @@ btn_finish_transaction.addEventListener('click', e => {
     const csrf_value = main.dataset.csrfValue;
     const customer_money = document.querySelector('input[name="customer_money"]').value;
 
-    // if exists attribute aria-label = rollback-transaction and transaction-id in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-        finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
+    // if exists attribute aria-label = transaction
+    if (cart_table.getAttribute('aria-label') === 'transaction') {
+        finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
     }
 
-    // else if exists attribute aria-label = transaction
-    else if (cart_table.getAttribute('aria-label') === 'transaction') {
-        finish_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
+    // else if exists attribute aria-label = rollback-transaction and transaction-id in cart table
+    else if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money);
     }
 });
 
@@ -1106,14 +1106,13 @@ btn_cancel_transaction.addEventListener('click', e => {
     const csrf_name = main.dataset.csrfName;
     const csrf_value = main.dataset.csrfValue;
 
-    // if exists attribute aria-label = rollback-transaction and transaction-id in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-        cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main);
-    }
-
-    // else if exists attribute aria-label = transaction
-    else if (cart_table.getAttribute('aria-label') === 'transaction') {
+    // if exists attribute aria-label = transaction
+    if (cart_table.getAttribute('aria-label') === 'transaction') {
         cancel_transaction(csrf_name, csrf_value, cart_table, main);
+    }
+    // else if exists attribute aria-label = rollback-transaction and transaction-id in cart table
+    else if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
+        cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main);
     }
 });
 
