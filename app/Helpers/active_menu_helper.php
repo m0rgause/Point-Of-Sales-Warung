@@ -6,7 +6,7 @@
  * third parameter is array of menu name.
  */
 
-function active_menu(string $page, string $active_menu_class, string ...$menu_names): ? string
+function active_menu(string $page, string $active_menu_class, array $menu_names): ? string
 {
     // if page found in menu names array
     if(in_array($page, $menu_names)) {
