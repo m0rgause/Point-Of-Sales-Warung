@@ -88,12 +88,8 @@ function get_transaction_details(
             // show transaction detail in cart table
             show_transaction_details(cart_table, json.transaction_details);
 
-            // if type = transaction
-            if (json.type === 'transaction') {
-                // add attribute aria label = transaction
-                cart_table.setAttribute('aria-label', 'transaction');
-
-            } else if (json.type === 'rollback-transaction') {
+            // if type = rollback-transaction
+            if (json.type === 'rollback-transaction') {
                 // show customer money
                 const customer_money = parseInt(json.customer_money);
                 document.querySelector('input[name="customer_money"]').value = customer_money;
@@ -105,6 +101,10 @@ function get_transaction_details(
                 // add attribute aria label = rollback-transaction and transaction-id
                 cart_table.setAttribute('aria-label', 'rollback-transaction');
                 cart_table.setAttribute('data-transaction-id', json.transaction_id);
+
+            } else {
+                // add attribute aria label = transaction
+                cart_table.setAttribute('aria-label', 'transaction');
             }
         }
     })
