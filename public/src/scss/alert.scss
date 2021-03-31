@@ -52,4 +52,13 @@
             opacity: .75;
         }
     }
+
+    &--fixed-rb {
+        position: fixed;
+        bottom: 15px;
+        margin-left: 12px;
+        right: 12px;
+        max-width: 500px;
+        z-index: 2;
+    }
 }

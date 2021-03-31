@@ -94,7 +94,7 @@ modal_content.querySelector('a#remove-user-in-db').addEventListener('click', e =
         }
         // if fail remove user
         else if (json.success === false && json.error_message !== undefined) {
-            const alert = create_alert_node('alert--warning', `<strong>Peringatan</strong>, ${json.error_message}`);
+            const alert = create_alert_node(['alert--warning', 'mb-3'], `<strong>Peringatan</strong>, ${json.error_message}`);
 
             // append alert to before div.main__box element
             document.querySelector('main.main > div').insertBefore(alert, document.querySelector('div.main__box'));

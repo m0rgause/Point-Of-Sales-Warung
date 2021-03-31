@@ -415,11 +415,11 @@ function buy_product(
             main.dataset.csrfValue = json.csrf_value;
         }
 
+        // reset form number of product
+        target.previousElementSibling.value = '';
+
         // if buy product success
         if (json.success === true) {
-            // reset form number of product
-            target.previousElementSibling.value = '';
-
             // update product sale
             const product_sale_el = target.parentElement.previousElementSibling.querySelector('p.product__sale');
             const product_sale_new = parseInt(product_qty) + parseInt(product_sale_el.dataset.productSale);
@@ -460,6 +460,12 @@ function buy_product(
                 const customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
                 calculate_change_money(customer_money, total_payment_new);
             }
+        } else {
+            const alert_node = create_alert_node(
+                ['alert--warning', 'alert--fixed-rb'],
+                `Beli produk gagal, muat ulang halaman lalu coba kembali!`
+            );
+            main.append(alert_node);
         }
     })
     .catch(error => {
@@ -1133,7 +1139,7 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
     // if exists attribute aria-label = transaction in cart table
     if (cart_table.getAttribute('aria-label') === 'transaction') {
         const alert_node = create_alert_node(
-            'alert--warning',
+            ['alert--warning', 'mb-3'],
             'Tidak bisa melakukan rollback transaksi, karena kamu masih melakukan transaksi. Selesaikan atau batalkan transaksi, lalu coba kembali!'
         );
         e.target.parentElement.insertBefore(alert_node, e.target);
@@ -1143,7 +1149,7 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
     // if exists attribute aria-label = rollback-transaction in cart table
     if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
         const alert_node = create_alert_node(
-            'alert--warning',
+            ['alert--warning', 'mb-3'],
             `Tidak bisa melakukan rollback transaksi lagi, karena kamu masih melakukan rollback transaksi. Selesaikan atau batalkan rollback transkasi, lalu coba kembali!`
         );
         e.target.parentElement.insertBefore(alert_node, e.target);
@@ -1192,7 +1198,7 @@ document.querySelector('a#rollback-transaction').addEventListener('click', e => 
             modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = options;
         } else {
             const alert_node = create_alert_node(
-                'alert--info',
+                ['alert--info', 'mb-3'],
                 `Tidak ada transaksi dari 3 hari yang lalu.`
             );
             e.target.parentElement.insertBefore(alert_node, e.target);

@@ -112,16 +112,22 @@ class Cashier extends BaseController
 
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
-            // add product to transaction detail
-            $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
-                'transaksi_detail_id' => generate_uuid(),
-                'transaksi_id' => $_SESSION['posw_transaction_id'],
-                'harga_produk_id' => $product_price_id,
-                'jumlah_produk' => $product_qty
-            ], 'transaksi_detail_id');
-            $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+            try {
+                // add product to transaction detail
+                $this->transaction_detail_model->insertReturning([
+                    'transaksi_detail_id' => generate_uuid(),
+                    'transaksi_id' => $_SESSION['posw_transaction_id'],
+                    'harga_produk_id' => $product_price_id,
+                    'jumlah_produk' => $product_qty
+                ], 'transaksi_detail_id');
+                $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+                $process = true;
 
-            if ($insert_transaction_detail === true) {
+            } catch (\ErrorException $e) {
+                $process = false;
+            }
+
+            if ($process === true) {
                 return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
             }
 
@@ -138,16 +144,22 @@ class Cashier extends BaseController
                 ];
                 $this->session->set($data_session);
 
-                // add product to transaction detail
-                $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
-                    'transaksi_detail_id' => generate_uuid(),
-                    'transaksi_id' => $transaction_id,
-                    'harga_produk_id' => $product_price_id,
-                    'jumlah_produk' => $product_qty
-                ], 'transaksi_detail_id');
-                $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+                try {
+                    // add product to transaction detail
+                    $this->transaction_detail_model->insertReturning([
+                        'transaksi_detail_id' => generate_uuid(),
+                        'transaksi_id' => $transaction_id,
+                        'harga_produk_id' => $product_price_id,
+                        'jumlah_produk' => $product_qty
+                    ], 'transaksi_detail_id');
+                    $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+                    $process = true;
 
-                if ($insert_transaction_detail === true) {
+                } catch (\ErrorException $e) {
+                    $process = false;
+                }
+
+                if ($process === true) {
                     return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
                 }
 
@@ -155,27 +167,36 @@ class Cashier extends BaseController
             }
             // if not exists not transaction yet
             else {
-                $this->transaction_model->db->transStart();
-                // create transaction
-                $insert_transaction = $this->transaction_model->insertReturning([
-                    'transaksi_id' => generate_uuid(),
-                    'pengguna_id' => $_SESSION['posw_user_id'],
-                    'status_transaksi' => 'belum'
-                ], 'transaksi_id');
-                $inserted_transaction_id = $this->transaction_model->getInsertReturned();
+                try {
+                    $this->product_model->db->transBegin();
 
-                // add product to transaction detail
-                $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
-                    'transaksi_detail_id' => generate_uuid(),
-                    'transaksi_id' => $inserted_transaction_id,
-                    'harga_produk_id' => $product_price_id,
-                    'jumlah_produk' => $product_qty
-                ], 'transaksi_detail_id');
-                $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+                    // create transaction
+                    $this->transaction_model->insertReturning([
+                        'transaksi_id' => generate_uuid(),
+                        'pengguna_id' => $_SESSION['posw_user_id'],
+                        'status_transaksi' => 'belum'
+                    ], 'transaksi_id');
+                    $inserted_transaction_id = $this->transaction_model->getInsertReturned();
 
-                $this->transaction_model->db->transComplete();
+                    // add product to transaction detail
+                    $this->transaction_detail_model->insertReturning([
+                        'transaksi_detail_id' => generate_uuid(),
+                        'transaksi_id' => $inserted_transaction_id,
+                        'harga_produk_id' => $product_price_id,
+                        'jumlah_produk' => $product_qty
+                    ], 'transaksi_detail_id');
+                    $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
 
-                if ($insert_transaction === true && $insert_transaction_detail === true) {
+                    $this->product_model->transCommit();
+                    $process = true;
+
+                } catch (\ErrorException $e) {
+                    $this->product_model->transRollback();
+                    $process = false;
+                }
+
+                // if insert transaction and insert transaction detail success
+                if ($process === true) {
                     // create session
                     $data_session = [
                         'posw_transaction_status' => 'not yet',
@@ -193,16 +214,22 @@ class Cashier extends BaseController
 
     private function buyProductRollbackTransaction(string $transaction_id, int $product_qty): string
     {
-        // add product to transaction detail
-        $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
-            'transaksi_detail_id' => generate_uuid(),
-            'transaksi_id' => $transaction_id,
-            'harga_produk_id' => $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING),
-            'jumlah_produk' => $product_qty
-        ], 'transaksi_detail_id');
-        $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+        try {
+            // add product to transaction detail
+            $this->transaction_detail_model->insertReturning([
+                'transaksi_detail_id' => generate_uuid(),
+                'transaksi_id' => $transaction_id,
+                'harga_produk_id' => $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING),
+                'jumlah_produk' => $product_qty
+            ], 'transaksi_detail_id');
+            $transaction_detail_id = $this->transaction_detail_model->getInsertReturned();
+            $process = true;
 
-        if ($insert_transaction_detail === true) {
+        } catch (\ErrorException $e) {
+            $process = false;
+        }
+
+        if ($process === true) {
             return json_encode(['success'=>true, 'transaction_detail_id'=>$transaction_detail_id, 'csrf_value'=>csrf_hash()]);
         }
 

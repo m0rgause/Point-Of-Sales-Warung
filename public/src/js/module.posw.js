@@ -62,12 +62,13 @@ function show_password(e)
     }
 }
 
-function create_alert_node(type_alert_class, message)
+function create_alert_node(alert_classes, message)
 {
     const alert = document.createElement('div');
     alert.classList.add('alert');
-    alert.classList.add(type_alert_class);
-    alert.classList.add('mb-3');
+    for (const ac of alert_classes) {
+        alert.classList.add(ac);
+    }
 
     alert.innerHTML = `<span class="alert__icon"></span>
     <p>${message}</p>
