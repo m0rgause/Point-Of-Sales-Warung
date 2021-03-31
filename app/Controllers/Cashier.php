@@ -106,15 +106,9 @@ class Cashier extends BaseController
         ]);
     }
 
-    public function buyProductTransaction()
+    private function buyProductTransaction(int $product_qty): string
     {
         $product_price_id = $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING);
-        $product_qty = (int)$this->request->getPost('product_qty', FILTER_SANITIZE_STRING);
-
-        // if product qty = 0
-        if ($product_qty <= 0) {
-            return false;
-        }
 
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
@@ -197,18 +191,12 @@ class Cashier extends BaseController
         }
     }
 
-    public function buyProductRollbackTransaction()
+    private function buyProductRollbackTransaction(string $transaction_id, int $product_qty): string
     {
-        $product_qty = (int)$this->request->getPost('product_qty', FILTER_SANITIZE_STRING);
-        // if product qty = 0
-        if ($product_qty <= 0) {
-            return false;
-        }
-
         // add product to transaction detail
         $insert_transaction_detail = $this->transaction_detail_model->insertReturning([
             'transaksi_detail_id' => generate_uuid(),
-            'transaksi_id' => $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING),
+            'transaksi_id' => $transaction_id,
             'harga_produk_id' => $this->request->getPost('product_price_id', FILTER_SANITIZE_STRING),
             'jumlah_produk' => $product_qty
         ], 'transaksi_detail_id');
@@ -219,6 +207,23 @@ class Cashier extends BaseController
         }
 
         return json_encode(['success'=>false, 'csrf_value'=>csrf_hash()]);
+    }
+
+    public function buyProduct()
+    {
+        $product_qty = (int)$this->request->getPost('product_qty', FILTER_SANITIZE_STRING);
+        // if product qty = 0
+        if ($product_qty <= 0) {
+            return false;
+        }
+
+        // if file backup exists
+        if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
+            ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
+            return $this->buyProductRollbackTransaction($transaction_id, $product_qty);
+        }
+
+        return $this->buyProductTransaction($product_qty);
     }
 
     private function getTransactionDetailsInTransaction(): string
@@ -270,7 +275,6 @@ class Cashier extends BaseController
         );
 
         return json_encode([
-            'transaction_id' => $transaction_id,
             'customer_money' => $customer_money,
             'transaction_details' => $transaction_details,
             'type' => 'rollback-transaction',
@@ -303,7 +307,7 @@ class Cashier extends BaseController
         if (isset($_SESSION['posw_transaction_id'])) {
             $transaction_id = $_SESSION['posw_transaction_id'];
         } else {
-            $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+            ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
         }
 
         $this->transaction_detail_model->updateProductQty($transaction_detail_id, $product_qty_new, $transaction_id);
@@ -318,7 +322,7 @@ class Cashier extends BaseController
         if (isset($_SESSION['posw_transaction_id'])) {
             $transaction_id = $_SESSION['posw_transaction_id'];
         } else {
-            $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+            ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
         }
 
         // remove product
@@ -494,7 +498,7 @@ class Cashier extends BaseController
             return json_encode(['success'=>false, 'form_errors'=>$this->validator->getErrors(), 'csrf_value'=>csrf_hash()]);
         }
 
-        $transaction_id = $this->request->getPost('transaction_id', FILTER_SANITIZE_STRING);
+        ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
         $customer_money = $this->request->getPost('customer_money', FILTER_SANITIZE_NUMBER_INT);
         // update customer money, created time and update status transaction
         $this->transaction_model->update($transaction_id, [

@@ -7,6 +7,15 @@ const btn_cancel_transaction = document.querySelector('a#cancel-transaction');
 const btn_finish_transaction = document.querySelector('a#finish-transaction');
 const cart_table = document.querySelector('aside.cart table.table');
 
+// update total qty and total payment in cart table
+function update_total_qty_payment(cart_table, total_qty, total_payment)
+{
+    cart_table.querySelector('td#total-qty').innerText = total_qty;
+    cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty;
+    cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment);
+    cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment;
+}
+
 // show transaction detail in cart table
 function show_transaction_details(cart_table, transaction_details)
 {
@@ -40,11 +49,9 @@ function show_transaction_details(cart_table, transaction_details)
         // inner html transaction detail to cart table tbody
         cart_table.querySelector('tbody').innerHTML = tr;
     }
-    // inner text total payment and total qty in cart table
-    cart_table.querySelector('td#total-qty').innerText = total_qty;
-    cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment);
-    cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty;
-    cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment;
+
+    // update total qty and total payment in cart table
+    update_total_qty_payment(cart_table, total_qty, total_payment);
 }
 
 // get transaction detail
@@ -98,9 +105,8 @@ function get_transaction_details(
                 const total_payment = parseInt(cart_table.querySelector('td#total-payment').dataset.totalPayment);
                 calculate_change_money(customer_money, total_payment);
 
-                // add attribute aria label = rollback-transaction and transaction-id
+                // add attribute aria label = rollback-transaction
                 cart_table.setAttribute('aria-label', 'rollback-transaction');
-                cart_table.setAttribute('data-transaction-id', json.transaction_id);
 
             } else {
                 // add attribute aria label = transaction
@@ -322,17 +328,60 @@ document.querySelector('aside.cart input[name="customer_money"]').addEventListen
     }
 });
 
-// buy product
+// add product to cart table in buy product
+function add_product_to_cart_table(
+    target,
+    product_qty,
+    json,
+    cart_table,
+    product_id,
+    product_name,
+    product_price,
+    product_magnitude,
+    payment
+) {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-product-id', product_id);
+    tr.setAttribute('data-transaction-detail-id', json.transaction_detail_id);
+
+    tr.innerHTML = `<td width="10"><a href="#" title="Hapus produk" id="remove-product"  class="text-hover-red">
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
+        </a></td>
+        <td width="10"><a href="#" title="Tambah jumlah produk" id="add-product-qty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
+        </a></td>
+        <td width="10"><a href="#" title="Kurangi jumlah produk" id="reduce-product-qty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
+        </a></td>
+
+        <td>${product_name}</td>
+        <td id="price" data-price="${product_price}">
+            ${number_formatter_to_currency(parseInt(product_price))} / ${product_magnitude}
+        </td>
+        <td id="qty" data-qty="${product_qty}">${product_qty}</td>
+        <td id="payment" data-payment="${payment}">${number_formatter_to_currency(payment)}</td>`;
+
+    // if not exists product in cart table
+    if (cart_table.querySelector('tr#empty-shopping-cart') !== null) {
+        cart_table.querySelector('tr#empty-shopping-cart').remove();
+    }
+
+    // append tr to cart table
+    cart_table.querySelector('tbody').append(tr);
+}
+
+// buy product in transaction
 function buy_product(
     target,
     cart_table,
-    data,
     product_qty,
     btn_search_product,
     btn_cancel_transaction,
     btn_finish_transaction,
     main,
-    url
+    product_price_id,
+    csrf_name,
+    csrf_value
 ) {
     // loading
     document.querySelector('div#transaction-loading').classList.remove('d-none');
@@ -341,13 +390,13 @@ function buy_product(
     btn_cancel_transaction.classList.add('btn--disabled');
     btn_finish_transaction.classList.add('btn--disabled');
 
-    fetch(url, {
+    fetch('/kasir/beli_produk', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: data
+        body: `product_price_id=${product_price_id}&product_qty=${product_qty}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
@@ -377,9 +426,8 @@ function buy_product(
             product_sale_el.innerText = `Terjual ${product_sale_new}`;
             product_sale_el.dataset.productSale = product_sale_new;
 
-            // if attribute aria label = transaction or rollback-transaction in cart table
-            const aria_label = cart_table.getAttribute('aria-label');
-            if (aria_label === 'transaction' || aria_label === 'rollback-transaction') {
+            // if attribute aria-label exists in cart table
+            if (cart_table.getAttribute('aria-label') !== null) {
                 const product_id = target.parentElement.parentElement.dataset.productId;
                 const product_info_el = target.parentElement.previousElementSibling;
                 const product_name = product_info_el.querySelector('p.product__name').textContent;
@@ -387,45 +435,26 @@ function buy_product(
                 const product_magnitude = product_info_el.querySelector('select[name="magnitude"]').selectedOptions[0].text;
                 const payment = parseInt(product_price) * parseInt(product_qty);
 
-                const tr = document.createElement('tr');
-                tr.setAttribute('data-product-id', product_id);
-                tr.setAttribute('data-transaction-detail-id', json.transaction_detail_id);
-
-                tr.innerHTML = `<td width="10"><a href="#" title="Hapus produk" id="remove-product"  class="text-hover-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Tambah jumlah produk" id="add-product-qty">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 11.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/></svg>
-                    </a></td>
-                    <td width="10"><a href="#" title="Kurangi jumlah produk" id="reduce-product-qty">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/></svg>
-                    </a></td>
-
-                    <td>${product_name}</td>
-                    <td id="price" data-price="${product_price}">
-                        ${number_formatter_to_currency(parseInt(product_price))} / ${product_magnitude}
-                    </td>
-                    <td id="qty" data-qty="${product_qty}">${product_qty}</td>
-                    <td id="payment" data-payment="${payment}">${number_formatter_to_currency(payment)}</td>`;
-
-                // if not exists product in cart table
-                if (cart_table.querySelector('tr#empty-shopping-cart') !== null) {
-                    cart_table.querySelector('tr#empty-shopping-cart').remove();
-                }
-
-                // append tr to cart table
-                cart_table.querySelector('tbody').append(tr);
+                // add product to cart table
+                add_product_to_cart_table(
+                    target,
+                    product_qty,
+                    json,
+                    cart_table,
+                    product_id,
+                    product_name,
+                    product_price,
+                    product_magnitude,
+                    payment
+                );
 
                 const total_payment_old = cart_table.querySelector('td#total-payment').dataset.totalPayment;
                 const total_qty_old = cart_table.querySelector('td#total-qty').dataset.totalQty;
                 const total_payment_new = payment + parseInt(total_payment_old);
                 const total_qty_new = parseInt(product_qty) + parseInt(total_qty_old);
 
-                // inner text total qty and total payment in cart table
-                cart_table.querySelector('td#total-qty').innerText = total_qty_new;
-                cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty_new;
-                cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment_new);
-                cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
+                // update total qty and total payment in cart table
+                update_total_qty_payment(cart_table, total_qty_new, total_payment_new);
 
                 // if customer money has inputed
                 const customer_money = parseInt(document.querySelector('input[name="customer_money"]').value);
@@ -438,7 +467,7 @@ function buy_product(
     });
 }
 
-// buy product and rollback transaksi
+// buy product transaction and rollback transaksi
 main.querySelector('div.container-xl').addEventListener('click', e => {
     let target = e.target;
 
@@ -458,29 +487,30 @@ main.querySelector('div.container-xl').addEventListener('click', e => {
             return false;
         }
 
-        let data = `product_price_id=${product_price_id}&product_qty=${product_qty}&${csrf_name}=${csrf_value}`;
-        let url = '/kasir/beli_produk_transaksi';
-        // if attribute aria-label = rollback-transaksi exists in tag table
-        if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-            // generate data and url for buy product rollback-transaction
-            data += `&transaction_id=${cart_table.dataset.transactionId}`;
-            url = '/kasir/beli_produk_rollback_transaksi';
-        }
-
         // buy product
         buy_product(
             target,
             cart_table,
-            data,
             product_qty,
             btn_search_product,
             btn_cancel_transaction,
             btn_finish_transaction,
             main,
-            url
+            product_price_id,
+            csrf_name,
+            csrf_value
         );
     }
 });
+
+// update qty and payment product in cart table
+function update_qty_payment(target_tr, product_qty_new, payment_new)
+{
+    target_tr.querySelector('td#qty').innerText = product_qty_new;
+    target_tr.querySelector('td#qty').dataset.qty = product_qty_new;
+    target_tr.querySelector('td#payment').innerText = number_formatter_to_currency(payment_new);
+    target_tr.querySelector('td#payment').dataset.payment = payment_new;
+}
 
 // update product quantity
 function update_product_qty(
@@ -501,12 +531,6 @@ function update_product_qty(
         return false;
     }
 
-    let data = `product_qty_new=${product_qty_new}&transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`;
-    // if exists aria label = rollback-transaction
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-        data += `&transaction_id=${cart_table.dataset.transactionId}`;
-    }
-
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
 
@@ -516,7 +540,7 @@ function update_product_qty(
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: data
+        body: `product_qty_new=${product_qty_new}&transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
@@ -533,16 +557,12 @@ function update_product_qty(
 
         // if update product qty success
         if (json.success === true) {
-            // update product qty, total qty, payment, total payment in cart table
             const target_tr = target.parentElement.parentElement;
-            target_tr.querySelector('td#qty').innerText = product_qty_new;
-            target_tr.querySelector('td#qty').dataset.qty = product_qty_new;
-            target_tr.querySelector('td#payment').innerText = number_formatter_to_currency(payment_new);
-            target_tr.querySelector('td#payment').dataset.payment = payment_new;
-            cart_table.querySelector('td#total-qty').innerText = total_qty_new;
-            cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty_new;
-            cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment_new);
-            cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
+
+            // update product qty and payment in cart table
+            update_qty_payment(target_tr, product_qty_new, payment_new);
+            // update total qty and total payment in cart table
+            update_total_qty_payment(cart_table, total_qty_new, total_payment_new);
 
             // update product sale in product item
             const product_sale_el = document.querySelector(`div.product__item[data-product-id="${target_tr.dataset.productId}"] p.product__sale`);
@@ -575,12 +595,6 @@ function remove_product_from_shopping_cart(
     csrf_value,
     main
 ) {
-    let data = `transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`;
-    // if exists aria label = rollback-transaction in cart table
-    if (cart_table.getAttribute('aria-label') === 'rollback-transaction') {
-        data += `&transaction_id=${cart_table.dataset.transactionId}`;
-    }
-
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
 
@@ -590,7 +604,7 @@ function remove_product_from_shopping_cart(
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: data
+        body: `transaction_detail_id=${transaction_detail_id}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
@@ -607,12 +621,10 @@ function remove_product_from_shopping_cart(
 
         // if remove product success
         if (json.success === true) {
-            // update total qty, total payment in cart table
             const target_tr = target.parentElement.parentElement;
-            cart_table.querySelector('td#total-qty').innerText = total_qty_new;
-            cart_table.querySelector('td#total-qty').dataset.totalQty = total_qty_new;
-            cart_table.querySelector('td#total-payment').innerText = number_formatter_to_currency(total_payment_new);
-            cart_table.querySelector('td#total-payment').dataset.totalPayment = total_payment_new;
+
+            // update total qty and total payment in cart table
+            update_total_qty_payment(cart_table, total_qty_new, total_payment_new);
 
             // if exists product item, update product sale in product item
             if (product_sale_el !== null) {
@@ -620,7 +632,7 @@ function remove_product_from_shopping_cart(
                 product_sale_el.dataset.productSale = product_sale_new;
             }
 
-            // remove product in table cart
+            // remove product in cart table
             target_tr.remove();
 
             // if customer money has inputed
@@ -821,7 +833,6 @@ function show_form_error_message_customer_money(message)
 
 function finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, btn_close_cart, customer_money)
 {
-    const transaction_id = cart_table.dataset.transactionId;
     // loading
     document.querySelector('div#cart-loading').classList.remove('d-none');
 
@@ -831,7 +842,7 @@ function finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, bt
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: `transaction_id=${transaction_id}&customer_money=${customer_money}&${csrf_name}=${csrf_value}`
+        body: `customer_money=${customer_money}&${csrf_name}=${csrf_value}`
     })
     .finally(() => {
         // loading
@@ -850,9 +861,6 @@ function finish_rollback_transaction(csrf_name, csrf_value, cart_table, main, bt
         if (json.success === true) {
             // close cart
             btn_close_cart.click();
-
-            // remove attribute transaction-id
-            cart_table.removeAttribute('data-transaction-id');
 
             // reset shopping cart
             reset_shopping_cart(cart_table);
@@ -1264,9 +1272,8 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
                 document.querySelector('input[name="change_money"]').value = '';
             }
 
-            // add Attribute arial-label = rollback-transaction and transction-id
+            // add Attribute arial-label = rollback-transaction
             cart_table.setAttribute('aria-label', 'rollback-transaction');
-            cart_table.setAttribute('data-transaction-id', transaction_id);
         }
     })
     .catch(error => {
