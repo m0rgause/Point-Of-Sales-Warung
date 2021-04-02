@@ -101,7 +101,7 @@
     </div><!-- product -->
 
     <h5 class="mb-2 main__title">Produk Lainnya</h5>
-    <div class="product mb-4">
+    <div class="product">
     <?php
         // if exists other products
         if (count($products_db) > 0) :
