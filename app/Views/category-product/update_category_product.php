@@ -19,7 +19,7 @@
             <?= form_open('/admin/perbaharui_kategori_produk_di_db'); ?>
                 <input type="hidden" value="<?= $category_product_id; ?>" name="category_product_id">
                 <div class="mb-3">
-                    <label class="form-label" for="category_product_name">Nama Kategori Produk</label>
+                    <label class="form-label" for="category_product_name">Nama Kategori</label>
                     <input class="form-input" id="category_product_name" type="text"
                             name="category_product_name" value="<?= $category_product_db['nama_kategori_produk']??null; ?>">
                     <?= $_SESSION['form_errors']['category_product_name']??null; ?>

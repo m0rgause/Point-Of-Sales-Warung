@@ -5,7 +5,7 @@
 <div class="container-xl d-flex justify-content-between align-items-center flex-wrap">
     <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Kategori Produk</h4>
     <div class="d-flex flex-column flex-sm-row justify-content-start justify-content-sm-end align-items-start flex-fill">
-        <a href="/admin/buat_kategori_produk" class="btn btn--blue">Buat Kategori Produk</a>
+        <a href="/admin/buat_kategori_produk" class="btn btn--blue">Buat Kategori</a>
     </div><!-- d-flex -->
 </div><!-- container-xl -->
 </header>
@@ -20,7 +20,7 @@
             <thead>
                 <tr>
                     <th colspan="2" class="text-center">Aksi</th>
-                    <th>Nama Kategori Produk</th>
+                    <th>Nama Kategori</th>
                     <th width="300">Waktu Buat</th>
                 </tr>
             </thead>

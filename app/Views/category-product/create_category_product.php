@@ -17,7 +17,7 @@
         <div class="main__box">
             <?= form_open('/admin/simpan_kategori_produk_ke_db'); ?>
                 <div class="mb-3">
-                    <label class="form-label" for="category-product-name">Nama Kategori Produk</label>
+                    <label class="form-label" for="category-product-name">Nama Kategori</label>
                     <input class="form-input" id="category-product-name" type="text" name="category_product_name" value="<?= old('category_product_name'); ?>">
                     <?= $_SESSION['form_errors']['category_product_name']??null; ?>
                 </div>
