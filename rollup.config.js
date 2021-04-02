@@ -14,9 +14,9 @@ export default (function(){
         //'create_user.posw',
         //'update_user.posw',
         //'category_product.posw',
-        'product.posw',
-        //'create_product.posw',
-        //'update_product.posw',
+        //'product.posw',
+        'create_product.posw',
+        'update_product.posw',
         //'cashier.posw'
     ];
 

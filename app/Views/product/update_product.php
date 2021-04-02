@@ -66,8 +66,14 @@
 
                     if ($count_product_price_db > 0) :
                     for ($i = 0; $i < $count_product_price_db; $i++) :
-               ?>
-                    <div class="mb-3">
+
+                    // if not first loop
+                    if ($i != 0) :
+                ?>
+                    <div class="mt-3">
+                <?php else: ?>
+                    <div>
+                <?php endif; ?>
                         <input type="hidden" name="product_price_ids[]" value="<?= $product_prices_db[$i]['harga_produk_id']; ?>">
                         <div class="input-group">
                             <input class="form-input" type="text" placeholder="Besaran..."
@@ -86,25 +92,13 @@
                     </div><!-- mb-3 -->
 
                 <?php
-                    endfor;
-
-                    // else if not exists product magnitude
-                    elseif ($count_product_magnitude_old == 0) :
-                ?>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitudes[]">
-                            <input class="form-input" type="number" placeholder="Harga..." name="product_prices[]">
-                        </div>
-                    </div>
-                <?php
-                    endif;
+                    endfor; endif;
 
                     // if product magnitude old > product price db
                     if ($count_product_magnitude_old > $count_product_price_db) :
                     for ($j = $i; $j < $count_product_magnitude_old; $j++) :
                 ?>
-                    <div class="mb-3">
+                    <div class="mt-3">
                         <div class="input-group">
                             <input class="form-input" type="text" placeholder="Besaran..."
                             name="product_magnitudes[]" value="<?= old('product_magnitudes')[$j]??null; ?>"s>
@@ -117,6 +111,10 @@
                     </div><!-- mb-3 -->
                 <?php endfor; endif; ?>
                 </div><!-- magnitude-price -->
+                <small class="form-message form-message--info
+                mb-3">Pelajari lebih lanjut <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Produk#harga-produk"
+                target="_blank" rel="noreferrer noopener">Harga Produk</a>!</small>
+
                 <a class="btn btn--gray-outline me-2" id="add-form-input-magnitude-price" href="">
                 Tambah Form Harga Produk</a><button class="btn btn--blue" type="submit">Simpan</button>
             </form>

@@ -31,7 +31,7 @@ function hide_modal(modal, modal_content)
 function add_form_input_magnitude_price(target_append)
 {
     const new_form_magnitude_price = document.createElement('div');
-    new_form_magnitude_price.classList.add('mb-3');
+    new_form_magnitude_price.classList.add('mt-3');
     new_form_magnitude_price.innerHTML = `<div class="input-group">
         <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitudes[]">
         <input class="form-input" type="number" placeholder="Harga..." name="product_prices[]">

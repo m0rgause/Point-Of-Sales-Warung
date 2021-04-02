@@ -58,11 +58,18 @@
                     <label class="form-label">Harga Produk</label>
                 <?php
                     $count_product_magnitude_old = count(old('product_magnitudes', []));
-                    // if exists product magnitude
-                    if($count_product_magnitude_old > 0) :
+
+                    // if not exists product magnitude old
+                    if ($count_product_magnitude_old <= 0) $count_product_magnitude_old = 1;
                     for($i = 0; $i < $count_product_magnitude_old; $i++) :
+
+                    // if not first looping
+                    if ($i != 0) :
                ?>
-                    <div class="mb-3">
+                    <div class="mt-3">
+                <?php else : ?>
+                    <div>
+                <?php endif; ?>
                         <div class="input-group">
                             <input class="form-input" type="text" placeholder="Besaran..."
                             name="product_magnitudes[]" value="<?= old('product_magnitudes')[$i]??null; ?>">
@@ -70,24 +77,21 @@
                             name="product_prices[]" value="<?= old('product_prices')[$i]??null; ?>">
                     <?php
                         // if not first looping
-                        if ($i !== 0) :
+                        if ($i != 0) :
                     ?>
                            <a class="btn btn--gray-outline" id="remove-form-input-magnitude-price" href="">Hapus</a>
                     <?php endif; ?>
                         </div>
                         <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_magnitudes'][$i]??null; ?></small>
                         <small class="form-message form-message--danger"><?= $_SESSION['form_errors']['product_prices'][$i]??null; ?></small>
-                    </div><!-- mb-3 -->
-
-                <?php endfor; else : ?>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <input class="form-input" type="text" placeholder="Besaran..." name="product_magnitudes[]">
-                            <input class="form-input" type="number" placeholder="Harga..." name="product_prices[]">
-                        </div>
                     </div>
-                <?php endif; ?>
+
+                <?php endfor; ?>
                 </div><!-- magnitude-price -->
+                <small class="form-message form-message--info
+                mb-3">Pelajari lebih lanjut <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Produk#harga-produk"
+                target="_blank" rel="noreferrer noopener">Harga Produk</a>!</small>
+
                 <a class="btn btn--gray-outline me-2" id="add-form-input-magnitude-price" href="">
                 Tambah Form Harga Produk</a><button class="btn btn--blue" type="submit">Simpan</button>
             </form>
