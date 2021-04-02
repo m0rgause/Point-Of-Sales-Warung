@@ -42,6 +42,7 @@
                 <tr>
                     <th class="text-center" colspan="3">Aksi</th>
                     <th>Nama Produk</th>
+                    <th width="100">Kategori</th>
                     <th width="100">Status</th>
                     <th width="230">Waktu Buat</th>
                 </tr>
@@ -72,6 +73,7 @@
                     <td width="10"><a href="#" id="show-product-detail" data-product-id="<?= $p['produk_id']; ?>" title="Lihat detail produk"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
 
                     <td><?= $p['nama_produk']; ?></td>
+                    <td><?= $p['nama_kategori_produk']; ?></td>
                     <?php if ($p['status_produk'] === 'ada') : ?>
                     <td><span class="text-green">Ada</span></td>
                     <?php else : ?>
