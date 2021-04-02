@@ -162,7 +162,7 @@ class User extends BaseController
             $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_user' => '<strong>Berhasil</strong>, Pengguna telah diperbaharui.']
+                ['update_user' => 'Pengguna telah diperbaharui.']
             ));
         }
         return redirect()->back();
@@ -183,7 +183,7 @@ class User extends BaseController
             return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
         }
 
-        $error_message = 'Gagal menghapus pengguna, cek apakah masih ada transaksi yang terhubung!';
+        $error_message = 'Gagal menghapus pengguna, cek apakah masih ada transaksi yang terhubung! <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Pengguna#gagal-menghapus-pengguna" target="_blank" rel="noreferrer noopener">Pelajari lebih lanjut!</a>';
         return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 }

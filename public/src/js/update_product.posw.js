@@ -54,7 +54,7 @@ magnitude_price.addEventListener('click', e => {
 
                 // if fail remove product price
                 if (json.success === false && json.error_message !== undefined) {
-                    const alert = create_alert_node(['alert--warning', 'mb-3'], `<strong>Peringatan</strong>, ${json.error_message}`);
+                    const alert = create_alert_node(['alert--warning', 'mb-3'], json.error_message);
 
                     // append alert to before div.main__box element
                     document.querySelector('main.main > div > div > div').insertBefore(alert, document.querySelector('div.main__box'));

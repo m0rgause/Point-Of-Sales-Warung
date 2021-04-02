@@ -97,7 +97,7 @@ class CategoryProduct extends BaseController
             $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_category_product' => '<strong>Berhasil</strong>, Kategori produk telah diperbaharui.']
+                ['update_category_product' => 'Kategori produk telah diperbaharui.']
             ));
         }
         return redirect()->back();
@@ -110,7 +110,7 @@ class CategoryProduct extends BaseController
             return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
         }
 
-        $error_message = 'Gagal menghapus kategori produk, cek apakah masih ada produk yang terhubung!';
+        $error_message = 'Gagal menghapus kategori produk, cek apakah masih ada produk yang terhubung! <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Kategori-Produk#gagal-menghapus-kategori" target="_blank" rel="noreferrer noopener">Pelajari lebih lanjut!</a>';// sampai disini
         return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 }

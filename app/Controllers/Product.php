@@ -137,7 +137,7 @@ class Product extends BaseController
         $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
-            ['create_product' => '<strong>Peringatan</strong>, Produk gagal dibuat. Silahkan coba kembali!']
+            ['create_product' => 'Produk gagal dibuat. Silahkan coba kembali!']
         ));
         return redirect()->back()->withInput();
     }
@@ -350,7 +350,7 @@ class Product extends BaseController
             $this->session->setFlashData('form_success', $this->setDelimiterMessages(
                 '<div class="alert alert--success mb-3"><span class="alert__icon"></span><p>',
                 '</p><a class="alert__close" href="#"></a></div>',
-                ['update_product' => '<strong>Berhasil</strong>, Produk telah diperbaharui.']
+                ['update_product' => 'Produk telah diperbaharui.']
             ));
 
             return redirect()->back();
@@ -360,7 +360,7 @@ class Product extends BaseController
         $this->session->setFlashData('form_errors', $this->setDelimiterMessages(
             '<div class="alert alert--warning mb-3"><span class="alert__icon"></span><p>',
             '</p><a class="alert__close" href="#"></a></div>',
-            ['update_product' => '<strong>Peringatan</strong>, Produk gagal diperbaharui. Silahkan coba kembali!']
+            ['update_product' => 'Produk gagal diperbaharui. Silahkan coba kembali!']
         ));
         return redirect()->back();
     }
@@ -372,7 +372,7 @@ class Product extends BaseController
             return json_encode(['success'=>true, 'csrf_value'=>csrf_hash()]);
         }
 
-        $error_message = 'Gagal menghapus harga produk, cek apakah masih ada transaksi yang terhubung!';
+        $error_message = 'Gagal menghapus harga produk, cek apakah masih ada transaksi yang terhubung! <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Produk#gagal-menghapus-produk-atau-harga-produk" target="_blank" rel="noreferrer noopener">Pelajari lebih lanjut!</a>';
         return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 
@@ -422,7 +422,7 @@ class Product extends BaseController
             ]);
         }
 
-        $error_message = 'Gagal menghapus produk, cek apakah masih ada transaksi yang terhubung!';
+        $error_message = 'Gagal menghapus produk, cek apakah masih ada transaksi yang terhubung! <a href="https://github.com/rezafikkri/Point-Of-Sales-Warung/wiki/Produk#gagal-menghapus-produk-atau-harga-produk" target="_blank" rel="noreferrer noopener">Pelajari lebih lanjut!</a>';
         return json_encode(['success'=>false, 'error_message'=>$error_message, 'csrf_value'=>csrf_hash()]);
     }
 }
