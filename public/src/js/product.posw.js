@@ -65,7 +65,7 @@ table.querySelector('tbody').addEventListener('click', e => {
                     const tr = document.createElement('tr');
                     tr.classList.add('table__row-detail');
                     tr.classList.add('table__row-detail--show');
-                    tr.innerHTML = `<td colspan="4"><ul>${li}</ul></td>
+                    tr.innerHTML = `<td colspan="5"><ul>${li}</ul></td>
                         <td colspan="2"><img src="${base_url}/dist/images/product_photo/${json.product_photo}"></td>`;
                     target.parentElement.parentElement.after(tr);
                 }
