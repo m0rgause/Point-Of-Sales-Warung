@@ -201,7 +201,7 @@
     </small>
 
     <a class="btn btn--gray-outline me-2" id="cancel-transaction" href="">
-    Batal</a><a class="btn btn--blue mb-3" id="finish-transaction" href="#">Selesai</a>
+    Batal</a><a class="btn btn--blue" id="finish-transaction" href="#">Selesai</a>
 
     <div class="loading-bg position-absolute top-0 end-0 bottom-0 start-0 d-flex justify-content-center align-items-center d-none" id="cart-loading">
         <div class="loading">
