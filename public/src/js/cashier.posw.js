@@ -1256,31 +1256,26 @@ document.querySelector('div.modal a#show-transaction-detail').addEventListener('
             main.dataset.csrfValue = json.csrf_value;
         }
 
-        // if exists customer_money
-        if (json.customer_money !== null) {
-            // hide and reset modal
-            hide_modal(modal, modal_content);
-            // reset modal
-            modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = '';
+        // hide and reset modal
+        hide_modal(modal, modal_content);
+        // reset modal
+        modal_content.querySelector('select[name="transactions_three_days_ago"]').innerHTML = '';
 
-            // show transaction detail in cart table
-            show_transaction_details(cart_table, json.transaction_details);
+        // show transaction detail in cart table
+        show_transaction_details(cart_table, json.transaction_details);
 
-            // show customer money
-            const customer_money = parseInt(json.customer_money);
-            document.querySelector('input[name="customer_money"]').value = customer_money;
+        // show customer money
+        const customer_money = parseInt(json.customer_money);
+        document.querySelector('input[name="customer_money"]').value = customer_money;
 
-            // show change money
-            const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
-            if (customer_money >= total_payment) {
-                document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
-            } else {
-                document.querySelector('input[name="change_money"]').value = '';
-            }
-
-            // add Attribute arial-label = rollback-transaction
-            cart_table.setAttribute('aria-label', 'rollback-transaction');
+        // show change money
+        const total_payment = parseInt(document.querySelector('aside.cart td#total-payment').dataset.totalPayment);
+        if (customer_money >= total_payment) {
+            document.querySelector('input[name="change_money"]').value = number_formatter_to_currency(customer_money - total_payment);
         }
+
+        // add Attribute arial-label = rollback-transaction
+        cart_table.setAttribute('aria-label', 'rollback-transaction');
     })
     .catch(error => {
         console.error(error);
