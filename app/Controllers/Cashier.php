@@ -253,7 +253,7 @@ class Cashier extends BaseController
         return $this->buyProductTransaction($product_qty);
     }
 
-    private function getTransactionDetailsInTransaction(): string
+    private function getTransactionDetailsTransaction(): string
     {
         // if exists session transaction status
         if (isset($_SESSION['posw_transaction_status'])) {
@@ -293,7 +293,7 @@ class Cashier extends BaseController
         return json_encode(['transaction_details'=>null, 'csrf_value'=>csrf_hash()]);
     }
 
-    private function getTransactionDetailsInRollbackTransaction(string $transaction_id): string
+    private function getTransactionDetailsRollbackTransaction(string $transaction_id): string
     {
         $customer_money = $this->transaction_model->findTransaction($transaction_id, 'uang_pembeli')['uang_pembeli']??null;
         $transaction_details = $this->transaction_detail_model->getTransactionDetailsForCashier(
@@ -314,10 +314,10 @@ class Cashier extends BaseController
         // if file backup exists
         if (file_exists(WRITEPATH.'transaction_backup/data.json')) {
             ['transaction_id' => $transaction_id] = json_decode(file_get_contents(WRITEPATH.'transaction_backup/data.json'), true);
-            return $this->getTransactionDetailsInRollbackTransaction($transaction_id);
+            return $this->getTransactionDetailsRollbackTransaction($transaction_id);
         }
 
-        return $this->getTransactionDetailsInTransaction();
+        return $this->getTransactionDetailsTransaction();
     }
 
     public function updateProductQty()
