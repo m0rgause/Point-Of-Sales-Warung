@@ -1051,8 +1051,6 @@ function cancel_rollback_transaction(csrf_name, csrf_value, cart_table, main)
                 }
             });
 
-            // remove attribute transaction-id
-            cart_table.removeAttribute('data-transaction-id');
             // reset shopping cart
             reset_shopping_cart(cart_table);
         }
