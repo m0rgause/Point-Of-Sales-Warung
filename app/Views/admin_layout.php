@@ -12,6 +12,7 @@
 
     <!-- POSW CSS -->
     <link rel="stylesheet" href="<?= base_url('/dist/css/posw.min.css'); ?>">
+    <?= $this->renderSection('style'); ?>
 
     <title><?= $title; ?></title>
 </head>

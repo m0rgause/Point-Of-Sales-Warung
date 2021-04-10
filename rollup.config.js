@@ -1,4 +1,6 @@
 import {terser} from 'rollup-plugin-terser';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 // use immediately invoked function expression to auto generate array object for rollup config
 export default (function(){
@@ -30,7 +32,11 @@ export default (function(){
                 format: 'iife',
                 banner: banner
             },
-            plugins: [terser()]
+            plugins: [
+                terser(),
+                commonjs(),
+                nodeResolve()
+            ]
         });
     }
 

@@ -1,3 +1,8 @@
+import {create_alert_node, number_formatter_to_currency} from './module.posw.js';
+import flatpickr from "flatpickr";
+
+flatpickr("#bulan", {});
+
 // show hide transaction detail
 const tbody = document.querySelector('table.table tbody');
 tbody.addEventListener('click', (e) => {
