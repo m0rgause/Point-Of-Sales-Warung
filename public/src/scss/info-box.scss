@@ -15,9 +15,9 @@
         border-radius: 4px;
     }
 
-    @include info_box_color('green', $green);
-    @include info_box_color('sky-blue', $sky_blue);
-    @include info_box_color('blue', $blue);
+    @include info_box_color('green', var(--green));
+    @include info_box_color('sky-blue', var(--sky-blue));
+    @include info_box_color('blue', var(--blue));
 
     &__data {
         padding: 15px;

@@ -1,6 +1,6 @@
 .chart {
     background-color: #fff;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 
     &__header {
@@ -9,11 +9,11 @@
 
         h5 {
             font-family: 'roboto-medium';
-            color: $gray;
+            color: var(--gray);
         }
 
         p {
-            color: $gray;
+            color: var(--gray);
             font-size: 17px;
         }
     }

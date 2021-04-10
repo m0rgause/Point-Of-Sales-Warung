@@ -31,17 +31,17 @@
         margin-top: -2px;
     }
 
-    @include button_color('blue', $blue, $old_blue);
-    @include button_outline_color('blue-outline', $blue);
-    @include button_color('red', $red, $old_red);
-    @include button_outline_color('red-outline', $red);
-    @include button_color('gray', $gray, $old_gray);
-    @include button_outline_color('gray-outline', $gray);
+    @include button_color('blue', var(--blue), var(--old-blue));
+    @include button_outline_color('blue-outline', var(--blue));
+    @include button_color('red', var(--red), var(--old-red));
+    @include button_outline_color('red-outline', var(--red));
+    @include button_color('gray', var(--gray), var(--old-gray));
+    @include button_outline_color('gray-outline', var(--gray));
 
     &--light {
-        background-color: $light_gray;
-        color: $gray !important;
-        border: 1px solid $light_gray;
+        background-color: var(--light-gray);
+        color: var(--gray) !important;
+        border: 1px solid var(--light-gray);
 
         &:hover {
             background-color: #f4f4f4;

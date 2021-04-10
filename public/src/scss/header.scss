@@ -8,10 +8,10 @@
     }
 
     .input-group input, .form-select {
-        border-color: $border_color;
+        border-color: var(--border-color);
 
         &:focus {
-            border-color: $blue;
+            border-color: var(--blue);
         }
     }
 

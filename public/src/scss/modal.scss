@@ -76,8 +76,8 @@
         font-family: 'roboto-medium';
     }
 
-    @include modal_color('red', $red);
-    @include modal_color('blue', $blue);
+    @include modal_color('red', var(--red));
+    @include modal_color('blue', var(--blue));
 }
 
 @keyframes show_modal_content {

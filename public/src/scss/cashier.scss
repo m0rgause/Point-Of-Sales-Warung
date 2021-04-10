@@ -8,7 +8,7 @@
     }
 
     &__image {
-        border: 1px solid $border_color;
+        border: 1px solid var(--border-color);
         border-bottom-style: none;
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
@@ -21,7 +21,7 @@
 
     &__info {
         padding: 15px;
-        border: 1px solid $border_color;
+        border: 1px solid var(--border-color);
         border-top-style: none;
         border-bottom-style: none;
     }
@@ -41,7 +41,7 @@
     }
 
     &__category, &__sale {
-        color: $gray;
+        color: var(--gray);
         font-size: 17px;
     }
 
@@ -75,7 +75,7 @@
         align-items: flex-start;
 
         input {
-            border-color: $border_color;
+            border-color: var(--border-color);
             flex-basis: 1 1 auto;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
@@ -87,17 +87,17 @@
 
         a {
             flex-basis: 43px;
-            border: 1px solid $border_color;
-            color: $blue;
+            border: 1px solid var(--border-color);
+            color: var(--blue);
             border-top-right-radius: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             position: relative;
 
             &:hover {
-                background-color: $blue;
+                background-color: var(--blue);
                 color: #fff;
-                border-color: $blue;
+                border-color: var(--blue);
                 z-index: 1;
             }
         }
@@ -112,7 +112,7 @@
     right: 0px;
     overflow: auto;
     height: 100vh;
-    border-left: 1px solid $border_color;
+    border-left: 1px solid var(--border-color);
     padding: 15px;
     background-color: #fff;
     transform: translate(768px);

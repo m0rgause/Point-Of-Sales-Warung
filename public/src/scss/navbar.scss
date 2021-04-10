@@ -1,5 +1,5 @@
 .navbar {
-    border-bottom: 1px solid $border_color;
+    border-bottom: 1px solid var(--border-color);
     background-color: #fff;
     position: sticky;
     top: 0;
@@ -26,27 +26,27 @@
     }
 
     a {
-        color: $gray;
+        color: var(--gray);
         text-decoration: none;
 
         &:hover {
-            color: $blue;
+            color: var(--blue);
         }
     }
 
     a#{&}__link--active {
-        color: $blue;
+        color: var(--blue);
         font-family: 'roboto-medium';
     }
 
     .btn--toggler {
         display: none;
-        background-color: $light_gray;
+        background-color: var(--light-gray);
         padding: 6px 8px;
 
         &:hover {
             background-color: #f4f4f4;
-            color: $gray;
+            color: var(--gray);
         }
 
         svg {
@@ -63,7 +63,7 @@
             right: 0;
             background-color: #fff;
             padding-bottom: 10px;
-            border-bottom: 1px solid $border-color;
+            border-bottom: 1px solid var(--border-color);
 
             > li {
                 display: block;

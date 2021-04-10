@@ -3,19 +3,8 @@
  * Licensed under GPL (https://github.com/rezafikkri/Point-Of-Sales-Warung/blob/master/LICENSE)
  */
 
-$border_color: #ededf2;
-$blue: #7874f7;
-$old_blue: #6967ea;
-$sky_blue: #42aadd;
-$red: #f45353;
-$old_red: #ef4343;
-$gray: #7a7a7a;
-$old_gray: #6d6d6d;
-$light_gray: #f7f7fc;
-$green: #21c45a;
-$orange: #fc9d37;
-
 @import 'font.scss';
+@import 'variabel.scss';
 
 body {
     font-family: 'roboto-regular';
@@ -38,12 +27,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 50px;
 
     h5#{&}__title {
-        color: $gray;
+        color: var(--gray);
     }
 
     &__box {
         background-color: #fff;
-        border: 1px solid $border-color;
+        border: 1px solid var(--border-color);
         border-radius: 4px;
         padding: 15px;
 

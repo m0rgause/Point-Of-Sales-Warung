@@ -2,16 +2,16 @@
     width: 100%;
 
     &--auto-striped tbody tr:nth-child(odd) {
-        background-color: $light_gray;
+        background-color: var(--light-gray);
     }
 
     &--manual-striped tbody tr#{&}__row-odd {
-        background-color: $light_gray;
+        background-color: var(--light-gray);
     }
 
     thead tr th, tbody tr td, tfoot tr th, tfoot tr td {
         padding: 8px;
-        border: 1px solid $border-color;
+        border: 1px solid var(--border-color);
     }
 
     thead tr th {
@@ -23,11 +23,11 @@
     }
 
     thead tr th, tbody tr td a, tfoot tr th {
-        color: $gray;
+        color: var(--gray);
     }
 
     tbody tr td a:hover {
-        color: $blue;
+        color: var(--blue);
     }
 
     &-responsive {
@@ -54,7 +54,7 @@
 
         ul li {
             padding: 8px 0;
-            border-bottom: 1px solid $border-color;
+            border-bottom: 1px solid var(--border-color);
 
             &:last-child {
                 border-bottom: 0;
@@ -67,7 +67,7 @@
         }
 
         span.table__information {
-            color: $gray;
+            color: var(--gray);
             margin-right: .5rem;
         }
 
