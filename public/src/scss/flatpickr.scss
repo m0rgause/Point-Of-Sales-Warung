@@ -12,7 +12,7 @@
     border: 0;
     font-size: 14px;
     line-height: 24px;
-    border-radius: 5px;
+    border-radius: 4px;
     position: absolute;
     width: 307.875px;
     -webkit-box-sizing: border-box;
@@ -30,7 +30,7 @@
     }
     &.open {
         display: inline-block;
-        z-index: 99999;
+        z-index: 5;
     }
     &.animate.open {
         -webkit-animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
@@ -138,6 +138,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    margin-bottom: 5px;
 
     .flatpickr-month {
         background: transparent;
@@ -168,6 +169,10 @@
         z-index: 3;
         color: rgba(0,0,0,0.9);
         fill: rgba(0,0,0,0.9);
+
+        svg {
+            vertical-align: -.125em;
+        }
     }
     .flatpickr-prev-month.flatpickr-disabled,
     .flatpickr-next-month.flatpickr-disabled {
@@ -211,11 +216,11 @@
           /*rtl:end:ignore*/
     .flatpickr-prev-month:hover,
     .flatpickr-next-month:hover {
-        color: #959ea9;
+        color: var(--blue);
     }
     .flatpickr-prev-month:hover svg,
     .flatpickr-next-month:hover svg {
-        fill: #f64747;
+        fill: var(--blue);
     }
     .flatpickr-prev-month svg,
     .flatpickr-next-month svg {
@@ -308,108 +313,108 @@
 
 
 .flatpickr-current-month {
-  font-size: 135%;
-  line-height: inherit;
-  font-weight: 300;
-  color: inherit;
-  position: absolute;
-  width: 75%;
-  left: 12.5%;
-  padding: 7.48px 0 0 0;
-  line-height: 1;
-  height: 34px;
-  display: inline-block;
-  text-align: center;
-  -webkit-transform: translate3d(0px, 0px, 0px);
-          transform: translate3d(0px, 0px, 0px);
+    font-size: 135%;
+    line-height: inherit;
+    font-weight: 300;
+    color: inherit;
+    position: absolute;
+    width: 75%;
+    left: 12.5%;
+    padding: 7.48px 0 0 0;
+    line-height: 1;
+    height: 34px;
+    display: inline-block;
+    text-align: center;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+            transform: translate3d(0px, 0px, 0px);
 
     span.cur-month {
-      font-family: inherit;
-      font-weight: 700;
-      color: inherit;
-      display: inline-block;
-      margin-left: 0.5ch;
-      padding: 0;
+        font-family: inherit;
+        font-weight: 700;
+        color: inherit;
+        display: inline-block;
+        margin-left: 0.5ch;
+        padding: 0;
     }
     span.cur-month:hover {
-      background: rgba(0,0,0,0.05);
+        background: rgba(0,0,0,0.05);
     }
     .numInputWrapper {
-      width: 6ch;
-      width: 7ch\0;
-      display: inline-block;
+        width: 6ch;
+        width: 7ch\0;
+        display: inline-block;
     }
     .numInputWrapper span.arrowUp:after {
-      border-bottom-color: rgba(0,0,0,0.9);
+        border-bottom-color: rgba(0,0,0,0.9);
     }
     .numInputWrapper span.arrowDown:after {
-      border-top-color: rgba(0,0,0,0.9);
+        border-top-color: rgba(0,0,0,0.9);
     }
     input.cur-year {
-      background: transparent;
-      -webkit-box-sizing: border-box;
-              box-sizing: border-box;
-      color: inherit;
-      cursor: text;
-      padding: 0 0 0 0.5ch;
-      margin: 0;
-      display: inline-block;
-      font-size: inherit;
-      font-family: inherit;
-      font-weight: 300;
-      line-height: inherit;
-      height: auto;
-      border: 0;
-      border-radius: 0;
-      vertical-align: initial;
-      -webkit-appearance: textfield;
-      -moz-appearance: textfield;
-      appearance: textfield;
+        background: transparent;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        color: inherit;
+        cursor: text;
+        padding: 0 0 0 0.5ch;
+        margin: 0;
+        display: inline-block;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: 300;
+        line-height: inherit;
+        height: auto;
+        border: 0;
+        border-radius: 0;
+        vertical-align: initial;
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+        appearance: textfield;
     }
     input.cur-year:focus {
-      outline: 0;
+        outline: 0;
     }
     input.cur-year[disabled],
     input.cur-year[disabled]:hover {
-      font-size: 100%;
-      color: rgba(0,0,0,0.5);
-      background: transparent;
-      pointer-events: none;
+        font-size: 100%;
+        color: rgba(0,0,0,0.5);
+        background: transparent;
+        pointer-events: none;
     }
     .flatpickr-monthDropdown-months {
-      appearance: menulist;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-sizing: border-box;
-      color: inherit;
-      cursor: pointer;
-      font-size: inherit;
-      font-family: inherit;
-      font-weight: 300;
-      height: auto;
-      line-height: inherit;
-      margin: -1px 0 0 0;
-      outline: none;
-      padding: 0 0 0 0.5ch;
-      position: relative;
-      vertical-align: initial;
-      -webkit-box-sizing: border-box;
-      -webkit-appearance: menulist;
-      -moz-appearance: menulist;
-      width: auto;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-sizing: border-box;
+        color: inherit;
+        cursor: pointer;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: 300;
+        height: 26px;
+        line-height: inherit;
+        margin: -1px 0 0 0;
+        outline: none;
+        padding: 0 0 0 0.5ch;
+        position: relative;
+        vertical-align: initial;
+        -webkit-box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: auto;
     }
     .flatpickr-monthDropdown-months:focus,
     .flatpickr-monthDropdown-months:active {
-      outline: none;
+        outline: none;
     }
     .flatpickr-monthDropdown-months:hover {
-      background: rgba(0,0,0,0.05);
+        background: rgba(0,0,0,0.05);
     }
     .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
-      background-color: transparent;
-      outline: none;
-      padding: 0;
+        background-color: transparent;
+        outline: none;
+        padding: 0;
     }
 }// flatpickr current month
 
@@ -454,6 +459,7 @@ span.flatpickr-weekday {
         -ms-flex: 1;
             flex: 1;
     font-weight: bolder;
+    font-family: 'roboto-medium';
 }
 .dayContainer,
 .flatpickr-weeks {
@@ -576,11 +582,11 @@ span.flatpickr-weekday {
     &.selected.nextMonthDay,
     &.startRange.nextMonthDay,
     &.endRange.nextMonthDay {
-        background: #569ff7;
+        background: var(--blue);
         -webkit-box-shadow: none;
                 box-shadow: none;
         color: #fff;
-        border-color: #569ff7;
+        border-color: var(--blue);
     }
     &.selected.startRange,
     &.startRange.startRange,
@@ -595,8 +601,8 @@ span.flatpickr-weekday {
     &.selected.startRange + .endRange:not(:nth-child(7n+1)),
     &.startRange.startRange + .endRange:not(:nth-child(7n+1)),
     &.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
-        -webkit-box-shadow: -10px 0 0 #569ff7;
-                box-shadow: -10px 0 0 #569ff7;
+        -webkit-box-shadow: -10px 0 0 var(--blue);
+                box-shadow: -10px 0 0 var(--blue);
     }
     &.selected.startRange.endRange,
     &.startRange.startRange.endRange,

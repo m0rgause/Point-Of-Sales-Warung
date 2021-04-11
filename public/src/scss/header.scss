@@ -20,11 +20,11 @@
     }
 
     @media (max-width: 575.98px) {
-        &--product .input-group {
+        &--product .input-group, &--transaction .input-group {
             width: 100%;
         }
 
-        &--cashier .input-group, &--transaction .form-select {
+        &--cashier .input-group {
             flex: 1 1 auto;
         }
     }

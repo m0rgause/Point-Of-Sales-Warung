@@ -1,7 +1,20 @@
 import {create_alert_node, number_formatter_to_currency} from './module.posw.js';
-import flatpickr from "flatpickr";
+import flatpickr from 'flatpickr';
+import { Indonesian } from "flatpickr/dist/l10n/id.js"
 
-flatpickr("#bulan", {});
+// flatpickr setting
+flatpickr('#transaction-date-range', {
+    disableMobile: 'true',
+    mode: 'range',
+    altInput: true,
+    altFormat: 'j M, Y',
+    altInputClass: 'form-input form-input--rounded-left hover-cursor-pointer',
+    locale: Indonesian,
+    onReady: () => {
+        // this function for change name for 7th day in 1 week
+        document.querySelectorAll('.flatpickr-weekdaycontainer .flatpickr-weekday')[6].innerText = 'Ahad';
+    }
+});
 
 // show hide transaction detail
 const tbody = document.querySelector('table.table tbody');
