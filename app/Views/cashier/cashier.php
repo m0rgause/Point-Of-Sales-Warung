@@ -13,7 +13,7 @@
     <!-- POSW CSS -->
     <link rel="stylesheet" href="<?= base_url('/dist/css/posw.min.css'); ?>">
 
-    <title>Transaksi . POSW</title>
+    <title>Kasir . POSW</title>
 </head>
 <body>
 
@@ -33,7 +33,7 @@
 
 <header class="header header--cashier">
 <div class="container-xl d-flex flex-column flex-sm-row justify-content-between flex-wrap">
-    <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Transaksi</h4>
+    <h4 class="mb-4 mb-sm-0 me-2 flex-fill">Kasir</h4>
     <div class="d-flex flex-fill justify-content-end">
        <div class="input-group me-2">
            <input class="form-input" type="text" name="product_name_search" placeholder="Nama Produk..." autocomplete="false">
