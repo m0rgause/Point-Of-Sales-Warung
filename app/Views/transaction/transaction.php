@@ -28,7 +28,15 @@
                 <a href="#" class="btn btn--red-outline" title="Hapus transaksi"><svg xmlns="http://www.w3.org/2000/svg" width="19" fill="currentColor" viewBox="0 0 16 16"><path d="M2.037 3.225l1.684 10.104A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671l1.684-10.104C13.627 4.224 11.085 5 8 5c-3.086 0-5.627-.776-5.963-1.775z"/><path fill-rule="evenodd" d="M12.9 3c-.18-.14-.497-.307-.974-.466C10.967 2.214 9.58 2 8 2s-2.968.215-3.926.534c-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466zM8 5c3.314 0 6-.895 6-2s-2.686-2-6-2-6 .895-6 2 2.686 2 6 2z"/></svg></a>
             </div>
             <div>
-                <span class="text-muted me-1" id="result-status">1 - 2 dari 2 Total transaksi</span>
+            <?php
+                // if exists transaction
+                $count_transactions_db = count($transactions_db);
+                if ($count_transactions_db > 0) :
+            ?>
+            <span class="text-muted me-1" id="result-status">1 - <?= $count_transactions_db; ?> dari <?= $transaction_total; ?> Total transaksi</span>
+            <?php else : ?>
+                <span class="text-muted me-1" id="result-status">0 Total transaksi</span>
+            <?php endif; ?>
             </div>
         </div><!-- d-flex -->
         <table class="table table--manual-striped min-width-711">
@@ -37,29 +45,65 @@
                     <th class="text-center" colspan="2">Aksi</th>
                     <th>Total Produk</th>
                     <th>Total Bayaran</th>
+                    <th>Status</th>
                     <th>Kasir</th>
-                    <th>Waktu Buat</th>
+                    <th width="230">Waktu Buat</th>
                 </tr>
             </thead>
             <tbody>
+            <?php
+                $indo_time = new \App\Libraries\IndoTime();
+                $fmt = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
+                $fmt->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+
+                // if exists transaction
+                if ($count_transactions_db > 0) :
+                $i = 1;
+                foreach($transactions_db as $t) :
+
+                // if $i is prime number
+                if (($i%2) !== 0) :
+            ?>
                 <tr class="table__row-odd">
-                    <td width="10"><div class="form-check"><input type="checkbox" id="checkbox" class="form-check-input"></div></td>
-                    <td width="10"><a href="" id="show-transaction-detail" data-transaksi-id="1a23" title="Lihat detail transaksi"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
-                    <td>5</td>
-                    <td>Rp 22000</td>
-                    <td>Dian</td>
-                    <td>2 Jam yang lalu</td>
-                </tr>
+            <?php else: ?>
                 <tr>
-                    <td width="10"><div class="form-check"><input type="checkbox" id="checkbox" class="form-check-input"></div></td>
+            <?php endif; ?>
+                    <td width="10">
+                    <?php if (is_transaction_allowed_delete($t['waktu_buat'], $t['status_transaksi'])) : ?>
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox" class="form-check-input">
+                        </div>
+                    <?php endif; ?>
+                    </td>
                     <td width="10"><a href="" id="show-transaction-detail" data-transaksi-id="1a23" title="Lihat detail transaksi"><svg xmlns="http://www.w3.org/2000/svg" width="21" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></a></td>
-                    <td>3</td>
-                    <td>Rp 9000</td>
-                    <td>Adelina</td>
-                    <td>1 Menit yang lalu</td>
+
+                    <td><?= $t['product_total']??0; ?></td>
+                    <td><?= $fmt->formatCurrency($t['payment_total']??0, 'IDR'); ?></td>
+
+                    <?php if ($t['status_transaksi'] === 'selesai') : ?>
+                    <td><span class="text-green">Selesai</span></td>
+                    <?php else : ?>
+                    <td><span class="text-red">Belum</span></td>
+                    <?php endif; ?>
+
+                    <td><?= $t['nama_lengkap']; ?></td>
+                    <td><?= $indo_time->toIndoLocalizedString($t['waktu_buat']); ?></td>
                 </tr>
+            <?php $i++; endforeach; else: ?>
+                <tr class="table__row-odd">
+                    <td colspan="6">Transaksi tidak ada</td>
+                </tr>
+            <?php endif; ?>
             </tbody>
         </table>
+    <?php
+        // if product show total = transaction limit
+        if ($count_transactions_db === $transaction_limit) :
+    ?>
+        <span id="limit-message" class="text-muted d-block mt-3">Hanya <?= $transaction_limit; ?> Transaksi terbaru yang ditampilkan, Pakai fitur
+        <i>Pencarian</i> untuk hasil lebih spesifik!</span>
+    <?php endif; ?>
+
     </div><!-- table-reponsive -->
     </div><!-- main__box -->
 </div>
