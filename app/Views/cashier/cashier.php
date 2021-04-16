@@ -182,8 +182,8 @@
             <tfoot>
                 <tr>
                     <th colspan="5" class="text-end">Total Semua</th>
-                    <td id="total-qty" data-total-qty="0">0</td>
-                    <td id="total-payment" data-total-payment="0">Rp 0</td>
+                    <td id="qty-total" data-qty-total="0">0</td>
+                    <td id="payment-total" data-payment-total="0">Rp 0</td>
                 </tr>
             </tfoot>
         </table>
