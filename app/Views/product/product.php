@@ -85,7 +85,7 @@
                 </tr>
             <?php $i++; endforeach; else : ?>
                 <tr class="table__row-odd">
-                    <td colspan="6">Produk tidak ada</td>
+                    <td colspan="7">Produk tidak ada.</td>
                 </tr>
             <?php endif; ?>
             </tbody>

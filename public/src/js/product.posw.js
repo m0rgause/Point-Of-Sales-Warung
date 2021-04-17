@@ -159,7 +159,7 @@ search_product.addEventListener('click', e => {
         // if product not exists
         else {
             // inner html message
-            table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="6">Produk tidak ada.</td></tr>`;
+            table.querySelector('tbody').innerHTML = `<tr class="table__row-odd"><td colspan="7">Produk tidak ada.</td></tr>`;
 
             // show result status
             result_status.innerText = '0 Total produk hasil pencarian';
