@@ -12,8 +12,8 @@ class TransactionDetailModel extends BaseModel
     public function getTransactionDetailsForCashier(string $transaction_id, string $column): array
     {
         return $this->select($column)
-                    ->join('harga_produk', 'transaksi_detail.harga_produk_id = harga_produk.harga_produk_id')
-                    ->join('produk', 'harga_produk.produk_id = produk.produk_id')
+                    ->join('harga_produk', 'transaksi_detail.harga_produk_id = harga_produk.harga_produk_id', 'INNER')
+                    ->join('produk', 'harga_produk.produk_id = produk.produk_id', 'INNER')
                     ->getWhere(['transaksi_id' => $transaction_id])
                     ->getResultArray();
     }

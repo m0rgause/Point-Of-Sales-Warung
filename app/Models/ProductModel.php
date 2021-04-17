@@ -12,14 +12,14 @@ class ProductModel extends BaseModel
     public function getProducts(int $limit): array
     {
         return $this->select('produk_id,nama_produk,nama_kategori_produk,status_produk,produk.waktu_buat')
-                    ->join('kategori_produk', 'kategori_produk.kategori_produk_id = produk.kategori_produk_id')
+                    ->join('kategori_produk', 'kategori_produk.kategori_produk_id = produk.kategori_produk_id', 'INNER')
                     ->orderBy('waktu_buat', 'DESC')->limit($limit)->get()->getResultArray();
     }
 
     public function getProductSearches(int $limit, string $match): array
     {
         return $this->select('produk_id,nama_produk,nama_kategori_produk,status_produk,produk.waktu_buat')
-                    ->join('kategori_produk', 'kategori_produk.kategori_produk_id = produk.kategori_produk_id')
+                    ->join('kategori_produk', 'kategori_produk.kategori_produk_id = produk.kategori_produk_id', 'INNER')
                     ->orderBy('waktu_buat', 'DESC')->limit($limit)
                     ->like('nama_produk',$match,'after')->get()->getResultArray();
     }
@@ -91,7 +91,7 @@ class ProductModel extends BaseModel
             hp.besaran_produk,
             p.jumlah_produk
         ")
-        ->join('harga_produk hp', 'hp.produk_id = p.produk_id')
+        ->join('harga_produk hp', 'hp.produk_id = p.produk_id', 'INNER')
         ->orderBy('p.jumlah_produk', 'DESC')
         ->get()->getResultArray();
     }
@@ -134,7 +134,7 @@ class ProductModel extends BaseModel
             hp.besaran_produk,
             p.jumlah_produk
         ")
-        ->join('harga_produk hp', 'hp.produk_id = p.produk_id')
+        ->join('harga_produk hp', 'hp.produk_id = p.produk_id', 'INNER')
         ->orderBy('p.waktu_buat', 'DESC')
         ->get()->getResultArray();
     }
@@ -162,7 +162,7 @@ class ProductModel extends BaseModel
             hp.besaran_produk,
             p.jumlah_produk
         ")
-        ->join('harga_produk hp', 'hp.produk_id = p.produk_id')
+        ->join('harga_produk hp', 'hp.produk_id = p.produk_id', 'INNER')
         ->orderBy('p.waktu_buat', 'DESC')
         ->get()->getResultArray();
     }
