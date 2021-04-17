@@ -51,8 +51,11 @@
 <main class="main" data-csrf-name="<?= csrf_token(); ?>" data-csrf-value="<?= csrf_hash(); ?>" data-base-url="<?= base_url(); ?>">
 <div class="container-xl">
     <?php
+        $count_bestseller_products = count($bestseller_products);
+        $count_products_db = count($products_db);
+
         // if exists product
-        if (count($bestseller_products) > 0 || count($products_db) > 0) :
+        if ($count_bestseller_products > 0 || $count_products_db > 0) :
     ?>
         <span class="text-muted me-1 d-block mb-3" id="result-status">
         1 - <?= count($bestseller_products)+count($products_db); ?> dari <?= $product_total; ?> Total produk</span>
@@ -64,7 +67,7 @@
     <div class="product mb-5">
     <?php
         // if exists bestseller products
-        if (count($bestseller_products) > 0) :
+        if ($count_bestseller_products > 0) :
         foreach ($bestseller_products as $bp) :
 
         $product_sale = $bp['product_sale']??0;
@@ -104,7 +107,7 @@
     <div class="product">
     <?php
         // if exists other products
-        if (count($products_db) > 0) :
+        if ($count_products_db > 0) :
         foreach ($products_db as $op) :
 
         $product_sale = $op['product_sale']??0;
@@ -142,7 +145,7 @@
 
     <?php
         // if product show total = product limit
-        if (count($bestseller_products)+count($products_db) === $bestseller_product_limit+$product_limit) :
+        if ($count_bestseller_products+$count_products_db === $bestseller_product_limit+$product_limit) :
     ?>
         <span id="limit-message" class="text-muted d-block mb-5">
         Hanya <?= $bestseller_product_limit+$product_limit; ?> Produk yang ditampilkan, Pakai fitur

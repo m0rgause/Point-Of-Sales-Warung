@@ -28,10 +28,12 @@
             </div>
             <div>
             <?php
+                $count_products_db = count($products_db);
+
                 // if exists product
-                if (count($products_db) > 0) :
+                if ($count_products_db > 0) :
             ?>
-                <span class="text-muted me-1" id="result-status">1 - <?= count($products_db); ?> dari <?= $product_total; ?> Total produk</span>
+                <span class="text-muted me-1" id="result-status">1 - <?= $count_products_db;  ?> dari <?= $product_total; ?> Total produk</span>
             <?php else : ?>
                 <span class="text-muted me-1" id="result-status">0 Total produk</span>
             <?php endif; ?>
@@ -52,7 +54,7 @@
                 $indo_time = new \App\Libraries\IndoTime();
 
                 // if exists product
-                if (count($products_db) > 0) :
+                if ($count_products_db > 0) :
                 $i = 1;
                 foreach($products_db as $p) :
 
@@ -91,7 +93,7 @@
 
     <?php
         // if product show total = product limit
-        if (count($products_db) === $product_limit) :
+        if ($count_products_db === $product_limit) :
     ?>
         <span id="limit-message" class="text-muted d-block mt-3">Hanya <?= $product_limit; ?> Produk terbaru yang ditampilkan, Pakai fitur
         <i>Pencarian</i> untuk hasil lebih spesifik!</span>
