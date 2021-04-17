@@ -395,7 +395,7 @@ class Cashier extends BaseController
 
     public function showTransactionsThreeDaysAgo()
     {
-        $timestamp_three_days_ago = date('Y m d H:i:s', mktime(00, 00, 00, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * 3));
+        $timestamp_three_days_ago = date('Y-m-d H:i:s', mktime(00, 00, 00, date('m'), date('d'), date('Y')) - (60 * 60 * 24 * 3));
         $transactions_three_days_ago = $this->transaction_model->getTransactionsThreeDaysAgo($timestamp_three_days_ago);
 
         // convert timestamp
